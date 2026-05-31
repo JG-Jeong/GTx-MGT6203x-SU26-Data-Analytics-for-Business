@@ -1,0 +1,693 @@
+>> In this video,
+we're going to demonstrate how to implement
+the important concepts related to binary response models
+in R. We will implement
+both the linear probability models
+and the logit or probit models.
+We'll show how to construct
+the confusion matrix to calculate
+the percent correctly predicted
+to evaluate the model performance.
+We will also practice the calculation of
+important concepts such as the predicted probability of
+success and the partial effect by first using
+the defining formula and then verifying
+our calculation results with the output from R functions.
+Through this way, you can deepen your understanding
+of where all these important measures come from,
+what they actually mean,
+and how to correctly apply and
+interpret them in practical context.
+Let's get started. The data
+set we're going to work on for
+this demonstration is the bank customer acquisition data.
+Suppose a local bank sends a promotional offer to
+its current customers to
+invite them to open a certain account.
+Some customers accepted the offer and
+opened the account, whereas others didn't.
+The bank recorded
+the acquisition outcome for each customer,
+along with other information.
+It wants to understand what types of
+customers are more likely
+to accept the promotional offer,
+and what characteristics or variables are
+associated with a higher probability
+of successful acquisition.
+As we can see, this can be
+modeled as a binary response problem,
+and the logit model is well
+suited to help answer these questions.
+The data set we will use consists of a sample of
+1,000 customers who received the promotion offer.
+We have their age income, home value,
+the distance from their home to the nearest bank branch,
+and whether he or she has
+an existing loan with this bank or not.
+Finally, we recorded the acquisition outcome
+for each customer with
+one representing a successful acquisition
+and zero as unsuccessful.
+Now let's see how we can apply
+binary response models to this data set.
+As usual, the data have already
+been organized and stored in a CSV file.
+Use the reader.csv function to read in the data.
+Again, be sure to save the data file
+under the working directory of R Studio,
+or you need to explicitly
+specify the full directory as part of the file name.
+Reader.csv function sets header to be true by
+default so we don't really need
+to explicitly specify header to be true.
+Save the imported data into
+a data frame variable named my data.
+We can call the STR function to check
+the structure of the imported dataset.
+Notice that the variable long is
+currently stored as a character variable.
+In fact, it's
+a binary or categorical variable, yes or no.
+We should turn it into
+a factor with two categories or levels.
+Use the s.factor function
+to convert the long variable into
+a factor and save
+the converted variable back to
+the original variable to overwrite it.
+We can call the STR function again to
+examine the structure of that DataFrame.
+As we can see, the long variable now has
+been turned into a factor with two levels.
+Now the data have been properly imported
+and we are ready to perform the analysis.
+Let's first apply that linear probing model.
+As we explained previously,
+we can estimate a linear probing model in
+exactly the same way as
+estimating a regular linear regression model,
+regressing the now binary y variable on the x variables.
+Therefore, we can use
+the same lm function in
+R to estimate a linear probolin model.
+Follow the same syntax,
+regress the y variable acquisition
+on all the other x variables.
+Again, here, we use the dot operator to
+represent all variables in
+the dataset other than those already listed.
+Save the regression output to a variable.
+As usual, we can summarize
+the regression output using
+the summary function and take a quick look.
+We see the usual coefficient table
+with the estimation results for all x variables.
+Notice that the first four variables are all
+new miracle variables included
+in the original regression model.
+Well as the last variable,
+loan yes is actually a dummy variable automatically
+created by R to represent the categorical variable loan,
+which we have just converted
+into a factor with two levels.
+Be sure to recall how
+to interpret a dummy variable like this.
+As we explained previously,
+the difference between linear probability models and
+regular linear regression models is that
+the predictor y has a slightly different meaning.
+In linear probability models,
+the predictor y represents
+the predicted probability of
+success for a particular observation.
+Because the probability of success is simply
+modeled as a linear combination of all x variables
+there is no guarantee that it will always fall
+between zero and one as a valued probability measure,
+which is hence a major drawback
+of linear probability models.
+Now, let's quickly examine if there
+are any observations in our data whose
+predicted probabilities of success indeed
+fall outside of the range of zero to one.
+Recall that to find the predicted y,
+we can simply use
+the predictor function and supply the regression output.
+We can do the same here as well.
+The predictor function will give us a vector of
+the predictor y for
+all data observations in our data set.
+We have 1,000 observations in
+the data sample and we don't
+want to display all the
+1,000 predicted probabilities of success.
+Instead, we want to see if there's
+any one greater than one or less than zero.
+What we can do is to first sort
+them in an ascending order
+by default from small to large.
+And then display the 10 smallest values
+and the 10 largest values.
+By examining these smallest and the largest values,
+we can see if there's any one out of the valued bounds.
+The head function will give us
+the first several values in the vector,
+and the tail function
+will give us the last several values.
+We specify 10 to get the first 10 and the last 10 values.
+As we can see, the smallest 10 predicted
+the probabilities of success from
+all our data sample are all below zero.
+Whereas the largest 10 predicted
+the probabilities of success are all below one.
+So we have some predicted probabilities
+of success below the lower bound,
+but we are good with the upper bound.
+Again, this example echoes
+our previous point that it does happen that
+some predicted probabilities of success from
+linear probability models could end up as invalid values.
+To avoid this problem,
+we can turn to the non linear binary response models,
+in particular, the logit and probit models.
+Notice that because these models are non linear,
+we can no longer use the LM function to estimate them.
+Instead, there is another function we
+can easily use called GLM,
+which stands for generalized linear model.
+Generalized linear models are a very broad family of
+models that incorporate many different types of models,
+united under a common umbrella
+of a very general form of model specification.
+Lots of very useful models are members of this family.
+Among them are the logit and the probit models.
+If you are interested in generalized linear models,
+you can take a separate course or find
+some books that are dedicated to this topic,
+which can be very helpful.
+But here, we can use the GLM function
+in R to easily estimate a logit or probit model.
+The syntax for model specification
+is the same as that for the LM function.
+The [inaudible] variable,
+tilda, and then the list of independent variables.
+Again, we use the.operator
+to represent all the other variables.
+What's new for the GOM function is that we need
+to specify the family and the link function.
+The family is binomial here because
+we are dealing with binary response models so
+the outcome variable is binary and
+the link function is essentially
+our specification of the error distribution.
+If we want to fit a logit model,
+then specify the link function as logit.
+If we want to fit a probit model,
+then just specify the link function as probit.
+As usual, specify the data sample
+and save the output to a variable.
+As we can see, although estimating
+a non linear logit model involves
+numerical search for the MLE solution,
+it still can be done very quickly,
+especially when the dataset is not too large.
+As usual, we can summarize
+the estimation output using the summary function.
+As we can see, we get
+that same coefficient table as usual,
+which can be interpreted in a similar fashion.
+With the larger model estimated,
+we can then use it to predict
+the outcome for each individual customer and
+compare the predicted outcome with
+the actual outcome to
+evaluate the performance of the model.
+As we introduced, we can compute
+the percent correctly predicted or the
+prediction accuracy rate as
+the goodness of fit measure for binary response models.
+In order to do so, there are two steps.
+First, we will need to predict
+the binary outcome for each observation.
+To do so, there are further sub steps.
+We first predicted the probability of success for
+each observation according to the estimated logit model.
+We'll then compare the predicted probability of
+success to a threshold of our choice.
+Finally, we can predict those observations with
+the predicted probability of success being
+greater than the threshold as one or success,
+and those observations with predicted the probability of
+success being less than the threshold as zero or failure.
+We can perform these several steps in
+a very neat way in R through vectorized operations.
+We can first create a vector of
+all ones using the rep function,
+which stands for repeat.
+We repeat the value one as
+many times as the number of rows in our dataset,
+which equals the number of
+observations in our data sample, 1,000.
+This y hat variable is a vector of 1,000 ones.
+These are the initial prediction of
+the outcome for all observations.
+Next, we can do all the steps in one statement.
+Be sure to understand
+the structure of this statement well.
+Let's start with this part.
+Here, we use the predicted function to
+obtain the predicted probability of success.
+Notice that if we just use
+the predicted function the same way as before,
+what we get would be simply
+the linear combination of X and Beta.
+This is the predicted probability of
+success from linear probability models.
+However, it won't be the predicted probability of
+success for the non linear logit models.
+As we derive, the predicted probability
+of success for logit models equals
+G(X Beta) where G is
+the CDF function of the error term distribution.
+To obtain this in R,
+we need to specify
+the type argument of the predicted function.
+Set type to response,
+and then what the predicted function returns will
+be G(X Beta) rather than X Beta merely.
+This will give us
+the predicted probability of
+success from the logit model.
+Notice that what the predicted function returns is still
+a vector of the predicted probabilities
+of success for all observations.
+Next part is the choice of the threshold.
+As we said, we could simply use 0.5 as the threshold.
+But here in our data,
+the fraction of actual successful acquisition
+is about 30%,
+which is quite less than 0.5.
+As we mentioned previously,
+a more proper way is to use the fraction of
+the actual successes in the data as the threshold.
+We can quickly calculate this fraction using
+the mean function to compute
+the mean of the binary
+acquisition values in the original data.
+Recall that as we explained before,
+the mean of a binary variable simply measures
+the fraction of ones
+among all the values of that variable.
+This will be the threshold we use for comparison.
+Now, pay attention to how we make the comparison.
+Again, the output of the predicted function is
+a vector of 1,000 values that predicted
+the probabilities of success for 1,000
+customers and the output
+of the mean function is just a scalar.
+We are comparing a vector to
+a scalar. What are we doing then?
+We are doing the element wise comparison,
+comparing each element of the vector to the scaler and
+the result is a vector of 1,000 true or false values,
+representing the 1,000 comparison outcomes.
+Next, we are inserting this vector of
+true or false values as the index of this y hat vector.
+What are we doing here? We are doing
+the subsetting based on a logical index vector.
+As we explained in the introduction to R tutorials,
+such subsetting enables us to extract the elements of
+the Y hat vector that correspond to
+a true value in the logical index vector.
+In other words, what we get from this part are
+those customers whose predicted probability
+of success is less than the threshold.
+Finally, we set
+the predicted binary outcome
+for those customers to be zero.
+Recall that the remaining customers
+predicted outcomes will be unchanged,
+which keep the initial value one.
+Altogether, this single R statement completes
+all the steps to predict
+the binary outcomes for all observations at once.
+Those customers whose predicted
+the probabilities of success according to the login model
+are greater than the threshold
+are predicted as successful acquisitions.
+Those customers whose predicted
+the probabilities of success are less than
+the threshold are predicted as
+unsuccessful acquisitions and the threshold
+used here is the fraction
+of actual successes in the original data.
+Again, as we can see, vectorized operations
+greatly facilitate the handling
+of a large number of values and it can
+significantly improve the efficiency of programming.
+This is some trick we often use.
+Be sure to understand this statement very well.
+Once we have obtained that
+predicted outcomes for all observations,
+we can then construct the confusion matrix
+to compare them against
+the actual outcomes observed in the data.
+We can use that table function to
+cross tabulate all possible values of
+two variables and calculate the count for
+each possible combination of
+different values of the two variables.
+In this sense, the table function in R
+resembles the pivot table tool in Excel,
+which you may be very familiar with.
+We use the table function to
+cross tabulate over two variables.
+The one storing the predicted outcomes,
+Y hat, and the original variable,
+storing the actual outcomes, acquisition.
+Save the table output and display it.
+>> This is the confusion matrix.
+As we can see, among the 1,000 observations,
+464 have the actual outcomes being zero,
+and the predicted outcome also being zero,
+which are true negative.
+One hundred and sixteen
+have the actual outcome being one,
+but the predicted outcome being zero.
+So they are false negative.
+Similarly, we have 220 true positives
+and 200 false positives.
+To calculate the percent correctly predicated,
+we just need to add up the diagonal of
+the confusion matrix and divide
+it by the sum of all four counts,
+as we are doing in this statement.
+As we can see, the overall percent correctly
+predicted for this logit model is about 68%,
+slightly more than two-thirds,
+which is a medial cut.
+As we said, to fairly and
+comprehensively evaluate the performance of a model,
+we not only need to evaluate
+the overall percent correctly predicted,
+but also need to break it down for each possible outcome.
+So we can calculate the percent
+correctly predicted for each actual outcome,
+that is along the two columns
+of the confusion matrix here.
+We divide cell 1,
+1 by the sum of the first column,
+and divide cell 2,
+2 by the sum of the second column.
+As we can see, the breakdown percent correctly
+predicted are quite consistent with the overall rate.
+The next task we would like to do is to calculate
+the predicted probability of
+success based on the logit model.
+We will do this in two ways.
+We will first calculate
+the predicted probability of success
+based on the defining formula
+as we introduced in previous videos.
+We will then use that predicted function to obtain
+the probability of success
+to verify our calculation result.
+Recall that this is the defining formula
+of the probability of success based on a logit model.
+The probability of success equals G(X Beta),
+where G is the CDF function of logistic distribution,
+which takes this form.
+Notice that in order to
+calculate the probability of success,
+we need to specify the values of
+all X variables as well as the Beta coefficients.
+For Beta coefficients, we will just plug
+in the estimated coefficient values.
+We can use that coef function to retrieve
+the coefficient estimates from
+the logit estimation result.
+As we can see, these are the coefficients for
+the five X variables as well as the intercept,
+which we'll use later.
+For the X variables,
+we need to specify a certain set of values.
+One reasonable choice of x values would be
+the mean values of
+all numerical X variables in the original data.
+We can use the colMeans function to
+calculate the column means of the original DataFrame,
+which will give us the means of
+each column in the original data set,
+that is, the mean value of
+each variable in the original data sample.
+Notice that we only include the first four columns,
+which are the four numerical X variables;
+age, income, home value,
+and distance to bank.
+For the last X variable,
+loan, which is a binary categorical variable,
+we shouldn't use its mean value
+because it doesn't make sense,
+instead, we can simply set
+it to one of the two categories.
+Let's say we set a loan to yes.
+That is, to calculate
+the predicted probability of a success
+for customers who have an existing loan with the bank.
+Now, we can substitute
+these X values and Beta estimates into the formula to
+calculate that predicted probability of success based on
+our logit model at this given set of X variable values.
+For simplicity and clarity,
+let's just do it manually.
+Type the formula, exp for
+exponential function inside which
+the linear combination of x and Beta.
+Beta_0, which is the coefficient for the intercept,
+plus Beta_1, which is the coefficient for age,
+times the age value,
+which is this mean value we have obtained,
+plus Beta_2, which is the coefficient for income,
+times the income value,
+which is this mean value, plus Beta_3,
+which is the coefficient for home value,
+times the home value variable,
+which is this mean value, plus Beta_4,
+which is the coefficient for distance to bank,
+times distance to bank variable,
+which is this mean value.
+Finally, plus Beta_5*X_5. But pay attention here,
+X_5 is actually a dummy variable,
+representing the yes category
+for the binary long variable,
+because the value of
+the long variable we want to use here is yes,
+so we just set the dummy variable to 1,
+and the last one is, hence,
+Beta_5*1 or just Beta_5 by itself, which is this value.
+This long expression gives us the X Beta value,
+and the exponential of it forms
+the numerator of the probability of success.
+And the denominator can be calculated similarly.
+It's just 1 plus this big exponential expression.
+Now, we have manually created
+the formula for the probability of success.
+Double-check to ensure everything is correct.
+In particular, all parentheses
+are properly paired and matched.
+Then press "Enter".
+As we can see, this is
+the predicted probability of success,
+based on the logit model estimated from our data,
+evaluated at this given set of
+X variable values, where age,
+income, home value,
+distance to bank are at the mean values,
+and loan equal to yes.
+For an average customer like that,
+the probability of successful acquisition is
+0.3118894, about 31%.
+Next, we'll use the predictor function
+to verify our calculation result.
+Recall that, as we have just shown above,
+calling the predictor function and
+passing in the logit estimation result,
+we can get that predicted probability of
+success automatically calculated for us.
+As we said, we need to specify
+type=("response") to calculator G(X Beta),
+otherwise, what we get would be just X Beta cell.
+Notice that if we just use predictor function like that,
+what it returns is a vector containing
+the predicted probability of success
+for each observation in the data sample.
+If we want to evaluate the probability of success for
+a representative customer at
+a certain set of X variable values,
+we need to explicitly specify this.
+In order to do so, we need to
+first create a new data point,
+which is saved as a DataFrame.
+It contains only one observation with
+a particular set of values for
+all X variables as we specify here.
+Age equals this mean value.
+Income equals this mean value.
+Home value equals this mean value,
+distance to bank equals this mean value.
+And finally, loan equals yes.
+This newly created data frame
+will be used as the data observation,
+whose probability of success we'd like to evaluate.
+So apply this new data observation to
+the new data argument of that predictor function.
+We'll get that predicted probability
+of success for this particular observation,
+based on our logit model estimation results.
+As we can see, the output value is
+exactly the same as our hand calculation previously.
+So now, it should be crystal clear to you
+how this important concept is formulated.
+Another important concept we'd like
+to demonstrate is that partial effect.
+As we explained in previous videos,
+in non-linear binary response models,
+the partial effect equals
+the Beta coefficient multiplied by a vector,
+which is the PDF of the error term distribution,
+and is hence, different across different models.
+Therefore, while partial effects
+are directly comparable across different models,
+the Beta coefficients in
+different models are different measures,
+and are not comparable to each other.
+To see this, let's first compare the Beta coefficients
+estimated from the linear probability model
+and the logit model.
+Again, we can use the coef function to quickly
+retrieve the coefficient estimates
+from the two estimation result outputs;
+the linear probability model,
+LPM, and the logit model.
+And then we can use cbind to column bind
+the two vectors so as to display
+the coefficient estimates from
+the two models side by side.
+As we can quickly examine,
+that Beta coefficients from
+the two models are generally on different scales.
+For example, the coefficients for income,
+home value or loan,
+they are all of different magnitudes.
+So the Beta coefficients are
+not directly comparable across
+different types of models, however,
+if we calculate the partial effects of
+X variables from these two types of models,
+as we'll see, they are measuring the same effects,
+and thus, comparable to each other.
+Recall that the partial effect is derived as this,
+the Beta coefficient times the PDF of
+the error term distribution
+evaluated at a certain set of X variable values.
+Same as above. We need to pick
+some values for the X variables.
+Let's use the same set of values.
+The mean values for
+the four numerical variables and
+the yes for the categorical variable, loan.
+Use the same statement to create
+a new data observation at this set of values.
+And then we are ready to
+construct the expression for partial effects.
+First, calculate the linear combination of X and Beta.
+Notice that as we mentioned,
+we can obtain this linear combination value
+by simply calling
+the predictor function without
+specifying type=("response").
+Be sure to specify
+the newly created data observation as the new data.
+Next, the g function
+is that PDF of the error term distribution.
+As we explained, the PDF function
+is that density function,
+which corresponds to the d function
+of a given distribution in R,
+as we introduced in detail in previous demonstration.
+The PDF of normal distribution is dnorm,
+and the PDF of logistic distribution is dlogis.
+Here, dlogis of xb
+will give us the multiplicative vector,
+G(X Beta) as in the formula.
+Next, we'll multiply
+that Beta coefficient estimates by this vector.
+Again, we can use that coef function to
+retrieve the estimates of all Beta coefficients at once,
+which are written as a vector.
+Multiply this vector by the scalar vector.
+We are again doing elementwise multiplication.
+The result will be a vector as well,
+which consists of the partial effect of all X variables,
+however, here, we use the index
+minus 1 to exclude the first Beta coefficient,
+which is Beta_0,
+the coefficient for the intercept.
+This is because the intercept is not a variable,
+so it is meaningless to
+calculate the partial effect of a constant.
+This expression calculates the partial effects of
+all five X variables
+following the formula we have derived previously.
+Execute it and save the results to a variable.
+We'd also like to co-list
+the partial effects from
+the linear probability model for comparison.
+Recall that in linear probability models,
+the partial effects simply
+equal that Beta coefficients themselves,
+a distinctive feature of linear models.
+Therefore, we can simply retrieve
+the Beta coefficient estimates from
+the linear probability model estimation output,
+and use them as the partial effects.
+Notice that we also exclude
+the first coefficient Beta_0 because it is the intercept.
+Finally, we can list
+the partial effect from the two models side by side,
+using the cbind function as usual.
+As we can see, each vector consists of
+the partial effect of five X variables.
+As we can quickly compare,
+the partial effects from
+these two different types of
+models are pretty close to each other,
+and thus, directly comparable.
+Be sure to understand what partial effects mean.
+For example, this value
+means as a customer's age increases by one year,
+the probability of he or she eventually accepting
+the promotional offer and opening
+a new account will increase by this much.
+About 0.16%.
+Now, how about this value?
+Again, this is the dummy variable for loan being yes.
+So it means compared
+to customers without a loan with this bank,
+customers with an existing loan
+have a greater probability to
+accept the promotion offer by this much, about 0.51%.
+As we can see, partial effects
+directly measure the effects we are interested in.
+So they are the key quantities we need to
+evaluate after estimating a binary response model.
+These are all we want to
+demonstrate regarding binary response models.
+We have demonstrated all of
+the important concepts on
+this topic as introduced in previous videos.
+Hope it can help deepen
+your understanding of
+this very important model framework.
+That's all for this video. Thanks for watching.

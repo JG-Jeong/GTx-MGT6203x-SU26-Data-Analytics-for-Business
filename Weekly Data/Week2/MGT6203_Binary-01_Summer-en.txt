@@ -1,0 +1,526 @@
+Hello, everyone. Welcome back.
+In previous videos, we have
+introduced linear regression models in great detail.
+Starting from this video,
+we are going to introduce some real nonlinear models.
+As we'll see from the model specification,
+they are no longer linear in Beta coefficients.
+So these models will need to be estimated differently.
+The series of non linear models
+we are going to introduce fall
+under the umbrella of
+the so called limited dependent variable models,
+where the dependent variable can only
+take certain restricted values.
+We'll start with the so called binary response models,
+where the dependent variable is binary,
+that is taking only two possible values,
+either zero or one.
+In this video, we'll start with
+the simplest approach to tackle binary response problems,
+the linear probability models.
+As we'll see, a linear probability model is
+a direct application of
+a linear regression model
+into the binary response setting.
+So pretty much all we know about
+linear regression models continue to apply.
+It thus serves as a very nice transition
+from linear models to nonlinear models.
+In particular, we'll start with the settings of
+binary response problems and then discuss
+the setup of linear probability models
+and how to estimate it.
+We then discuss how to
+interpret the model estimation results and
+explain an important concept
+called partial effect or marginal effect.
+We will also identify the strengths
+and limitations of linear probability models.
+Finally, we'll talk about how to
+evaluate the performance of linear probability models,
+utilizing the binary nature of the response variable to
+compute some specific goodness of fit metric.
+Okay, let's get started.
+Binary response problems, as the name suggests,
+refer to the type of problems where
+the dependent variable or
+the response variable is binary,
+which can only take two possible values,
+either one or zero,
+either yes or no,
+either success or failure.
+As you read about binary response problems,
+you may find some textbooks
+categorize it and classification problems,
+whereas some introduce it
+as one type of regression models.
+So what's the difference
+between classification and regression?
+Simply put, regression problems are those where
+the dependent variable is numerical or quantitative.
+It can be either continuous or discrete
+as long as the dependent variable takes numerical values.
+The task of regression is
+to predict the numerical value of
+each observations dependent variable as closely
+as possible based on the set of independent variables.
+In contrast, classification problems refer to those where
+the dependent variable is categorical or qualitative.
+As we introduced previously,
+qualitative variables can be either ordinal or nominal.
+But the key feature is that their values
+indicate membership to one of several categories.
+The task of classification is
+to categorize each observation into one
+of the several categories as accurately as
+possible based on the set of independent variables.
+Given such differences, how should we
+categorize the binary response problems?
+Because binary response problems
+have the dependent variable as binary,
+either zero or one, which is essentially categorical.
+We can view binary response problems
+as classification problems.
+We'd like to classify each observation
+into one of the two categories either zero or one.
+This is why you see binary response models are often
+introduced as one type of classification methods.
+However, the boundary is not that clear cut.
+As we'll see in a minute,
+how do binary response models
+predict the classification of each observation?
+Actually, by first predicting
+the probability of each observation
+belonging to one particular category.
+Because the probability is a numerical value,
+and it is predicted based
+on the set of independent variables.
+Binary response models thus
+have the structure of regression models.
+In this sense, we can also view
+binary response models as one type of regression models.
+All right. So just as you see,
+the boundary between classification
+and regression problems
+is oftentimes quite blurry.
+For binary response problems,
+the dependent or outcome variable
+takes only two possible values,
+either one or zero,
+yes or no, success or failure.
+We can easily think of many examples.
+For example, whether an applicant
+is admitted into a program or not,
+either yes or no,
+either success or failure.
+And whether a client defaults on a loan or not,
+whether a customer chooses to
+participate in a promotion or not,
+whether an existing customer chooses to so called chain,
+that is to terminate the service with the company or not.
+So examples of binary response problems are abundant.
+Depending on our needs or preferences,
+we can define one outcome as one of
+success and the other outcome as zero or failure.
+Actually, no matter how we label the two outcomes,
+eventually it will be all equivalent.
+So as we can see, binary response problems
+represent a very general category of common problems.
+Common binary response models include
+linear probability models and
+logic or probability models.
+We are going to discuss all of them next.
+Let's first start with the linear probability model.
+The linear probability model is actually very simple,
+very easy to understand, and very easy to estimate,
+but we still want to start with it
+because it provides us with the foundations
+of the binary response framework and serves as
+a nice connection and the transition from
+linear models to non linear models.
+So for a linear probability model,
+as its name suggests,
+it simply models the probability of
+the dependent variable Y equal to
+one or the probability of success,
+as we'll call it as a linear function like this,
+a linear combination of a set of
+independent or X variables and their Beta coefficients.
+Notice that given the binary nature
+of the outcome variable,
+Y is a random variable
+whose realized value will be
+either zero or one with certain probabilities.
+So we can write the expected value of Y as this.
+It's equal to the probability of Y equal
+to one times the realized value
+one plus the probability of Y
+equal to zero times the realized value zero.
+Then the second term disappears because of the zero,
+and we have the expected value of Y
+equal to the probability of Y equal to one.
+Because we model the probability of Y equal to
+one as the linear function of all X variables.
+So we have the expected value of Y
+also equal to this linear function of X variables.
+Notice that this is exactly the same as what we
+have specified in the standard linear regression models.
+Recall that in a linear regression model,
+we model Y as equal to the linear function
+of X variables plus a random error,
+whose expected value is zero.
+As a result, the expected value of Y is
+simply equal to this linear function of X variables,
+which is exactly the same model specification
+as the linear probability model here.
+Notice that what's different in
+the linear probability model is that the actual Y
+in the data is binary and
+only takes two values, zero or one.
+However, the expected value of Y is
+continuous numerical value because it
+is equal to the probability of Y equal to one.
+A probability is a continuous numerical value,
+so it can be modeled as
+the linear combination of all X variables.
+We can therefore estimate
+a linear probability model in the same way as we estimate
+a regular linear regression model using
+the usual ordinary least square or OLS estimation.
+We simply regress Y on all the X variables as usual.
+Again, here, Y only takes
+binary values for each observation,
+along with the corresponding X variables values.
+The OLS estimation finds
+the beta values to minimize the sum of
+squared differences between the actual binary Y values
+and the expected Y values,
+which again, are continuous numerical values
+equal to the linear combination of X variables.
+Once the beta coefficients are estimated as before,
+we can substitute in the estimated beta values
+Beta hat to obtain
+the predicted or fitted Y values, Y hat.
+However, here, the predicted Y's meaning
+is different from that in
+the regular linear regression model.
+Here, the predicted Y is not
+the predicted value of the actual Y,
+but instead is the estimated value of the expected Y,
+which again is equal to the probability of
+Y equal to or the probability of success.
+Therefore, remember, in linear probability models,
+the predicted or fitted Y is
+the predicted probability of success.
+The advantage of a linear probability model
+is its simplicity.
+It's easy to estimate, as we already see.
+It's also very easy to interpret.
+To see this, let's introduce this very important concept,
+the so called partial effect
+or sometimes also called marginal effect.
+This is the same effect that we were most
+interested in for regular linear regressions.
+It measures how an independent variable
+would affect the dependent variable.
+More precisely, it measures
+by how much one unit change in
+one particular explanatory variable
+will cause the expected value
+of Y to change while
+holding all the other X variables unchanged.
+So the partial or marginal effect has
+the usual Corus variables interpretation.
+Mathematically, it's defined as this.
+The expected value of Y
+taken the partial derivative with respect to
+one particular X variable j
+gives the partial effect of xj.
+Here, this d operator means partial derivative.
+Remember this definition, we're going to
+use this definition repeatedly later on.
+Following our linear probability model specification,
+the expected value of Y equals
+the linear combination of all X variables.
+Taking partial derivative with respect to
+XJ will give us the Beta coefficient Beta.
+As a result, the coefficient of
+a particular X variable directly
+equals the partial effect of this X variable.
+As we can recall, this property is
+exactly the same as what we
+have for regular linear regression.
+In standard linear regression,
+the Beta coefficients also have the direct interpretation
+of the marginal effects of
+the corresponding X variable on Y.
+What's different for linear probability model
+here is that the expected value of Y
+is actually equal to the probability of Y
+equal to one or the probability of success.
+Remember, as we have derived here.
+Therefore, in linear probability models,
+the B coefficient actually measures how
+one X variable would affect the probability of success.
+In other words, the partial effect actually
+measures by how much one unit change in
+one particular X variable will change the probability of
+success while holding
+all the other X variables unchanged.
+Despite its simplicity advantage,
+linear probability models have some major limitations.
+The foremost one, as you may have already thought of,
+is that the predicted probability of
+success could go out of the valid range 0-1.
+According to our model specification,
+the probability of success is modeled as this.
+As we know, a valid probability measure should be 0-1.
+However, there is no guarantee that
+the linear combination on
+the right hand side would always result in a value 0-1.
+As we'll see in real examples later,
+it does happen that the predicted probability of
+success for some observation
+can go above one or below zero.
+These would be invalid probability measures
+and don't really make sense.
+What does, for example,
+a negative probability mean?
+We can only loosely interpret
+those observations with the predicted probability of
+success being negative as being
+extremely unlikely to have Y equal to one,
+and those with the predicted probability
+of success being greater than one,
+as being almost certain to have Y equal to one.
+However, these are just
+loose interpretations, and conceptually,
+probability measures outside of
+the range of zero to one are not valid.
+Therefore, this is the major drawback
+of linear probability models.
+The non linear models like
+logic and probability models we're going to
+introduce later will avoid this problem.
+Another limitation of linear proposed models is actually
+a common limitation of linear models in
+general that we have already
+discussed in previous videos.
+The partial effect, which is equal to Beta,
+stays constant regardless of the value of the X variable.
+Again, let's think of
+the same example of student performance.
+If Y is the binary outcome
+indicating whether a student
+passed the final exam or not,
+and X is the number of hours he
+or she has spent in preparing for the exam.
+Using a linear probability model,
+we would have the marginal effect
+of the time spent preparing on
+the probability of success in
+the exam as always constant.
+Is this reasonable?
+If a student has spent, say, 10 hours,
+then the marginal effect of an additional hour of study
+would be very helpful in
+increasing his or her chance of passing the exam.
+However, if the student has
+already spent, say, 100 hours,
+then his or her chance of passing
+the exam should already be very close to one,
+and one additional hour of
+study wouldn't really help much.
+This would violate
+the constant marginal effect assumption.
+As we'll introduce later,
+non linear models like
+logit probability models can properly account for
+the fact that marginal effects may
+change with the value of X variables.
+Generally speaking,
+a linear probability model works best in the middle.
+It will be a good approximation of the reality when
+X variables take values near
+the average value of the observed range.
+Linear probability models generally don't work
+well for extreme X values at either end.
+After we have estimated model,
+we can evaluate the model fit with our data.
+This leads to the so called goodness of fit measure.
+The most common goodness of
+fit measure is the usual R squared,
+which measures how much among the total variation
+of Y values in our data can be explained by our model.
+Here we can continue to use the usual R squared to
+measure the goodness fit of
+our linear probability models.
+But for binary response models,
+because of the binary nature,
+there is another simpler and
+more intuitive measure that we can use.
+This is the so called percent correctly predicted,
+or sometimes we simply refer to it
+as the prediction accuracy rate.
+The idea is very straightforward.
+Now that we can predict the outcome
+for each observation based on our model,
+we can then compare
+the predicted outcomes to the actual outcomes
+observed in the data because
+the outcomes are binary is zero or one.
+So we can easily count how many observations outcomes
+are correctly predicted and
+how many are incorrectly predicted.
+And the percentage of
+correctly predicted observations among
+all observations serves as
+a good measure of model performance.
+This is the percent correctly
+predicted or the prediction accuracy rate.
+To calculate this measure,
+we need to first predict the outcome
+for each observation based on our model.
+Record that the outcomes are
+binary is 01 success or failure,
+but the predicted Y hat,
+as we specified here,
+is the predicted probability of success.
+So how do we get from the predicted probability of
+success Y hat to the binary outcome, 01?
+We still need one more step.
+We need to find a threshold C,
+such that if the predicted probability of success
+had for a particular observation exceeds that threshold,
+we will predict the binary outcome for
+that observation as one or a success.
+If the predicted probability of success for
+an observation is less than that threshold,
+we will predict the outcome for
+that observation as zero or three.
+Now, what threshold should we choose?
+The most common choice would be 0.5,
+as probability values range 0-1,
+so one half is a natural choice for the threshold.
+This is also what we will use most of the time.
+Sometimes, however, when the probability of
+success in our data is either very low or very high,
+then one half may not
+be the best choice for the threshold.
+In such cases, we could use
+the actual fraction of
+success in the data sample as the threshold.
+We could even search for
+the threshold value so that it makes the fraction of
+the predicted success equal to
+the fraction of the actual success in the data sample.
+Of course, the last approach
+is a bit more complex to implement,
+as we need to try different possible threshold values,
+predict the outcomes using each threshold,
+calculate the predicted fraction of success,
+and find the one that
+matches the actual fraction of success.
+Once we have the predicted outcome available,
+we can compare the predicted outcome with
+the actual outcome observed
+in the data for each observation.
+We can construct the so called confusion matrix,
+which you may have already been very familiar with.
+The concept of confusion matrix
+is pretty straightforward.
+Basically, we can create a two by
+two table to represent different scenarios.
+The actual outcome can be either zero or one,
+and the predicted outcome can be either zero or one.
+So there are four different scenarios.
+For some observations, the actual outcome is one,
+and they are also predicted as one.
+So these are the so called true positives.
+For some observations, the actual outcome is zero,
+but they are predicted as one.
+So these are the so called false positives.
+And similarly, we have two negative and false negative.
+We just count the number of
+observations that are true positive,
+false positive, true negative,
+and false negative, and fill
+the counts into the four cells of the confusion matrix.
+As we can see, the counts along
+the diagonal of the matrix are those correctly predicted.
+So the percent correctly
+predicted or the accuracy rate simply
+equals the sum of
+the diagonal counts divided
+by the sum of all four counts,
+which is just the total number of
+observations in our data sample.
+One thing to notice
+the overall percent correctly predicted
+alone may not be sufficient to
+fairly evaluate the performance of a model.
+High overall percent correctly predicted does not
+necessarily guarantee gold model fit. Why?
+Let's look at this simple example.
+If this is the confusion matrix from our model,
+then does our model perform well?
+As we can see, the overall percent
+correctly predicted is 90%,
+which is equal to 90 plus zero along the diagonal line,
+divided by the sum of all four counts, which equals 100.
+So 90% accuracy rate sounds not bad for a model.
+However, take a closer look at what this model is doing.
+It actually is a very lousy model
+and simply predicts everything as one.
+The reason that it reached
+90% overall accuracy rate is
+not because the model predicts very accurately,
+but because among the original data,
+the vast majority of observations are once anyway.
+This example hence shows us
+that the overall percent correctly
+predicted alone is not enough to
+fairly evaluate the goodness of fit of a model.
+In fact, we also need to check the percent
+correctly predicted for each possible outcome.
+That is, for each possible actual outcome
+or each column in the confusion matrix,
+we calculate the accuracy rate.
+Divide the count of correct predictions by
+the total count of
+observations with that particular outcome.
+If we do so for this example,
+then the accuracy rate for Y equal to one is 100,
+but the accuracy rate for Y equal to zero is 0%.
+So apparently, this is not a good model at all.
+Generally speaking, a good model should be able to
+predict the least likely outcome also reasonably well.
+Something important to keep in mind. All right.
+These are all we want to talk
+about for linear probability models.
+A quick summary.
+As the simplest model for binary response problems,
+linear probability models serve as
+a nice transition from linear models to nonlinear models.
+We discussed its setup and how to estimate it.
+We also discussed the interpretation of
+Beta coefficients in a linear probability model,
+which is equal to the marginal effect of
+an X variable on the probability of success.
+We also pointed out
+the major limitations of
+linear probability models, namely,
+the predicted probability of success may
+go out of the valid range of zero to one,
+and the marginal effects remain constant.
+Finally, we introduced
+an intuitive measure of goodness of
+fit by utilizing the binary nature
+of the response variable,
+namely the percent correctly
+predicted or the prediction accuracy rate,
+which we can easily calculate by
+constructing the confusion matrix.
+Okay, that's all for this video.
+Hope you find it helpful. Thanks for watching.

@@ -1,0 +1,725 @@
+>> In the previous video,
+we introduced binary response problems and
+discussed linear probability model in great detail.
+Linear probability models tackle
+binary response problems following
+the linear regression framework.
+So in essence, it is still one type of linear models.
+Linear probability model hence serves as
+a good transition from
+linear models to non-linear models.
+In this video, we are going to introduce
+a non-linear model framework to
+explicitly model binary response problems.
+The framework is called latent variable models.
+Depending on the different assumptions
+about the ton distribution,
+we can have different models,
+such as logit and probit models,
+as you may be already familiar with.
+As we'll see, these non-linear models are able to
+address some of the main limitations of linear models,
+such as the predated probability
+of a success going out of
+the valid range of 0-1 and
+the marginal effects remaining constant.
+Let's get started. We will
+start with the latent variable
+model framework and show that
+both the logit and the probit models can be derived from
+the same latent variable model framework and
+the different assumptions about
+the errors in distribution.
+We then introduce how to estimate
+logit or probit models using
+maximum likelihood estimation or MLE.
+We then quickly talk about model performance evaluation.
+Finally, as usual, we'll discuss the interpretation of
+logit or probit model coefficients
+and focus on partial effects in particular,
+which now have different formulation and
+properties from those of linear probability models.
+Let's first introduce the latent variable model,
+which is a general modeling framework
+applicable to binary response problems,
+and it will lead to the familiar logit and probit models.
+This is the setup of latent variable model.
+We have this y-star,
+which is the latent dependent variable.
+As its name suggests,
+y-star is not
+the actual dependent variable or observed in the data.
+Instead, y-star is an artificial variable,
+that is not observable at all.
+You can sync of it as imaginary or hypothetical.
+It represents the cumulative effects that
+would eventually determine the observed actual outcome.
+We model the latent y-star
+following the usual linear regression structure.
+Notice that y-star takes continuous numerical values,
+and it is modeled as linearly dependent on a set of
+independent variables or x variables plus an error term,
+which has the usual meanings.
+The error term is an unobserved random variable,
+assumed to follow a certain distribution.
+Actually, different distribution of the error term,
+will lead to different types of models,
+as we'll see in a minute.
+Now, the actual outcome as observed in the data,
+which is a binary for binary response problems
+is assumed to be determined by the latent y-star.
+If y-star is greater than 0,
+then the observed binary outcome will be 1.
+If y-star is less than equal to 0,
+then the observe the binary outcome will be 0.
+Having set up the latent variable model framework,
+we cannot derive the probability
+of observing the actual outcomes.
+Before getting to the details, to simplify notations.
+Sometimes we will use this expression X Beta
+to represent this entire linear combination
+of x's and Beta's.
+This is actually a vector expression.
+The X without subscripts represents
+a raw vector that consists of
+all x variables in the model plus 1 for the intercept.
+Beta without subscripts represents
+a colon vector that consists of all Beta coefficients.
+And X*Beta is a vector multiplication,
+which essentially is the
+cross-product of all the elements of the two vectors.
+If you are not familiar with vector
+or matrix notation or calculation,
+you can simply think of X Beta as a sand
+for Beta_0+Beta_1*x+1+Beta_2*x_2 plus all
+the way two Beta_k*x_k.
+Now, we can formally derive the probability of observing
+the actual outcome y = 1
+based on the latent variable model we have set up.
+The probability of the actual y = 1 is equivalent to
+the probability of the latter y-star
+being greater than 0,
+according to the latent variable model definition,
+which is further equal to the probability of
+X Beta plus the errr term being greater than 0.
+For this step, we just substitute in
+the specification of y-star according to our model.
+Notice that the error term is a random variable.
+X values are given by
+the data observation and Beta are constant coefficients.
+So X Beta are deterministic.
+We can rewrite this probability,
+centering around the random variable,
+the error term e. So it's equal to
+the probability of e being greater than -X Beta.
+Now, how should we further derive this probability?
+It's the probability of this focal random variable e,
+taking values greater than a certain given value.
+This probability depends on
+the distribution of e, the error term.
+Different assumptions about the error term distribution
+will lead to different expressions
+of the probability of success,
+hence resulting different models.
+Here, let's first derive
+the probability of success in a general form.
+Suppose the distribution of
+the error term can be defined by that G function,
+which is the cumulative distribution function
+or the cdf of the error term distribution.
+If you are not familiar with the concept of cdf,
+be sure to look it up and understand it well.
+This is a very important concept whenever we
+need to describe the distribution of a random variable,
+and we will use this concept repeatedly.
+Simply put, the cdf of a random variable e defines
+the probability of this random variable
+being less than a given value.
+Recall as we introduced previously,
+this is actually the p function
+in R for a given distribution.
+As an analogy we used before.
+This is like giving the function and SAT or GIE score.
+This cdf function will tell you
+what percentage of all scores
+are below this particular score.
+Now, back to the derivation.
+Given the cdf G function,
+we can write this probability as 1-G(-X Beta).
+Because G(-X Beta) measures
+the probability of e being less than or equal to -X Beta.
+The probability of e being greater than -X Beta is
+equal to 1-G(-X Beta).
+Finally, we can further simplify this expression
+by using the symmetric nature
+of the error term distribution.
+Usually, we'll pick some distribution that is
+symmetric about 0 as the error term distribution.
+If the distribution is symmetric about 0,
+then the probability of error term
+being greater than -X Beta
+is equal to the probability of
+error term being less than +X Beta,
+which can be written as G(X Beta).
+Therefore, we have derived the probability of
+success based on
+the latent variable model in a general form.
+The probability of the actual y being
+1 is equal to G(X Beta).
+Where G is the cumulative distribution function,
+cdf of the error term distribution.
+You may forget all the detailed derivation here,
+but be sure to remember this final expression.
+This is the foundation of logit and probit models,
+as we'll explain next.
+Now, contrast the probability of success derived
+here with that from the linear probability model.
+In linear probability models,
+the probability of success is simply modeled as X Beta,
+the linear combination of
+x variables and Beta coefficients.
+So the probability of success
+is linear in Beta coefficients.
+But here, in latent variable models,
+the probability of success is modeled as G(X Beta),
+where G is a non-linear function.
+Therefore, the probability of success
+is no longer linear in Beta coefficients.
+As a result, we officially
+enter the realm of non-linear models.
+Another difference to notice is
+that in linear probability models,
+the probability of success is
+the linear combination of X and Beta.
+So there is no guarantee that it
+will always fall between 0-1.
+However, here, in latent variable models,
+the probability of success is
+equal to the cdf function value,
+which by definition, is a probability measure,
+and is hence always between 0-1.
+Therefore, the non-linear latent variable models
+solve a major problem of linear probability models.
+This is the modeling framework for
+the non-linear binary response
+models we're going to introduce.
+Now, the next natural question is,
+what distribution of the error term should we assume,
+and what functional form should this G function take?
+This will lead to
+the two non-linear binary response models
+that we are familiar with.
+If we assume the error term
+follows the standard logistic distribution,
+then the model we have is the logit model.
+If instead, we assume the error term
+follows the standard normal distribution,
+then the model we have is the probit model.
+So essentially, these two models originate from
+the same modeling framework by
+assuming different distributions of the error term.
+For the normal distribution,
+we are all very familiar with.
+The standard normal distribution has mean
+0 and standard deviation 1.
+This is the familiar PDF,
+the probability density function
+of a standard normal distribution.
+Again, same as cdf,
+pdf is another important concept for
+describing the distribution of any random variable.
+Pdf function, which has nothing to do with Adobe,
+is that probability density function,
+oftentimes simply refer to as the density function.
+It is the derivative of the cdf function and is
+represented as the d function
+in R for a given distribution,
+as we introduced previously.
+The pdf function of a normal distribution can
+be depicted as the familiar bell curve,
+as I illustrated here using the dotted curve.
+A higher point on the curve means that
+the random variable is more
+likely to take the corresponding x value
+and a lower point on the curve means that
+the random variable is less likely
+to take the corresponding x value.
+Therefore, the bell curve indicates that
+a normally distributed random variable is likely to take
+values around the mean and less likely
+to take extreme values at either end of the domain.
+Then how about logistic distribution?
+The solely the curve here depicts
+the density function of a standard logistic distribution.
+As we can see, logistical distribution is
+actually very similar to the normal distribution.
+Its density function also
+follows the usual bell shaped curve.
+Compared to a normal distribution,
+logistic distribution is just a bit fatter.
+It has the so called fatter tails,
+meaning that the probability mass
+is less concentrated in the middle around the mean,
+but it's more spread towards the two ends.
+>> Now that logistic distribution
+is very similar to a normal distribution.
+Then, why don't we simply
+use the familiar normal distribution?
+But instead introduce this new distribution?
+A major advantage of logistic distribution is that it has
+very neat close-form expressions
+for both the CDF and the PDF.
+The CDF function of a standard logistic distribution is
+defined as this. As we can see.
+It takes a very neat functional form..
+E is the usual exponential function.
+X is the exponent.
+So the probability of the focal random variable,
+taking values less than or equal to x is equal
+to e^x / (1+e^x).
+This logistic CDF function can be depicted as this,
+the solid curve in this plot.
+Notice that for a function
+to be a value the CDF function,
+it has to be non-decreasing and range from 0-1.
+Let's quickly check the definition of
+the logistic CDF function to
+understand why it is a valued distribution.
+Now, as x goes to positive infinity,
+what value does g(x) go to?
+When x goes to positive infinity,
+e^x goes to infinity,
+and 1+e^x is also infinity.
+And here, one can be pretty much ignored.
+So e^x / (1+e^x)=1.
+So as x goes to positive infinity,
+g(x) goes to one.
+Now, as x goes to negative infinity,
+what value does g(x) go to?
+Notice that when x goes to negative infinity,
+e^x goes to zero.
+So 0 /(1+0)=0.
+Therefore, as x goes to negative infinity,
+g(x) goes to zero.
+Now, is g(x) non decreasing in x?
+Yes. To see this,
+we can divide both the numerator and
+the denominator by e^x.
+So g(x)=1/1/e^x+1.
+E^x is increasing in x.
+So 1/e^x is decreasing in x
+and 1/1/e^x+1 is increasing in x.
+Therefore, g(x) is increasing in x.
+Therefore, we can conclude that the logistic CDF,
+g(x) is increasing in x and the range from 0-1.
+Therefore, it is indeed a valid probability distribution.
+Taking derivative of the CDF function with respect to x,
+we get the PDF,
+the probability density function
+of the logistic distribution,
+which also takes a neat closed-form expression.
+And this PDF function follows
+the bell shaped curve as
+depicted by the solid curve here.
+As we can check, the density function of
+the largest data distribution is
+indeed symmetric about zero.
+So g(x)= g(-x) satisfying
+the property we assumed in
+deriving the general probability of success.
+And we can see, having
+neat closed-form expressions for both the CDF and
+the PDF functions is
+a very favorable mathematical property
+of the largest data distribution.
+And is what makes it the most popular
+model specification for binary response promise.
+Recall as we just derived,
+the probability of y=1 or the probability of
+success can be derived as equal to g(xβ),
+where g is the CDF function of the error term.
+Therefore, if we assume
+the error term follows the logistic distribution,
+then the g function simply takes this form.
+Therefore, g(xβ) =
+e^(xβ) / (1+e^(xβ)).
+Recall xβ is just the shorthand of
+the linear combination of x variables and β coefficients.
+So we can further expand the expression as this.
+Be sure to remember this expression,
+which is the defined expression of a logit model.
+It defines the probability
+of y=1 or the probability of a success for
+a binary response model under the assumption
+that the error term follows a logistic distribution.
+Actually, some textbooks may
+start introducing the logit model,
+also called the logistic regression,
+directly from this defining formula.
+Here, we start a discussion from
+the general framework so that you can better
+understand where the logit model comes from and where it
+stands within
+the whole binary response modeling framework.
+Compared to the logistic distribution,
+which leads to the logit model,
+the normal distribution, which leads to the probit model.
+Although more commonly seen in terms of
+the distribution itself is
+actually less preferable in
+terms of its mathematical properties.
+This is because a normal distribution only
+has a closed-form expression for the PDF function,
+but the CDF function does not have a closed-form.
+It can be defined as the integral of the PDF function.
+But this integral cannot be explicitly integrated out,
+resulting in no closed-form expression
+for the CDF function of a normal distribution.
+As a result, for a probit model,
+the probability of success,
+G(Xβ) does not have a closed-form expression,
+which is hence less preferable than the logit model.
+This is why the logit model or the logistic regression
+is the most popular choice for binary response models.
+But as we can clearly see,
+both logit and probit models
+are derived from the same framework,
+and the only difference is
+the distribution of the error term.
+Having understood the setup
+of the binary response models,
+we can then talk about how to estimate the model.
+That is to find the estimated values of
+the unknown β coefficients in
+logit or probit models based on our data observations.
+Notice that because the logit or probit models
+are now non linear models.
+So we can no longer use the ordinary least
+square or the OLS estimation to estimated model.
+Instead, the estimation method we
+typically use for logit or probit models,
+is called the maximum likelihood estimation or MLE.
+The idea of MLE is to
+first derive the so called likelihood function,
+which simply put is the likelihood or probability of
+observing the actual outcome for
+each data observation as we have in our data set.
+For each observation I,
+if the outcome y_1=1,
+then it's a success,
+and the probability of observing a success given
+all x variable values of this observation is g(xβ).
+Similarly, for those observations
+where the outcome is zero,
+then the probability of observing a failure is 1- g(xβ).
+The likelihood function is simply the product of
+the likelihood of observing
+the outcome of each data observation,
+which consists of the product of
+the likelihood of all success observations,
+multiplied by the product of
+the likelihood of all failure observations.
+Notice that this big Pi notation
+means product or multiplication.
+Now, inside this likelihood function,
+all x variable values and
+the success failure outcomes are known.
+And the only unknowns are those β coefficients.
+Therefore, the likelihood function is
+actually a function of the β coefficients.
+The MLE estimation method is to search for the set of
+β coefficient values that
+will maximize the likelihood function.
+And this set of β values is
+the MLE estimator of the β coefficients.
+Intuitively, we'd like to find
+the β coefficient values that will make
+the probability of success as close to one as possible,
+for those data observations,
+whose actual outcome is indeed one,
+and make the probability of
+success as close to zero as possible,
+for those data observations,
+whose actual outcome is zero.
+Notice that unlike OLS estimation,
+where we can explicitly derive the formula
+for the β estimators in linear regression.
+Here, the MLE estimators for
+binary response models no longer have
+explicit formula due to its non linear nature.
+Instead, we'll need to rely on
+numerical search routine to find the optimal values.
+Fortunately, we have well developed,
+easy to use numerical optimization routines that
+can help us quickly find
+the solution to this optimization problem,
+as we'll see in the R demonstration later.
+After we have estimated the model and
+obtained the coefficient estimates, as usual,
+we can move on to evaluate
+the model performance by computing
+the goodness of fit measures to
+measure how well the model fits the data.
+We can use the usual R-Squared.
+But because the models are estimated by MLE,
+the type of more commonly used goodness of
+fit measures is
+the so called Information Criterion Measures,
+namely AIC and BIC,
+Akaike Information Criterion and
+the Bayesian Information Criteria.
+Many of you may have already heard of these measures.
+For the sake of time, I'll
+skip the details of them for now.
+We'll explain more about
+them once we have a chance later.
+Because of the nature of binary responses,
+we can also evaluate the model performance by computing
+the percent correctly predicted
+or the prediction accuracy rate,
+just as we did with linear probability models.
+For each observation, we can predict
+the binary outcome based on the estimated model.
+Just as with linear probability models,
+we first predict the probability
+of success for each observation.
+If the predicted probability of success
+is greater than or equal to a certain threshold,
+we predict the outcome for
+this observation as a success or one.
+If the predicted probability of
+success is less than the threshold,
+then we predict the outcome for
+this observation as a failure or zero.
+What's different here is that the
+predicted the probability of success in
+the non linear models is
+not the linear combination of xβ,
+but instead the non linear function, g(xβ).
+Same as before. We also need to choose the threshold
+C. As we discussed with linear probability models,
+we have different options in choosing the threshold.
+>> We can simply use one-half as the threshold.
+We could also consider
+other alternatives as we discussed previously.
+Then we can further construct
+the confusion matrix as usual,
+and calculate the percent correctly predicted for
+the overall data and for
+each possible outcome separately.
+Again, a good model needs to be able to
+predict the least likely outcome well.
+As we can see, this part of
+model evaluation is pretty much the
+same as what we have talked
+about for linear probability models.
+Next, another important issue as usual,
+how can we interpret the model estimation results?
+What do the values of Beta coefficients mean?
+Notice that unlike linear regression,
+where the Beta coefficients directly equal
+the marginal effects of X variables on Y.
+In the non-linear models,
+the Beta coefficient values no
+longer have clear direct interpretation.
+If we really want to interpret
+the direct meaning of Beta coefficients in logit models,
+we could interpret them this way
+in terms of the so called log-odds,
+as some of you may have heard of.
+Here is how it can be derived.
+As we just explained, in logit models,
+the probability of success can be derived as this.
+Then some reorganization and the simple algebra,
+we can rewrite the probability of success divided by
+one minus the probability of
+success as equal to e^X Beta.
+Then take the logarithm on both sides of the equation.
+We have X Beta equal to log of
+the probability of success over
+one minus the probability of success.
+Notice that this ratio,
+the probability of success
+over one minus the probability of success,
+is the ratio between the probability of
+success and the probability of failure,
+because one minus the probability of
+success equals the probability of failure.
+This ratio is called the odds,
+originating from horse-racing and the betting.
+As a result, as we have derived,
+in logit models, X Beta is equal to the log of odds.
+Therefore, what a Beta coefficient
+represents is how much change to
+the log of odds will be caused
+by one unit increase in an X variable.
+This is the direct interpretation
+of Beta coefficients in logit models,
+however, as I mentioned,
+such an interpretation is not
+really very clear or meaningful in my opinion,
+especially when compared to
+the clear direct interpretation of
+Beta coefficients in linear models.
+What's more important for model interpretation is still
+the partial effects or marginal effects of X variables,
+that is, how much one unit change in an X variable
+will cause the expected value
+of the Y variable to change.
+The definition is the same as that in linear models,
+but as we'll see, the expression of
+partial effects in non-linear models will be different.
+No longer equal to the Beta coefficient alone.
+To derive the partial effects in binary response models,
+let's start from the definition.
+The expected value of y,
+which is equal to the probability of
+success is equal to G(X Beta),
+where G is the CDF function
+of the error term, which again,
+follows the logistic distribution for
+logit models and
+the normal distribution for probit models.
+Now, take a partial derivative of the expected value of
+Y with respect to a particular X variable, xj.
+Applying the chain rule of partial derivative,
+it is equal to g(X Beta)*Beta j,
+where little g is the PDF,
+the density function of the error term.
+So this result is very
+important and be sure to remember this expression.
+The partial effect of
+an X variable in binary response models
+is equal to the Beta coefficient times a factor,
+which is equal to the density function of the error term
+evaluated at the values of
+X variables for a particular observation.
+This formula is actually very informative
+and has several profound implications.
+First, in non-linear binary response models,
+the partial effects no longer
+equal the Beta coefficients themselves.
+Instead, we need to multiply
+the Beta coefficients with
+a factor to arrive at the partial effects.
+This factor is the PDF or the density function of
+the error term evaluated at a given X variable values.
+Again, that's the density function
+of logistic distribution for
+logit models and the density function of
+normal distributions for probit models.
+Because the density function is always positive,
+so the partial effects do
+share the same sign as the Beta coefficient.
+If a Beta coefficient is positive,
+then the partial effects of
+the corresponding X variable is
+also positive and vice versa,
+however, the magnitude of the Beta coefficient no
+longer has direct interpretation of that partial effect.
+Second, because the multiplicative factor,
+G(X Beta) contains the value of X variables,
+the partial effect of a particular X variable
+actually change with the values of all X variables.
+This is a very important property,
+which mitigates one major limitation
+of linear probability models,
+where the partial effects are always constant,
+as we pointed out previously.
+Now, think about this.
+When will the partial effect of
+a particular X variable be the greatest?
+Because Beta j is constant,
+so the partial effect will be the largest
+when g(X Beta) is the largest,
+because g is the density function of the error term,
+which follows the usual bell curve.
+So g(X Beta) will be the largest
+when X Beta is around the mean, which is zero.
+Therefore, the partial effects will be the
+largest when X Beta is around zero.
+Similarly, the partial effects will be the weakest
+when G(X Beta) is the smallest,
+which is when X Beta picks extreme values,
+either very large or very small.
+Now, think, is such a pattern reasonable?
+Let's go back to our previous example where the outcome Y
+is whether a student succeeds in an exam or not,
+and the X variable is the amount of
+time he or she spent in preparing for the exam?
+When will the partial effect be the
+greatest or when will one additional hour of
+study be the most rewarding in terms
+of increasing the probability of success in the exam?
+It should be when the student has
+spent some moderate amount of time.
+In contrast, if the student
+has already spent too much time of study,
+one additional hour won't be very rewarding
+because he or she is most
+likely to succeed in the exam regardless.
+If the student hasn't
+spent much time in preparing at all,
+then one additional hour won't be very rewarding either,
+because most likely he or she is going to fail
+the exam still, therefore,
+the partial effects will be small when
+the X variables value is
+either very large or very small,
+whereas the partial effects will be
+large when the X variables value is in the middle.
+Such a changing pattern of partial effects as
+X variables value changes is exactly
+what's captured by the logit or probit models.
+In fact, as we can see,
+in logit or probit models,
+the probability of success,
+which equals the CDF function,
+takes the S shape as X Beta increases.
+In other words, the probability of success increases at
+a very slow pace when x is either too large or too small.
+But the probability of success increases at
+a very fast pace or
+a very steep slope when X is around the middle.
+Such an S shape, which is absent in linear models is
+nicely captured by the non-linear binary response models
+in a very natural way.
+The third important implication is that,
+because partial effects equal that
+Beta coefficient multiplied by the PDF term,
+which is different across different models, therefore,
+the Beta coefficient in
+different models are not directly comparable.
+For example, the Beta coefficients estimated from
+the logit and the probit models
+are not comparable to each other.
+In other words, they are measuring different things,
+and do not have the same meanings.
+Instead, they need to be scaled by the PDF factor,
+which follows different distributions for logit versus
+probit models in order to
+restore the same partial effects.
+However, the partial effects themselves have
+the same definition and
+the meanings across different models,
+and can therefore, be comparable
+across logit versus probit models.
+These are all we want to talk about
+for non-linear binary response models.
+We started with
+the general latent variable model framework,
+and derived the logit and
+the probit models as special cases of
+this general framework by assuming
+different probability distributions for the error term.
+We then discussed how to estimate
+logit or probit models
+using maximum likelihood estimation,
+and how to evaluate
+the model performance using the usual approach.
+In particular, we discussed in detail how to
+interpret the Beta coefficients
+in these non-linear models,
+which have more complex yet richer implications.
+Hope you found that the content in this video helpful.
+That's all for this video. Thanks for watching.
