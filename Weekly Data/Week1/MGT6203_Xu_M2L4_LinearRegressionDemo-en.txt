@@ -1,0 +1,589 @@
+>> Hello, everyone. Welcome back.
+In this video, we're going to demonstrate how to
+apply linear regression in R. Same as usual.
+We'll practice all the key concepts
+we discussed previously,
+such as the R squared,
+adjusted R squared, the P statistic,
+the P value, and the VIF for colinearity.
+We will not only obtain these measures by
+calling pre programmed functions in R package,
+but also replicate them explicitly through
+the defining formulas we have introduced in
+previous videos to help you deepen the understanding.
+Let's get started. The data set we're going to work
+on for this demonstration is
+the advertising dataset provided in the ISR textbook.
+The dataset consists of the sales of
+a particular product in 200 different markets.
+Along with the advertising budgets for the product,
+in each of those markets,
+in three different media,
+TV, radio, and newspaper.
+The data look like this.
+Let's say you are hired as a consultant by the company to
+help investigate the association
+between advertising and sales.
+The company would like to see how much increase in
+sales the spending in
+a particular advertising media could lead to.
+Linear regression can help us answer these questions.
+So let's see how to perform it in R. As usual,
+the data are stored in a CSV file.
+So use the read.CSV function to read in the data.
+Be sure to save
+the data file under the working directory of std.
+Otherwise, you need to explicitly
+specify the full directory as part of the file name.
+As usual, set header to be true because
+our CSV data file does contain header as the first row.
+Save the imported data into a variable called,
+for example, my data.
+Recall that this variable data type will be data frame.
+Now, we can call that head function to
+display the first 10 rows of the imported data.
+As we can see, everything has been properly imported.
+Now, we can start working with this dataset.
+Because we're going to keep working with
+the same dataset for the rest of this demo,
+we can first call the attached function
+to attach this data frame to the current R session.
+Once attached, we do not need to explicitly
+specify the dataset again
+in many of the R statements below.
+Because R now knows which dataset we are working with.
+Once we're done with analyzing this dataset,
+we can then call the detach function
+to detach it from the current R sesion,
+as we'll see in the end, like this.
+Now we are ready to perform
+that linear regression analysis.
+We can use the LM function,
+which stands for linear model.
+Notice that this function is
+part of the core R installation.
+So you do not need to download and install
+any external R package in order to use it.
+To use the LM function to run linear regression,
+we need to first specify the model.
+The syntax works like this.
+We first specify
+the dependent variable or the y variable.
+Here is sales, and
+then use the tilda sign as a separator,
+after which we specify the list of
+the independent variables or the x varables.
+We use the plus sign to connect the x variables.
+So here, we enter TV plus radio plus
+newspaper to include these three variables
+as the independent variables for the linear regression.
+Notice that if there are
+a large number of x variables we'd like to include,
+it will be two carbons to
+type all variable names one by one.
+In that case, we can use the dot sign to represent
+all the variables in the dataset other than
+those that have already appeared in that model formula.
+So we can simply specify model like this,
+which is equivalent to the previous specification.
+If we want to exclude some variables,
+we can then use the minus sign. For example, like this.
+What we mean is to include all the variables except TV.
+After the model specification,
+we designate the data set through the data argument.
+Then save the linear regression output to a variable.
+Here, lm.res is just a regular variable name,
+and the dot sign is just a regular character,
+as we explained before.
+Let's run this statement.
+As we can see, that linear regression
+is completed in no time.
+As we mentioned previously,
+we are able to explicitly derive
+the formula to calculate
+the linear regression estimators.
+So fast computation is
+one of the advantages of linear regression.
+We can retrieve the linear regression output by
+calling the variable that stores the LM function output.
+As we can see, we get the estimates of
+all the coefficients in front
+of the three independent variables,
+as well as the intercept.
+Recall that the LM function output is returned as a list.
+So the data type of this lm.res variable is also a list,
+which contains various components.
+We can call that names function to
+retrieve the names of all of its components.
+As we can see, these are the components
+that store different parts
+of the linear regression output.
+For example, we can use
+the dollar sign to extract the coefficient component,
+which will give us a vector of
+all coefficient estimates of the model.
+The outputs directly from
+the LM function are relatively simple.
+We can further call the summary function to
+obtain more detailed outputs for our linear regression.
+Let's first call the summary function to summarize
+the LM output and then save it to a variable.
+We then call this variable to
+retrieve the summary output.
+As we can see, this coefficient table is very
+informative and is the main output we're looking for.
+The first column shows the estimate of each of
+the Beta coefficients in
+front of each of the x variables.
+The second column shows
+the standard error of each Beta estimator.
+The third column shows
+the P statistic value for each Beta estimator,
+and the last column is the P value.
+To the right, we see some astrisks.
+They indicate the levels of
+significance according to different confidence levels.
+As they noted here, three astrisks
+indicate the particular Beta coefficient
+has a p value less than 0.001, which is 0.1%.
+So it is significant at 99.9% confidence level.
+Two astrisks indicate the particular beta coefficient
+has a p value greater than 0.01%,
+but less than 1%.
+So it is not significant at 99.9% confidence level,
+but significant at 99% confidence level.
+Similarly, one astrisk indicates that
+particular beta coefficient has
+a p value greater than 1%,
+but less than 5%.
+So it is not significant at 99% confidence level,
+but significant at 95% confidence level.
+And the one thought indicates
+the Beta coefficient is not
+significant at 95% confidence level,
+but significant at 90% confidence level.
+And if the Beta coefficient is not
+significant at 90% confidence level,
+there is no mark next to it.
+So after we've run a linear regression,
+what we would like to see are these atrisks.
+Usually, the more the better,
+meaning that we have found some significant effects.
+Similarly, lm.sum is also a list and we
+can use the names function to
+retrieve the names of all of its components.
+And then we can use the dollar operator to
+retrieve a particular component by name.
+For example, lm.sum dollar coefficients,
+will give us the table of
+estimation results by itself in the form of a matrix.
+Then we can use the matrix indices to further
+retrieve a particular column as we'll demonstrate later.
+Now that we have already completed
+the estimation of our linear regression model,
+we can do some post estimation analysis.
+Let's first calculate the predated value of
+the y variable based on our estimated model.
+We can easily do so using the fitted function
+and pass in the LM function output as the argument.
+Save the result into a variable, say y hat.
+Let's call y hat and see what is its content.
+As we can see, it's a vector containing 200 elements.
+These are the predated or fitted y for
+each of the 200 observations in our dataset.
+Similarly, we can calculate
+the residual for each observation.
+Recall that, the residual is the difference between
+the actual y and the predicated y for each observation.
+We can easily obtain it using the resid function.
+Again, passing in the linear regression result as
+the argument and save the result into a variable u hat.
+Now, take a quick look at u hat.
+It is also a vector of 200 values,
+representing the residues of the 200 observations.
+To further demonstrate the concepts
+of predicate y and the residuals,
+let's co list all x variables,
+y variable along with that predated y and the residuals.
+We can use that C bind function to
+column bind multiple vectors into a matrix.
+Let's include all x variables,
+TV, radio, and newspaper, and the y variable,
+sales, and then the predate y,
+y hat, and the residuals u hat,
+as we just calculated.
+Now, think, what will be
+the output of this C bind function?
+It will be a matrix.
+So with how many rows and how many columns?
+Two hundred rows for the 200 observations,
+and 1, 2,
+3, 4, 5, 6,
+six columns for all these variables specified here.
+Say we don't want to display all 200 rows,
+we can use that row indices one column
+10 to select the first 10 rows only to display.
+So this is the output.
+As we can quickly verify, the last column,
+residual u hat should be equal to the fourth column,
+the actual y minus the fifth column, the fitted y.
+So this is a simple illustration of
+the concepts we introduced in previous videos.
+Next, let's reproduce the T statistics
+to help you better understand the concepts.
+Recall that the T statistic is defined as
+Beta hat divided by the standard error of Beta hat,
+both of which are already available
+in the linear regression output summary.
+As we just show, you can retrieve all Beta estimates and
+the standard errors from
+the coefficient matrix in
+the summary of the LM function output.
+The first column is the coefficient estimates,
+and the second column is the standard errors.
+Let's retrieve the first column
+and the second column respectively.
+Then, the T statistic is simply
+that Beta estimates divided by the standard errors.
+Pay attention here, what are we
+doing by this division operator?
+We are doing the element wise division.
+Both b hat and SE are vectors,
+each of which contains four elements,
+representing the four Beta coefficients
+in the linear regression model.
+The division of two vectors
+is element by element division.
+The result is another vector of four elements,
+each of which represents the T statistic of one of
+the four Beta coefficients as we can quickly verify.
+We can further check that
+the t statistics we calculated should be
+exactly the same as
+the t statistics from
+the linear regression output summary.
+Let's colist our calculation of the t statistics
+and the third column of the coefficient matrix.
+As we can see, they are exactly the same.
+Now we are ready to reproduce the t test results.
+Recall that we can perform
+the t test in two different ways.
+One is based on the t statistic value
+or simply the t value.
+The other is based on the p value.
+To use t value directly,
+we need to first find
+the t cutoff based on the confidence level requirement.
+Suppose we want to perform the t test
+at 95% confidence level,
+as we explained in the previous video,
+the t cutoff is the 97 point fifth
+percentile of the t distribution
+with n minus k minus one degrees of freedom.
+The degree of freedom can be calculated
+explicitly by the number of observations in
+the data set minus the number of x variables minus one.
+Alternatively, we can simply
+retrieve the degree of freedom from
+the regression output through the df.residual component.
+Follow the regression output with the dollar operator
+and then the component name df.residual.
+We get the degree of freedom,
+which equals 196 as we can verify.
+The percentile 97.5 is calculated by first,
+deduct 0.95 from one,
+and then divide it by two,
+and then deduct it from one.
+>> Pay attention to the qt function we're using here,
+and let me explain in detail.
+In R, for each known distribution,
+there are a series of
+useful functions associated with it.
+The q function, the p function,
+the t function, and the r function.
+The q function is the quantile or percentile function,
+which returns the value of
+the random variable at a given percentile.
+This is like telling the function
+a certain percentage among the whole population,
+and it will return the corresponding SAT or GRE score.
+The p function is
+the cumulative distribution function or CDF,
+which works in the opposite way.
+It returns the probability of
+the focal random variable falling below a given value.
+This is like giving the function a SAT or GRE score.
+The function tells you
+what percentage of all scores this score beats.
+For t-test, we're going to use the q function to obtain
+the t cutoff and use the p function
+to get the p-value as we're going to demonstrate.
+The t function is
+the probability density function or the PDF.
+It's the derivative of the p function,
+and is what's depicted by
+the familiar bell curve of a normal distribution.
+Finally, the r function generates
+a random value according to the given distribution.
+In R, this set of four functions are
+named as the first letter q,
+p, t, r,
+followed by the name of the distribution.
+For example, here, qt
+means the q function of a t distribution.
+And the pt means the p function of a t distribution.
+Accordingly, we have the qnorm function or
+the pnorm function for
+the q or p function of a normal distribution.
+Here, we call the qt function,
+specifying the percentage and the degree of freedom,
+and then we get the t cutoff we're looking for,
+for our t-test at 95% confidence level.
+Comparing the t value of
+each Beta coefficient to this cutoff,
+we can draw conclusions on
+the statistical significance of each Beta coefficient.
+If the absolute value of
+the t value is greater than the cutoff,
+then the Beta coefficient is
+significantly different from zero,
+otherwise, it is insignificant.
+We can quickly check
+the t-test results using this cutoff.
+Let's recall the summary of the linear regression output.
+As we can see, the absolute value of
+the t value for the first three Beta coefficients,
+the interceptor Beta 0,
+the coefficient in front of TV,
+and the coefficient in front of radio are
+all greater than this cutoff, 1.97.
+So the first three coefficients are all
+significant at 95% confidence level,
+as indicated by the asterisks here.
+In contrast, the absolute value of
+the last coefficient in front of newspaper is
+less than the cutoff so it is
+not significant at 95% confidence level,
+and there is no asterisk next to it.
+Also, notice that as we mentioned,
+a t distribution converts to
+a standard normal distribution
+as the degree of freedom increases.
+We can quickly verify it here.
+Let's call that qnorm function
+with the same percentage value.
+As we can see, the 97.5th percentile of
+a standard normal distribution is pretty close to that of
+a t distribution with 196 degrees of freedom.
+They will get even closer as
+the degree of freedom further increases.
+We have gone through how to perform the t-test in
+R based on t values and the cutoffs.
+We next practice how to perform
+the t-test based on p-values.
+Recall that this is the definition of p-values,
+which we have explained in detail in the previous video.
+In brief, p-value is the probability for
+the t statistic to have
+an absolute value greater than the given t value.
+Notice that, as we just said,
+the pt function is the p function for the t distribution,
+which is the cumulative distribution function,
+measuring the probability of
+a random variable falling below a given value.
+Here, the abs function returns the absolute value,
+and we use minus
+absolute value and the two times to account
+for the probability mass at both ends of
+the distribution for the two-sided test.
+df, again, is the degree of freedom,
+and we save the calculated p-values into a variable.
+Notice that t stat is a vector of the t values for
+all four Beta coefficients so
+the calculated p-values are also
+returned as a vector of four values.
+To verify our calculation result,
+we can co-list our calculated p-values
+with the p-values from the linear regression output,
+which is stored in the fourth column of
+the coefficient matrix as we extract here.
+As we can see, our calculation gives
+exactly the same results as the R function output.
+Recall that to perform the t-test based on p-values,
+we simply compare the p-values of
+each coefficient to 1- the confidence level.
+At a 95% confidence level,
+we just need to compare the p-value to 0.05.
+As we can see, the first three coefficients
+have their p-values
+much smaller than 0.05 so they are all significant.
+Whereas the last coefficient has its p-value greater than
+0.05 so it is not significant at 95% confidence level.
+The next concept we'd like to practice is the R-squared,
+the measure of the quantities of fit of a model.
+We can retrieve the R-squared directly
+from the summary of the linear regression output.
+So use the variable lm.sum
+with a dollar sign to
+retrieve the component called r.squared.
+It stalls the R-squared for
+this particular linear regression.
+Recall that the R-squared measures
+how much of the total variation in
+the outcome variable can be explained by
+the regression model so it's the higher the better.
+Here, we see the R-squared is over 0.89,
+which means our linear regression model can explain
+about 90% of the variation in
+sales in our data set, which is pretty good.
+As we explained previously,
+we can calculate R-squared by
+ourselves using the defining formula.
+Recall that the R-squared equals ESS over TSS.
+ESS, the explained sum of squares
+is the sample variance of the predicted y.
+And the TSS,
+the total sum of squares is
+the sample variance of the actual y.
+So we can use the R function to
+easily calculate the sample variance of the predictor y,
+y-hat and the actual y variable, sales.
+And the ratio between the two gives us the R-squared.
+As we can see, it's exactly the same as
+the R-squared retrieved from
+that regression output directly.
+Equivalently, the R-squared can
+also be derived as 1-RSS/TSS,
+and RSS is the sum of squared residues.
+So we can simply use the var function to
+calculate the sample variance of the residues,
+which was stored uhat as we previously obtained.
+This will give us the RSS.
+And then apply the formula,
+we can get the same R-squared value as the previous two.
+Next, let's see how we can examine
+the potential multicollinearity issues by
+calculating the variance inflation factor or the VIF.
+There are pre-programed functions that we can
+use to calculate the VIF directly.
+To use such a function,
+we can install an external R package called car.
+For the first time, you need to run
+install.package to install the package.
+As we explained before,
+a package only needs to be installed once.
+After the first time, you don't need to run
+the install.package function again.
+However, each time, you always need to run
+the library function to
+load the package into that current R session.
+Once the package is loaded,
+we can now run the VIF function
+included in the car package to calculate the VIF.
+It's very simple. We just need to
+pass the linear regression output into
+the VIF function and it will calculate
+the VIF values for all the x variables in our model.
+As we explained in the previous video,
+VIF is always greater than what?
+But we want it to be as small as possible,
+so as close to one as possible.
+As we can see here,
+the VIF for all the three x variables
+are all very close to one,
+which indicate there is no multicollinearity issue.
+We can also reproduce VIF based on
+the concept we introduced in the previous video.
+Recall that this is the definition of VIF.
+The VIF of a particular x variable
+equals 1/1 minus an R-squared value.
+But this R-squared value is not
+the R-squared of the original linear regression.
+Instead, it is the R-squared from
+regressing a focal x variable
+on all the other x variables.
+Back here in R, let's calculate
+the VIF for say, TV advertising spending.
+So we need to run a separate regression by
+regressing TV on all the other two x variables,
+radio and the newspaper.
+Use the same lm function and the same syntax as
+the original regression and
+save the output to a new variable.
+Then we can retrieve the R-squared of
+this regression by calling the summary function
+to summarize the regression output and
+then extract the R-squared component,
+which starts the R-squared that we want.
+Finally, apply the defining formula with
+this R-squared value and we get
+the VIF of the TV variable.
+As we can quickly check,
+our calculation produces exactly the same result
+as the VIF function output.
+Having gone over all the key concepts
+related to a particular linear regression model.
+Next, let's see how to compare
+the performance of different regression models.
+Recall that the regression results above
+shows that the third x variable,
+the newspaper advertising spending
+does not have significant effect on sales.
+In this sense, let's consider
+a new regression model that
+excludes this x variable from the regression.
+And let's then compare the goodness of fit of
+this simple model with the original regression model.
+To run that new regression,
+we follow the same syntax of the lm function.
+As explained, we can either
+use.-newspaper
+to include all the x variables other than newspaper.
+Alternatively, we can simply list all the x variables we
+want to include and connect them using the plus operator.
+So the new regression can be easily performed.
+As usual, we can call
+that summary function to
+summarize that new regression output.
+Now, we are ready to compare that model performance of
+that new simpler regression and that original regression.
+Now, what goodness of fit measure should we use?
+Can we use the regular R-squared?
+Recall that the regular R-squared will always
+increase when we include more x variables in the model.
+As a result, it cannot be used
+to fairly compare the performance of
+models with different numbers of
+independent variables because the model
+with more x variables will always win.
+Instead, we should use
+the adjusted R-squared that
+penalizes the number of
+independent variables in the model.
+Just like retrieving the regular R-squared,
+we can retrieve the adjusted R-squared through the
+adj.r.squared component from the summary
+of that regression output.
+Let's retrieve that regular
+R-squared and the adjusted R-squared of
+the simpler regression and
+also those of the original regression.
+As we can see, If we compare the regular R-squared,
+the original regression, which has more x variables,
+has a larger value and wins.
+But if we compare the adjusted R-squared,
+the simpler regression has a larger value and wins.
+This confirms the concept that
+the adjusted R-squared does
+adjust for the number of variables,
+and it can therefore be used to compare
+the performance across different models.
+These are all the analysis we'd like
+to demonstrate regarding linear regression.
+In the end, don't forget to
+detach the data set from the current R session.
+Hope these demonstrations give you
+more concrete ideas of the concepts we introduced
+in the previous videos and help
+deepen your understanding of this very important topic.
+That's all for this video. Thank you for watching.

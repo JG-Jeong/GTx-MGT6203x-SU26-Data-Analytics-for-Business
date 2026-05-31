@@ -1,0 +1,388 @@
+>> Hello, everyone. Welcome back.
+In this video, we will continue
+our discussion of linear regression.
+Previously, we have introduced
+the basic idea of linear regression and how
+to estimate a linear regression model
+through ordinary square estimation.
+In this video, we will discuss what to
+do after estimating the model.
+In particular, we're going to talk about how
+to interpret the estimated coefficients of
+a linear regression and how
+to evaluate the performance of
+a linear regression model in terms
+of how well it fits the data.
+We'll introduce some common measures of the
+so called goodness-of-fit of a model,
+including the R^2 and the adjusted R^2.
+Now, let's get started.
+To understand the meaning of the Beta coefficients,
+let's revisit the defining formula
+of a linear regression model.
+As an example, let's focus on
+the interpretation of one particular Beta coefficient,
+say Beta_1, which is
+the coefficient in front of a particular x-variable x_1.
+The other Beta coefficients can be
+interpreted in the same fashion.
+Let's say now we increase the value of x_1
+by a little bit denoted as Delta x_1.
+We can update the right-hand side
+of the model specification
+like this, updating x_1's value.
+We can then expand this term,
+which becomes Beta_1*x_1+Beta_1*Delta x_1.
+Notice that the entire right-hand side now
+determines the new value of the outcome variable.
+Whereas Beta_0+Beta_1*x_1 plus all the way through
+Beta_k*x_k+u_i is the original value
+of y before the change of x_1's value.
+Therefore, the difference between these two,
+which is the change in
+the outcome variables value
+caused by the change of x_1's value,
+Delta y equals Beta_1*Delta x_1.
+If say Delta x_1 = 1,
+which means there is one unit change in x_1's value.
+Then the resulting change in
+the outcome variable simply equals Beta_1.
+In other words, Beta_1 simply measures how much change
+in y's value will be caused by change in x_1's value.
+Formally speaking, Beta_1 measures the change
+in y due to one unit change in x_1.
+Holding all the other independent variables unchanged.
+Notice that the qualification
+in the end is very important.
+It gives a Beta coefficient,
+the so called stars paribus interpretation.
+That is holding everything else the same,
+change in one independent variable will
+lead to how much change in the outcome variable,
+which is what's measured by the Beta coefficient.
+In this sense, we often say a Beta coefficient measures
+the partial effects or
+marginal effects of
+a particular independent variable
+on the outcome variable.
+Here, the water partial or marginal refers to
+the condition of holding
+all the other independent variables unchanged.
+You may also often hear this condition being described
+as controlling for the other x-variables,
+x_2 through x_k, then
+the marginal effect of x_1 on y is Beta.
+So this is the basic interpretation
+of that Beta coefficients.
+To help you better understand
+the meaning of Beta coefficients further,
+I like to quickly point out
+another way of expressing the Beta estimates.
+Mathematically, we can show that the OLS estimate of
+a Beta coefficient in
+a linear regression model can be
+derived as this expression,
+which can be proved to be mathematically equivalent to
+the original formula of
+the OLS estimate as introduced previously.
+In this example here, the focal coefficient is Beta_j,
+which correspond to the x-variable x_j.
+Notice that r-hat_ij here is the residual from
+regressing the full co-x-variable
+x_j and all the other x-variables.
+And as this formula indicates,
+Beta_j can be obtained from regressing
+y on this residual r-hat j alone.
+Notice that this formula is
+not just some mathematical exercise.
+Its implication is actually very profound.
+It shows us that we can obtain
+the OLS estimates through two steps.
+First, regress the focal
+x-variable on all the other
+x-variables and obtain the residual.
+Second, regress y on this residual alone,
+and the resulting coefficient estimate in front of
+this residual equals the OS estimate of
+the coefficient infront of the focal x-variable in
+the original linear regression model.
+Essentially, the residual r-hat j
+measures the remaining value of
+x_j after the effects of all the
+other x-variables have been partialled out or netted out.
+And the coefficient Beta_j as a result,
+measures the remaining effect of x_j on y
+after all the other x-variables effects
+have been partialled out.
+This is referred to as
+the partialling out interpretation
+of that Beta coefficients.
+This more sophisticated view may not always
+be introduced when linear regression is discussed.
+But I personally found it very
+insightful and hence we
+would like to share it with you all.
+Hope it can help deepen your understanding
+of the meanings of Beta coefficients.
+Next, let's talk about how to evaluate the performance
+of a model after having estimated the coefficients.
+To do so, we'll need some measures of the
+so called goodness-of-fit of a model.
+That is to measure how well the model fits the data.
+The basic idea of
+these goodness-of-fit measures is to compare
+the outcomes predicted according to
+the model to the actual outcomes in the data.
+Before introducing the goodness-of-fit measures,
+we'll first need to define several important measures.
+The first one is called the total sum of squares or TSS.
+It is defined by calculating the difference between
+each y_i and the average y across all observations,
+denoted as y-bar,
+and then taking the square and
+then adding it up over all observations.
+TSS is essentially the sample variance
+of y in the data multiplied by n-1.
+It measures the total variance of
+the outcome variable y in the original data sample.
+The second measure is called
+the explained sum of squares or ESS.
+It is defined by calculating the difference
+between the predicated or fitted y,
+y-hat i and the average of all y-hat i's,
+denoted as y-hat bar,
+and then taking the square and
+then adding it up over all observations.
+Explain the sum of squares is
+essentially the sample variance of
+the predicted y by the model, multiplied by n-1.
+It measures the total variance of
+the outcome y according to the model prediction.
+It represents the amount of variance in
+the outcome variable that can be explained by the model,
+which hence gives the name explained sum of squares.
+The third measure is called
+the residual sum of squares or RSS.
+As name indicates, it is the sum of squared residuals,
+which is the difference between the actual
+y_i and the predated outcome y_t.
+Recall that this is
+exactly the objective function we
+would like to minimize in the OLS estimation.
+It represents the amount of
+variance in the outcome variable that
+is left unexplained after performing the regression.
+Notice that the names of
+these three measures sometimes can be very confusing.
+In some books, the third measure,
+the residual sum of squares,
+is called the sum of squared error,
+hence SSE,
+whereas the second measure that explain the sum of
+squares is called the sum of squares
+due to regression, hence SSR.
+Essentially, it pretty much switch
+the acronyms of the last two measures.
+To avoid the confusion,
+it is better to look at
+the defining formulas and understanding
+the meanings of each definition
+then to merely rely on the names.
+Now, a very important result to remember.
+As we can mathematically prove, in OLS,
+the total sum of squares is equal to
+the explained sum of
+squares plus the residual sum of squares.
+We will use this relationship to develop
+the goodness-of-fit measure next.
+Now, having defined
+the three important measures
+and knowing the relationship among them,
+we can introduce the well known goodness-of-fit measure.
+The R^2.
+The R^2 is defined as the explained sum of
+squares divided by the total sum of squares.
+Notice that because ESS+RSS is equal to TSS,
+so we can write ESS as TSS-RSS.
+The R^2 can be equivalently defined as 1-RSS/TSS.
+According to this definition,
+the R^2 is the ratio between
+the explained sum of
+squares and the total sum of squares.
+In other words, it measures among
+all the variation of the outcome variable in the data,
+how much of it can be explained by the model.
+Notice that by definition,
+the R^2 should be 0-1.
+Because it's a ratio, and
+both the numerator and the denominator are positive.
+The ratio has to be greater than 0.
+And the numerator is always less than the denominator.
+So the ratio has to be less than 1.
+Because the R^2 measures how much of
+the total variation in
+the data can be explained by the model.
+So the larger the R^2 the better,
+that is the better model fit.
+A large R^2 close to one means the model can
+successfully explain almost all variations
+in the data, which is very good.
+In contrast, a small R^2 close to 0 means
+the model can only explain
+a very small portion of
+the variation observed in the data.
+And a large portion is left unexplained,
+which apparently indicates the model
+doesn't fit the data that well.
+One quick note on the name of R^2.
+It's called R^2 because as we can prove,
+R^2 can be shown to be equal to the square of
+the correlation coefficient between y and y-hat as this.
+Because the correlation coefficient
+is usually denoted as R,
+so the goodness-of-fit measure
+gets its famous name, the R^2.
+Now, think about an important question.
+If we add more independent variables
+into a linear regression model,
+how will that affect the R^2?
+The answer is, the R^2 will always
+increase when we add
+more independent variables into
+a linear regression model.
+This is because with
+more independent variables in the model,
+there are more beta coefficients
+which are essentially free parameters to optimize.
+And as a result, the objective function
+of the OLS estimation,
+which is that sum of
+squared residuals RSS can always be decreased.
+The reasoning leading to this conclusion is as follows.
+A model with more parameters has
+more degrees of freedom to optimize with.
+Therefore, we can always achieve
+the same optimization outcome by
+simply setting the additional three parameters to zero.
+But we can certainly further improve beyond that level
+by finding the optimal values
+for these additional parameters.
+As a result, a model
+with more independent variables can only
+be better off and achieve
+a lower level of the sum of squared residues.
+Recall that the R^2 is equal to 1-RSS/TSS.
+So if RSS can be further reduced,
+then the R^2 can be further increased.
+Therefore, a model with
+more independent variables will
+always have a higher R^2 value.
+This result is very important and
+be sure to remember it. Think about this.
+Now that a model with more independent variables,
+we'll always have a greater R^2.
+Then, is it fair to use the R^2 to compare
+the performance of two models with
+different numbers of independent variables?
+Apparently not.
+If we simply use R^2 as
+the model performance criterion for comparison,
+then a model with more independent variables will
+surely outperform the one with fewer variables,
+even if those additional independent variables
+are not really so relevant.
+In this sense, we need to come
+up with a better measure that
+can account for this issue and
+facilitate a fairer model comparison.
+This leads to another goodness-of-fit measure,
+which is called the adjusted R^2.
+The idea of the adjusted R^2 is to
+adjust for the number
+of independent variables in the model.
+We want to penalize
+the number of parameters in the model,
+so a model with more parameters will receive
+a lower adjusted R^2 score
+if the model fit performance is the same.
+In order for a model with more parameters to
+beat a model with fewer parameters in adjusted R^2,
+the model with more parameters
+needs to outperform in model fit by
+a significant amount so as to offset
+the penalty imposed due
+to the larger number of parameters.
+This way, the adjusted R^2 can facilitate
+a fair comparison across
+models with different numbers of parameters.
+Mathematically, the adjusted R^2 is defined as this.
+Instead of simply equal to
+1-RSS/TSS as in their regular R^2.
+Now, we divide RSS by n-k-1 and divide TSS by n-1.
+Here, n is the number of data observations,
+and k is the number of
+independent variables in the model.
+And we can see, the larger the k,
+the smaller this term.
+Hence, the larger this whole term,
+and because it's minus here,
+so the smaller, the whole adjusted R^2 score.
+Same as the regular R^2,
+for the adjusted R^2,
+it's also the larger the better.
+This way, the adjusted R^2 managed to
+penalize a model with a larger number of parameters
+and can he be used to compare
+goodness-of-fit performance across models
+with different numbers of independent variables.
+Notice that as we said,
+the regular R^2 should always be between 0-1.
+However, the adjusted R^2 can be below 0.
+This is because if the number of
+independent variables k in the model is very large,
+then this denominator could be small.
+If the residual sum of squares,
+RSS is not reduced by much accordingly,
+then this ratio may end up being greater than this ratio.
+As a result, this entire ratio could be larger than
+what resulting in the adjusted R^2 being less than 0.
+A negative adjusted R^2 indicates
+the model's fit performance is really poor.
+With lots of irrelevant independent variables,
+yet little improvement in fit with the data.
+Also, notice that the adjusted R^2
+should still be less than 1,
+because this term should be positive,
+as long as the number of variables
+k is less than the number of data observations n,
+which is usually the case.
+A final quick note.
+We can use the adjusted R^2 to
+compare models with the same dependent variable,
+but different numbers of independent variables.
+However, we cannot use
+either the regular R^2 or the adjusted R^2
+to compare two models with
+different functional forms of the dependent variable.
+For example, if one models dependent variable is y,
+the other models dependent variable is
+some function of y such as y^2.
+Then the residual sum of squares will
+be on different scales across the two models.
+And hence, either the regular or
+the adjusted R^2 will not be directly comparable.
+A quick summary. In this video,
+we discussed how to interpret the Beta coefficients in
+a linear regression model and how to
+evaluate the goodness-of-fit of
+a linear regression model.
+Namely, we introduced the R^2,
+which increases as more independent variables
+are added into a model,
+and the adjusted R^2,
+which penalizes the number of parameters in a model,
+and hence can be used to more fairly compare
+the performance of models with
+different numbers of independent variables.
+Hope you find these topics helpful and interesting.
+That's all for this video. Thanks for watching.

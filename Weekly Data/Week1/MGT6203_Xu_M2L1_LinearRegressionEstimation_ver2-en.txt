@@ -1,0 +1,486 @@
+>> Hello, everyone. Welcome back.
+Starting from this video, we're going to
+introduce the first part of our topics,
+which focus on a series of
+econometric and statistical models.
+These models are interconnected from
+the most common linear regression models to
+the more advanced non linear models
+of limited dependent variables.
+These models are popular and
+powerful tools because they have
+solid theoretical foundations
+and coherent mathematical frameworks.
+They are easy to estimate
+and have very clear interpretation.
+For these reasons, they are widely applied in
+business and economic research and analysis.
+In this video, we'll start with the
+simplest yet the most used model,
+a linear regression model.
+It is basically the starting point and the foundation of
+pretty much all statistical or econometric models.
+The beauty of a linear regression model
+is its simplicity.
+Because of its simplicity,
+it can be easily estimated and clearly interpreted,
+which makes it a very useful tool,
+generally applicable to pretty much any context.
+Also because of its simplicity,
+linear regression models have been
+so well studied that essentially
+all of its key theoretical properties
+are well understood in great depth,
+making it a very helpful tool for us to deepen
+our understanding of many key analytic concepts.
+Therefore, it is vital to have a correct and in-depth
+understanding of this seemingly
+simple yet very profound analytic framework.
+In fact, one can easily spend
+a whole semester to
+learn about a linear regression alone.
+We obviously don't have that much time.
+However, we'll still cover
+the most important concepts
+related to linear regression in depths,
+hoping to well orient to this fascinating domain.
+Let's get started. Now,
+let's start with the basic setup
+of a linear regression model.
+I guess most of you are already very familiar with it.
+We have a y variable,
+which is the outcome of interest.
+We typically call it the dependent variable,
+the outcome variable, the response variable,
+or simply the y variable.
+And then we have a set of x variables,
+which are the variables that could affect the outcome.
+These variables are usually referred
+to as the independent variables,
+the explanatory variables, the predictors,
+or simply the x variables.
+Both the x variables and the y variable are our data,
+observed for each individual record as
+indexed by the subscript i here in the model.
+Here, an individual record
+could be a consumer, a company,
+a product, a regional market,
+and so on, depending on the context.
+In addition to those variables that could affect
+the outcome and are observed
+in our data as the x variables,
+there are other factors that could affect the outcome,
+but not observed in the data.
+To capture those factors,
+we will also include an error term into the model,
+represented by u here.
+Although a single symbol,
+the error term actually contains
+many different components and
+is the trickiest element in the whole model.
+For example, it can contain those unobservable variables,
+variables that will have
+an impact on the outcome of interest,
+but are not recorded
+or captured in the data that we have.
+In addition, some factors are
+unmeasurable or intangible in nature.
+They will affect the outcome of interest,
+but can hardly be measured or recorded,
+hence are not part of our data either.
+These unmeasurable variables also enter the error term.
+Another major component of
+the error term is pure randomness.
+Everything else equal, there could still be
+random fluctuation in
+the outcome across different observations,
+which could also be ascribed to the error term.
+Notice that the error term is not part of our data
+and is modeled as
+a random variable following a certain distribution.
+A linear regression model,
+models the outcome y as jointly determined by
+all the x variables plus
+a realization of the random error term.
+Each x variable may have
+a different level of impact on the outcome,
+which is measured by
+a coefficient in front of the x variable,
+usually denoted as Beta.
+These Beta coefficients are
+unknown parameters of our model,
+and are what we are interested in finding out.
+They will need to be estimated from the data.
+Both the x variables and the Beta coefficients enter
+the function that determines the outcome
+y in a so called linear way.
+That is, the functional form
+only contains terms of degree one,
+which are called linear terms.
+These terms are further
+combined together in an additive way.
+This is what makes a linear regression linear.
+So this is the basic setup of a linear regression model.
+Now, before we move on,
+it's worth discussing some of
+the key assumptions we make for linear regression models.
+They are all related to the error term, which,
+as we said, is the trickiest element of the whole model.
+As we just explained,
+the error term is not observed in all data and
+is modeled as a random variable
+following a certain distribution.
+As a result, given all x variables values,
+the y variable is still a random variable,
+whose value is determined by
+the realization of that random narrative.
+Now, what assumptions do we impose on
+the distribution of the error term
+in linear regression models?
+The first assumption is that the expected value of
+the error term equals
+zero given any values of the x variables.
+Notice that here, the mean being
+equal to zero is not a critical assumption.
+Because we usually include in the model,a so called interceptor,
+which is the coefficient Beta_0 by itself as a constant.
+So any shift of the mean away
+from zero can be captured by the intercept.
+Here, the real assumption is that the expected value of
+the error term stays the same
+regardless of the values of the x variables.
+Loosely speaking, you can think of
+this assumption as assuming
+the error term being
+independent of the x variables values.
+Now, think about that. Is this assumption reasonable?
+Does it always hold?
+Let me give you an example.
+Suppose we would like to
+estimate the return on education.
+The y variable is the incomes of different individuals,
+and that the key x variable is
+the years of education each person received.
+The error term u contains
+all factors other than
+education that could affect the income.
+Now, is it reasonable to assume
+the error term being independent of the x variable?
+Most likely not.
+People who receive a lot of education could also be, say,
+more intellectually capable or
+have more financial or social resources.
+All of which could contribute to a higher income level.
+In other words, in this context,
+it is likely that a higher x variable value
+actually indicates a higher value
+of the error term u as well,
+both of which contribute to a higher value of y.
+This would violate the zero conditional mean assumption.
+And if we ignore such an issue
+and run that simple regression,
+we may end up with biased estimation
+of that return on education.
+This type of issue is called endogeneity in econometrics,
+and dealing with it can be tricky and challenging,
+which is out of the scope of this course.
+The second assumption we impose is that the variance of
+that random error term is
+constant regardless of the x variables values.
+Violation of this assumption is
+called heteroskedasticity.
+Although the name is long,
+the issue is actually easier to
+deal with than the endogeneity issue.
+So the potential violation of the second assumption
+is actually a less severe problem in comparison.
+So these are the key assumptions about
+the error term imposed in
+a standard linear regression model.
+I just wanted to point them out at the very beginning,
+so you are aware of what are at play
+and what are the limits of this type of models.
+Now, let's look at
+a quick example to give those of you who are not
+very familiar with linear regression
+a better idea of how it works.
+Let's say this is the dataset we have,
+the sales of a multinational company
+in different markets,
+and the advertising spending in
+different media in these corresponding markets.
+Each row correspond to a particular market,
+which can represent a certain region, for example.
+The first column is the market ID.
+The second column is the sales revenue in each market.
+The third, fourth,
+and fifth columns are
+the advertising spendings in different media,
+including TV, radio, newspaper,
+respectively, in each market.
+We would like to estimate on average,
+how much the advertising spending in
+different media can boost the sales revenue.
+Linear regression can help us achieve this purpose.
+In a linear regression model,
+we would like to develop here,
+the dependent variable or
+the y variable will be the sales revenue.
+And the independent variables or
+the X variables are
+the advertising spendings in different media,
+including TV, radio, and newspaper.
+And all the other factors
+not included that could also affect
+the sales revenue are modeled as
+part of the random error term u here.
+In front of each independent variable,
+there is a Beta coefficient,
+which measures by how much one particular x variable
+could affect the y variable.
+Notice that we also include
+a constant Beta_0 by self as the intercept,
+which measures the baseline value of
+the y variable when all x variables are zero.
+Each observation i correspond to
+a particular role in our data set.
+So once the model is set up,
+we can apply it to our data and
+estimate the values of that Beta coefficient.
+We'll talk about the estimation method on the next slide.
+Once we obtain the estimated values of Beta coefficient,
+we then have a measure of
+how much advertising spending in
+each media could affect sales revenue.
+Notation wise, we use
+the original Beta to
+represent the true value of the coefficient,
+which is like the hidden choose that we don't know,
+but we would like to find out.
+We use Beta hat to represent
+the estimated value of
+the Beta coefficient based on our data.
+Notice that once we
+have obtained the estimates of Beta coefficients,
+given the value of all x variables for any observation,
+we can predict the value of the y variable.
+To predict the y value,
+we simply substitute in the x variables values
+into the model with the estimated Beta coefficients.
+And notice that we will omit the error time u here.
+The reason we can simply omit
+the error term is that we assume
+the expected value of the error term
+given any x variable values is zero.
+An assumption we just explained, remember.
+In this sense, the predicted value of y is
+the expected value of
+the outcome given the x variable values.
+Notation wise, we use y hat
+to represent the predicted y value.
+So in this example here,
+for any new observation,
+if we know the advertising spending budget
+in all of these different media,
+we can use our estimated linear regression model to
+predict the expected sales revenue
+for that particular market.
+This is a quick example to show you
+the basic idea of a linear regression.
+Now, let's discuss how
+to estimate a linear regression model.
+To estimate a linear regression model,
+we would like to find the estimated values of
+the unknown Beta coefficients in
+the model based on the data we have.
+There are different ways to
+estimate a linear regression model.
+The most commonly used approach is called the
+ordinary least square or the OLS estimation.
+The idea of ordinary least square estimation is to find
+a set of Beta coefficient values that minimizes
+the sum of squared distances between
+the predicted y values and
+the actual y values over all data observations.
+This is what gives the estimation method its name,
+that is, to find the least square.
+This is the mathematical representation
+of the idea of OLS estimation.
+Recall that for each data observation,
+with all the x variables values,
+once we know the values of the Beta coefficients,
+the predicted y value is simply
+the linear combination of x's and Betas,
+with the expected value of the error term,
+which is zero omitted.
+So this part is the predicted y,
+that is y hat i.
+We compute the difference between
+the actual y and the predicted y.
+Take the square and add them
+up over all observations in our dataset.
+This gives us the sum of squared distances.
+This is the objective function of our estimation problem.
+We would like to find the set of
+Beta coefficient values that
+will minimize this objective function.
+Now let's look at this simple illustration.
+Suppose we have one y variable and only one x variable.
+Then each observation in the dataset can be
+represented as one point in
+this two dimensional xy plane.
+The linear regression in this case can simply
+be represented as a straight line in this space.
+That is y hat is equal to Beta_0 plus Beta_1 times x.
+Here, Beta_0 determines the intercept,
+and Beta_1 determines the slope of that straight line.
+What we would like to do is to find
+the values of the intercept and the slope,
+such that the resulting straight line approximates
+the relationship between x and y
+among all data points, the most closely.
+That is the overall distances between the data points,
+and the fitted linear regression line are the smallest.
+In other words, we want to find a straight line
+that fits our data the best overall.
+Let's take a closer look at
+various values over this plot.
+For each data point, its coordinate
+represents the values of the x and the y variables.
+This straight line represents
+the fitted regression line,
+Y hat equals Beta_0 hat plus Beta_1 hat times x,
+where Beta_0 hat is the intercept,
+and the Beta_1 hat is the slope.
+Given a particular data observations x variable value,
+the corresponding y value on
+the regression line is
+the predicted y value for that observation.
+That is y hat.
+We may also call it the fitted y.
+And the difference between the actual y
+and the predicted y is called the residual.
+Notice that the residues
+can be either positive or negative,
+depending on whether the predicted y
+is greater than the actual y or not.
+This is why we would like to take the square of
+the residues so that the positive difference and
+the negative difference do not
+cancel each other out because they
+should all be considered as
+prediction errors and be accounted for.
+We add up the squared residues over
+all data observations to obtain
+the sum of squared residues,
+which is the objective function we'd like to minimize,
+which will give us
+the estimated Beta_0 hat and the Beta_1 hat.
+Now that we understand the goal of the OLS estimation,
+the next question is how to obtain
+the estimated Beta values so that
+they minimize the objective function as discussed.
+The beauty of linear regression is its simplicity.
+Because the functional structure of
+a linear regression is very simple,
+the estimated values of the unknown coefficients can
+be explicitly derived in close form formulas.
+As a result, we do not need to rely on
+any numerical method to search
+for the optimal values of the coefficients.
+Instead, we can directly compute the values of
+the coefficients using the derived formulas
+and substituting all of our data.
+Therefore, the coefficient estimates
+can be obtained almost in no time,
+even if the dataset is very large in size.
+The simplicity and computational efficiency
+are the major advantages of linear regression,
+and are what make it the most commonly performed
+statistical analysis in all kinds of applications.
+Now, let me quickly walk you through
+the steps of deriving the coefficient estimates.
+For those of you who are familiar
+with mathematical derivation,
+you can follow the steps of derivation closely.
+For those of you who are not that familiar, do not worry.
+The purpose of me showing
+these formulas is simply to show you that
+the OLS estimates can be expressed
+explicitly in some very concise formulas,
+and to show you that how simple it
+is to derive these OLS estimates.
+As you'll see, it takes only a few steps.
+So let's start with the so
+called simple linear regression,
+which means there is only one x variable.
+In simple linear regression,
+when there is only one x variable,
+the model can be written like this.
+An the objective function,
+the sum of squared residuals is like this.
+We would like to find the values of Beta_0 and
+Beta_1 that minimize the objective function.
+ 
+which is an expression that is easier to remember.
+This is how the OLS estimates
+can be derived for single linear regression.
+Again, in which there is only one x variable.
+How about the more general case
+with multiple x variables?
+This is referred to as multiple linear regression.
+As you can see, there is
+no essential difference between
+simple linear regression and
+a multiple linear regression.
+The reason people often do
+the separation is that the derivation of
+OLS estimates for multiple linear regression
+has to involve matrix expressions.
+But the idea and the logic of derivation for
+multiple linear regression are the
+same as those for simple linear regression.
+Now we have multiple x variables
+and hence multiple Beta coefficients.
+We want to find the set of
+Beta coefficients that minimize the objective function.
+To do so, like before,
+take the first order derivative with
+respect to each Beta and set them to zero.
+We get a system of equations with
+the same number of equations as the number of unknowns,
+which again, can be fully solved.
+However, to derive the solution
+to this system of equations,
+we will need to use matrix expressions.
+We will not get into the details of
+a matrix expressions in this course.
+So I'll leave the details
+to yourself if you are interested.
+The key takeaway here is that with matrix expressions,
+as you can see, the derivation of
+the Beta estimates is even more concise.
+And that the final expression of
+the Beta estimates can be viewed as
+a generalization of that for simple linear regression.
+Again, all it contains are x and y,
+which are our data.
+So just substituting our data into these expressions,
+we can immediately obtain
+the estimates of the Beta coefficients,
+very simple and fast.
+A quick summary. In this video,
+we introduced the basic idea of linear regression,
+how to construct a linear regression model,
+what are the model elements and their meanings,
+and what assumptions are involved.
+We discussed how to estimate
+a linear regression model using
+the ordinary least square estimation.
+We discussed the objective function of
+the OLS estimation and how to
+derive the OLS estimates explicitly.
+Hope you now have a better understanding
+of linear regression,
+this most commonly applied statistical
+analysis method. Thanks for watching.

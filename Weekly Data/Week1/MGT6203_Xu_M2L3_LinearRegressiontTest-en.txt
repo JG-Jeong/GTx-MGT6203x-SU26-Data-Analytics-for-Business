@@ -1,0 +1,585 @@
+>> Hello, everyone. Welcome back.
+Let's continue our discussion on linear regression.
+Previously, we have talked about
+how to estimate a linear regression model and
+how to interpret the estimated coefficients
+and evaluate the model fit.
+In this video, we'll continue along the line
+of interpreting the estimated coefficients,
+and introduce a concept called hypothesis testing.
+We'll focus on one particular type of
+test, called the t-test.
+Briefly put, the idea of t-test is to
+see if the coefficient estimate we obtained based
+on the single data set we have at hand reveals
+a statistically significant relationship
+between the independent variable
+and the dependent variable.
+To understand the t-test,
+we'll start with understanding
+the variance of the Beta coefficient estimators,
+and then how to estimate
+the standard error of the estimators.
+We then discuss how to perform the t-test in
+detail and how to interpret the test results.
+Finally, we'll quickly discuss the issue of
+multi-collinearity and one measure
+that can be used to detect such an issue.
+Let's get started.
+To understand the idea of t-test,
+we need to first discuss
+the variance of the OLS estimators.
+As we showed previously,
+the estimated value of a Beta coefficient in
+a linear regression model is a function of the data.
+Given all of the x variables values
+and the y variables values in the data set,
+we have the formula that can explicitly
+determine the values of the Beta coefficient estimators.
+In other words, given the data,
+the Beta coefficient estimates
+are deterministic and are fixed.
+So what do we mean by
+the variance of the Beta estimators?
+And where does the variance come from?
+So very importantly,
+the variance comes from the fact that
+the data set that we have is
+a random sample from the general population.
+Let's say, for example, the data set we have consists of
+10,000 individual consumers with
+their income and demographic information.
+Although reasonably large in size,
+this data set is still
+just a sample from the general population of say,
+all consumers in a particular market
+or a particular region.
+And this sample is usually considered to
+be randomly drawn from the population.
+If we or someone else were to draw another data sample,
+it would consist of a different set of
+10,000 consumers from the same population.
+As a result, even following the same formula,
+the Beta coefficient estimators determined
+based on this different data sample
+would also be different.
+In this sense, because
+the data sample we obtained is random,
+the corresponding Beta coefficient estimators
+calculated based on this data sample are also random.
+Therefore, we can view the Beta coefficient estimator,
+Beta hat, as a random variable.
+For random variable, it has its variance, and therefore,
+the source of the variance is
+the randomness enjoying our data sample.
+Mathematically, we can derive
+the variance of Beta hat as this.
+Here, recall that Sigma^2 is
+the variance of the error term
+according to our model assumption.
+And r hat_ij is the residual
+from regressing x_j on
+all the other independent variables.
+So this term is the sum of
+squared residuals or RSS for this particular regression.
+Using the defining relationship between
+the r^2 and the RSS and the TSS,
+we can rewrite the variance of Beta hat as this.
+Where this R^2_j is
+the R^2 from the same regression as we described here,
+that is regressing x_j
+on all the other independent variables.
+And TSS_j here is the total sum of squares in x_j,
+which is the dependent variable in the set regression.
+Notice that for a simple linear regression,
+because there's only 1x variable,
+the set regression above reduces to
+regressing the only x variable on the intercept,
+which has no variation in the predicted x hat at all.
+As a result, the r^2 = 0,
+and hence the variance of
+Beta hat can be simplified as Sigma^2/TSS.
+Knowing the formula of the variance of Beta hat,
+how can we calculate its value then?
+Notice that we can easily calculate
+the residual r hat_ij given
+our data by simply running
+the set regression as described previously.
+What's unknown, however, is Sigma^2.
+Which is a theoretical value we
+assumed when setting up the linear regression model,
+whose true value we do not really know.
+Therefore, in order to
+compute the value of the variance of Beta hat,
+we need to first estimate the value of Sigma^2.
+The Gou says that
+Sigma^2 can be easily estimated from the data.
+Because Sigma^2 is the variance of the arriton,
+we can use the residues
+from the regression to estimate its value.
+Notice that here, the residual
+is from the original linear regression.
+That is regressing the y variable on all x variables.
+We then calculate the sum of squared residues of
+the original regression and divide it by m-k-1.
+This gives us the estimated value of Sigma^2.
+Here, n is the number of data observations,
+k is the number of independent variables,
+and m-k-1 is called
+the degree of freedom adjustment
+for the Sigma^2 estimator.
+In fact, we don't need to pay too much attention
+to the meaning of this degree of freedom adjustment.
+In usual cases, the number of
+data observations n is very large,
+and the number of x variables k is relatively small.
+So you can simply think of the estimate of
+Sigma^2 as equal to SSR divided by just n,
+which is like the ordinary average.
+Now we know how to estimate Sigma^2.
+So we can substitute it into
+the formula of the variance of Beta hat,
+and take the square root,
+which will give us the standard error
+of the Beta estimator,
+as this, which is simply by
+substitute in the estimate of Sigma^2 here.
+The standard error of Beta hat will be
+used in the t-test we will discuss next.
+Now we are ready to introduce the t test.
+The idea of t-t est is to examine
+whether or not the Beta estimate
+we obtained based on the single dataset
+we have indeed represents
+statistically significant relationship between
+the x variable and the y variable.
+Let's say a particular Beta coefficient in or
+a linear regression model is
+estimated to have the value 2.5,
+which is positive and hence appears to
+indicate that the x variable has a positive impact on y.
+Nonetheless, as we already discussed,
+this 2.5 value is
+obtained based on the data set we have at hand,
+which is just a random sample from the full population.
+If we were to draw another data sample,
+the Beta coefficient would
+have a different estimated value.
+As we have shown, the Beta estimate Beta hat has
+a variance and its value
+varies from data sample to data sample.
+It could become much smaller or closer to zero,
+or even turn negative and a different data sample.
+Then the question comes.
+How much should we trust the Beta estimator
+we obtained based on the single data sample that we have?
+How can we be sure that this estimated value 2.5
+does indeed reflect the true relationship
+between the x variable and the y variable,
+which is significantly positive?
+Or it just happen to take
+a large positive value under
+this particular data sample we happen to have?
+While the true effect of x on
+y is much smaller or even negative?
+Well, the t-test aims to help us answer this question.
+Simply put, we would like to compare
+the estimated value of Beta to the variance of Beta hat.
+To see how large the estimated Beta hat value is
+relative to its variance across potential data samples.
+Let's say, if the variance of Beta hat is not very large.
+Meaning Beta hat does not tend to
+vary greatly from data sample to data sample.
+Well, the estimated Beta hat obtained from
+our data sample is largely positive.
+Then we have good reasons to believe that it
+does reflect the true relationship between x and y,
+which is indeed significantly positive.
+On the other hand, say if
+the variance of Beta hat is large,
+meaning Beta hat tends to
+vary greatly from sample to sample,
+whereas the estimated Beta hat
+we obtained is very close to 0.
+It's then hard to conclude that the x variable
+really has any significant effect on the y variable.
+This is the essential idea of the t-test.
+Formally, we will construct the so-called t-statistic,
+which is defined as
+the estimated Beta hat divided
+by the standard error of Beta hat.
+Both of them can be calculated based
+on our data as we already discussed.
+Notice that this statistic is a function of
+the data and due
+to the randomness enjoying the data sample,
+this statistic itself is a random variable.
+As a random variable, it
+follows a certain probability distribution.
+The distribution this t-statistic
+follows is called t distribution,
+or sometimes called student t distribution,
+which interestingly got its name because
+the original author used
+the pseudo name student when publishing the paper.
+The t distribution is set to
+have n-k-1 degrees of freedom.
+Where again, n is the number of
+data observations and k is the number of x variables.
+The t distribution may sound
+unfamiliar or even mysterious to you.
+But you can pretty much think of
+it as a standard normal distribution.
+It follows the familiar bell curve
+of a usual normal distribution and
+the shape of the distribution curve
+closely approximates that of a normal distribution.
+As a matter of fact, as
+the t distribution degree of
+freedom increases to infinity,
+it converts exactly to the standard normal distribution.
+Based on the t-statistic,
+we can now formally describe the t-test.
+T-test is one type of hypothesis testing.
+In hypothesis testing, we would like to test whether
+a certain hypothesis of interest is
+likely to be true or not based on the data we have.
+The approach is as follows.
+We will first set up a so-called null hypothesis,
+which is the opposite of
+the interesting hypothesis we'd like to establish,
+which is called the alternative hypothesis.
+The null hypothesis is like a straw man,
+which we'd like to hit and smash.
+If based on the results from raw data,
+we can conclude that the noun hypothesis
+is very unlikely to be true,
+then we can establish that
+the alternative hypothesis is likely to hold.
+This is the basic idea of hypothesis testing.
+Now, in t-test for linear regression,
+we are usually interested in establishing that
+a particular x variable of
+interest does have some significant effect,
+either positive or negative on the y variable.
+In other words, the interesting hypothesis or
+the alternative hypothesis we would like to
+establish is that the corresponding Beta coefficient,
+say Beta_ j is not equal to 0.
+Consequently, the null hypothesis
+will be just the opposite.
+That is, Beta_ j = 0.
+Under the null hypothesis, the t statistic,
+as we just introduced,
+follows a t distribution with n-k-1 degrees of freedom.
+As the number of observations n is usually very large,
+as we said, the t distribution
+converge to the standard normal distribution.
+So let's just think of
+the t-statistic as following
+the standard normal distribution,
+which has the mean equal to 0,
+and the standard deviation equal to 1,
+as we can draw like this.
+Now, think about this.
+Following such a distribution,
+what values is the t-statistic most likely to take?
+Should be values around the mean,
+which is around the 0.
+Now, what is the chance of us
+seeing a very large value of the t-statistic?
+The chance should be very small.
+Therefore, suppose the null hypothesis is true.
+That is Beta_ j is indeed equal to 0.
+Then the probability of seeing
+a very large t statistic is very small.
+Now, what if we do obtain a very large t-statistic value?
+We can then conclude that most
+likely the null hypothesis is not true.
+If the null hypothesis is likely to be untrue,
+then the alternative hypothesis,
+that is Beta_ j is not equal to 0,
+is likely to be true.
+In other words, we can
+conclude that the independent variable x_
+j is likely to have a significant effect on y.
+This is exactly the idea of the t-test.
+>> To perform the t-test more formally,
+we need to specify how unlikely is really unlikely.
+We need to specify a so called confidence level,
+which is a large probability very close to 1 or 100%.
+Typical confidence levels are 99%,
+95%, or 90% minimum.
+Usually won't go below 90%.
+Correspond to the given confidence level,
+we can find a critical value
+or a cutoff of the t-statistic,
+which can be denoted as c. If
+the t-statistic we obtained has
+the absolute value larger than the cutoff c,
+then we can reject
+the null hypothesis at that given confidence level.
+This is the t-test.
+Now, let's use a concrete example to illustrate the idea.
+Let's say, the confidence level requirement is 95%.
+This is the distribution
+of the t-statistic, which, as we said,
+is very close to the standard normal distribution
+with mean 0 and standard deviation 1.
+Now, to determine the cutoff of the t-statistic value,
+we first calculate 1 minus confidence level,
+so 1-95% is 5%.
+Now, the cutoff of the t-statistic value is set such that
+the probability of the absolute value of
+the t-statistic being greater
+than this cutoff is only 5%.
+Notice that we are comparing
+in terms of the absolute value,
+so we consider both the positive and the negative ends.
+And the test is called a two-sided test.
+Now, if the total probability mass is 5%,
+that either the positive or
+the negative end gets half of the mass.
+5%/2 is 2.5%.
+The cutoff c should be set such that the probability of
+the t-statistic having a value than
+c is only 2.5%, like this.
+Symmetrically, the probability of the t-statistic having
+a negative value less than -c is also 2.5%.
+In other words, c is the
+97.5th percentile of the t-distribution.
+This is how we set the cutoff for
+the t-statistic value given
+the confidence level required.
+Now, these are
+the formal descriptions of the calculation.
+To help you better understand it
+, another quick exercise.
+If the confidence level requirement is 99%,
+what is the cutoff c?
+Similarly, first, 1-99%, which is 1%.
+And then 1%/2,
+which is equal to 0.5%.
+Finally, the cutoff c is the 100-0.5
+= 99.5th percentile of the t-distribution.
+So the cutoff should be set here.
+So the probability of the t-statistic being
+greater than this c' should only be 0.5%.
+And symmetrically,
+the probability of the t-statistic to be
+less than -c' should also be only 0.5%.
+Is that clear? Now, notice that
+as we increase the confidence level requirement
+from 95%-99%,
+how does the cutoff change?
+Yes, the cutoff increases
+as the confidence level increases.
+If the t-statistic we obtained has
+the absolute value greater than the cutoff c,
+meaning either t greater than c or t less than
+-c. Under the null hypothesis,
+the probability of such an event happening is
+only say 5% suppose
+the confidence level requirement is 95%.
+This would be a small
+probability event unlikely to happen.
+Now that it did happen.
+So with 95% confidence,
+we can say that the null hypothesis should not hold.
+Therefore, we say that we reject the null hypothesis,
+which is Beta_j = 0 with 95% confidence.
+As a result, we can conclude that
+Beta_j is most likely not 0.
+Formally, we say that Beta_j is
+statistically significantly different from 0,
+or simply Beta_j is significant.
+This means the corresponding x variable,
+x_j has a significant or non-zero effect on y,
+and this completes our t-test.
+One drawback of performing the t-test,
+as we just described,
+is that we need to first
+fund the cutoff value for the t-statistic,
+which is like an extra step.
+To make the comparison more straightforward,
+we could use the p-value instead.
+The p-value and the t-value cutoff
+are like the two sides of the same coin.
+Both are used to perform
+the same t-test following the same logic.
+The p-value is defined as
+the probability of the t-statistic
+to have an absolute value
+greater than the current t value we obtained.
+Let's say, this is the t-distribution,
+and if the t-statistic value we
+obtained from our data is this
+much and the probability
+of the t-statistic being greater than this value,
+is say 2%,
+then the p-value will be 4%.
+Twice this probability measure.
+Because again, we are doing that two sided test,
+and there is a symmetric half
+on the negative end, like this.
+As we can see, the benefit of introducing the p-value is
+that we can directly compare
+it against the confidence level requirement.
+If the confidence level is 95%,
+then as long as the p-value is less than 5%,
+we can reject the null hypothesis with
+95% confidence and say that
+Beta_j is significantly different from 0.
+On the other hand, however,
+if the confidence level requirement is 99%,
+and the p-value is 0.04,
+because the p-value is greater than 1%,
+so we cannot reject
+the null hypothesis at 99% confidence level.
+Again, the underlying logic of
+hypothesis testing is exactly the same.
+Now, to summarize.
+Remember, in order to reject the null hypothesis,
+the p-value is the smaller the better,
+where as the t-statistic value is the larger the better.
+We compare the p-value directly against
+1 minus the confidence level requirement.
+Whereas we need to compare the t-statistic value
+against a cutoff that needs to be predetermined.
+This is so much for t-test.
+Next, let's quickly discuss one issue that's
+also related to the variance
+of the coefficient estimator,
+called collinearity, or usually multicollinearity.
+It refers to the issue when one independent variable is
+highly correlated with
+one or more other independent variables.
+And as a result, the variance
+of the coefficient estimator,
+Beta-hat, is very large.
+To understand the cause of this issue,
+we need to go back to the formula
+for calculating the variance of Beta-hat.
+Recall that the variance
+of Beta-hat equals Sigma^2/(TSS_j*1-R_j^2).
+As we explained previously,
+Sigma^2 is the variance of the eraton in the model.
+TSS_j is the total sum of squares in x_j,
+and R_j^2 is the R^2 from
+regressing x_j on all the other independent variables.
+As we already discussed, if possible,
+we'd like the variance of
+Beta-hat to be as small as possible?
+So we can trust
+more the estimated coefficients we
+obtain based on our data set and
+the estimated coefficients can more easily be
+statistically significant passing the t-test,
+as we just discussed.
+Now, think about this.
+What factors could affect the variance of Beta-hat?
+When will the variance of Beta-hat be large?
+And how can we reduce the variance of Beta-hat?
+To answer these questions,
+we will look at this formula.
+The first component is Sigma^2 in the numerate.
+A small Sigma^2 could reduce that variance of Beta-hat.
+Recall again, Sigma^2 is
+the variance of the error term in our regression model.
+So it is part of our model and is determined
+by the context of our data
+and the nature of the problem we're analyzing.
+Therefore, given our research question and
+our data, Sigma^2 is determined.
+If we really wanted to reduce Sigma^2,
+we would need to carefully
+formulate the research question we aim to study
+and carefully collected the data
+to collect as many variables as we can.
+The goal would be to leave as few factors inside
+the error term as possible so as to
+reduce the variance of the error term itself.
+The next component is TSS_j in the denominator.
+To reduce the variance of Beta-hat,
+we would want to increase TSS_j.
+TSS_j is the total variation in variable x_j in our data.
+So given our data,
+TSS_j is determined as well.
+If we really wanted to increase TSS_j,
+when collecting the data,
+we should ensure there is as
+variation in the values of variable x_j as possible.
+The last component is R_j^2 in the denominator.
+Notice that to reduce the variance of Beta-hat,
+we would want R_j^2 to be small.
+Notice here, it is different from our usual goal,
+because we usually would want
+R^2 to be as large as possible for a better model fit.
+But here, we would want R_j^2 to be
+small in order for the variance of Beta_j to be small.
+Recall again, R_j^2 is
+the R^2 from regressing
+x_j on all the other independent variables.
+A small R_j^2 means
+this particular regression has a poor fit,
+which means all the other independent variables cannot
+explain or predict the focal variable x_j very well.
+On the contrary, if x_j can be well
+explained by one or several other independent variables,
+then R_j^2 will be large.
+And as a result, the variance of
+Beta-hat will be large as well.
+So this leads to
+the multicollinearity issue we just mentioned.
+If one independent variable in a linear regression is
+highly correlated with
+one or more other independent variables,
+then R_j^2 will be large.
+And as a result, the variance of Beta_j will be large.
+Consequently, we won't be able to rely on
+the estimated value of that Beta coefficient too much,
+and the Beta coefficient estimate is most
+likely to be statistically insignificant.
+Therefore, multicollinearity is an unfavorable issue
+we would like to avoid.
+Then how to check if there is
+any multicollinearity issue in our data.
+We can use this measure called
+variance inflation factor or VIF.
+VIF for a particular independent variable x_j is
+defined simply as 1/1-R_j^2.
+As we can see, we want VIF to be as small as possible.
+Notice that R_j^2 is greater than 0.
+So 1-R_j^2 is always less than 1.
+And hence, VIF is always greater than 1.
+So we want it to be as close to 1 as possible.
+A VIF value close to one means
+x_j does not have any collinearity issue,
+whereas a large VIF value,
+say exceeding five or even 10 is a sign of collinearity.
+If one independent variable suffers from collinearity,
+we can consider removing
+this variable from the regression model.
+Alternatively, if this variable is critical to include,
+we can check what
+other independent variables are highly
+correlated with this particular variable,
+causing the collinearity issue and
+remove those variables from the regression, if possible.
+The goal here is to reduce the correlation
+amongst independent variables themselves
+as much as we can.
+A quick summary. In this video,
+we explained in detail the important concept of t-test.
+We started with the variance of
+the coefficient estimators and
+explained the idea of hypothesis testing,
+the t-statistic, the t-distribution,
+how to fund the t cutoff
+based on the confidence level requirement,
+and what the p-value means.
+We also discussed the issue of
+multicollinearity and the VIF measure to detect it.
+These are all very important concepts,
+so be sure to understand them clearly.
+I hope you find this video helpful, thanks for watching.

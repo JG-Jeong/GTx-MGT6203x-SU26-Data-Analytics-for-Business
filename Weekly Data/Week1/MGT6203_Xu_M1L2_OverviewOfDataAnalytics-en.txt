@@ -1,0 +1,437 @@
+>> Hello, everyone. Welcome back.
+In this video, I'm going to provide you with
+a very quick overview of data analytics,
+and discuss some common issues and important trade-offs.
+In particular, we're going to talk
+about what data analytics is about,
+and depending on the goals of our analysis,
+how to choose the right model or method by balancing
+the important trade-off between
+prediction accuracy and model interpretability.
+We'll also discuss another important trade-off
+between the bias and the variance,
+and the important concept of overfitting.
+We'll also explain some common categorization in
+data analytics that we'll frequently refer to later,
+namely, supervised versus unsupervised analysis,
+and regression versus classification tasks.
+Let's get started. Let's start
+with a brief discussion of what data analytics is about,
+or what we want to learn from the data.
+Generally speaking, we can model
+a data analytics task in
+an abstract way as specified in this formula.
+Here, Y is the output,
+usually called the dependent variable,
+or outcome variable,
+or response variable,
+or simply the Y variable.
+This is the outcome of interest,
+which we'd like to predict or explain.
+X can contain multiple variables.
+These are the inputs,
+usually referred to as independent variables,
+or explanatory variables, or
+sometimes predictors or features,
+or simply the X variables.
+These variables are what we believe
+could potentially affect the Y variable,
+and have observed them in our data.
+The last term, Epsilon,
+is the so-called error term.
+It contains everything that
+could affect the dependent variable,
+Y, but was not included in the X variables.
+Simple as it may appear,
+the error term is actually the
+trickest in the whole model specification.
+As we'll discuss in more detail later in this course,
+the error term contains many different components,
+such as unmeasurable or intangible variables,
+unobservable factors, and pure randomness as well.
+Because the error term is not observable to us,
+we typically model the error term as
+a random variable following a certain distribution.
+Finally, f represents a function.
+It represents the functional relationship
+between the X variables and the Y variable.
+It captures the systematic dependence of Y on X,
+or the systematic effect of X variables on Y.
+How do those X variables affect Y,
+and how much does each X variable affect Y?
+These are all captured by the f function,
+and that is what we're interested in.
+Notice that this f function is fixed,
+but unknown to us.
+It's like the truth of the universe,
+but it's just hidden from us.
+Our job is to figure it out, but based on what?
+Based on the data that we have.
+Now, what are our data?
+Our data consists of the X variables and the Y variable.
+Notice that the error term, Epsilon,
+is not part of our data,
+because it is the unobservable part.
+Our data constitute all the values of the X variables and
+the corresponding values of
+the Y variable for
+a large number of individual observations.
+Based on such a dataset,
+we need to develop some way to estimate f,
+and this is the goal of data analytics.
+Simply put, for data analytics,
+we'd like to develop a set of approaches or methods
+to estimate the f function as closely as possible,
+so as to capture the systematic relationship between
+the X variables and
+the Y variable as accurately as possible.
+Notation wise, we use f to represent
+the true functional relationship between
+the X variables and the Y variable, the hidden truth.
+And we use f hat to represent
+the estimated functional relationship between X and Y,
+based on our data and model.
+And the Y hat is
+the predicted outcome based on the estimated f function,
+given the X variable's values.
+This simple formula hence illustrate
+the basic idea of data analytics.
+To estimate f,
+people have developed a lot of different methods.
+Now, one question comes,
+why do we need so many different methods?
+Isn't there a single method
+that outperforms all the others,
+so we only need to learn and use that one?
+The answer is, not really.
+It depends on what goals we'd
+like to achieve from our analysis.
+If our goal is only to predict
+the outcome variable as accurately as possible,
+we do not really need to care that much
+about what exactly the f function looks like.
+We can treat the f function as a black box.
+As long as our model or method can
+accurately predict the Y variable's value,
+we can make the f function as complex as needed.
+For example, by adding
+multiple layers of models on top of each other,
+or by aggregating the results from
+hundreds or thousands of sub models.
+These are all fair games,
+as long as we can achieve great prediction accuracy.
+However, as a result,
+we may lose the understanding of
+the structure of the f function,
+and the exact relationship
+between the X variables and the Y variable.
+In some other cases, however,
+predicting that Y variable value
+may not be the main focus.
+But instead, we may want to explain that Y variable.
+For example, how Y variable is affected by X variables,
+and which X variable has
+the greatest impact on the Y variable,
+and by how much.
+If this is the case,
+then the purpose will be what we call
+inference or interpretation rather than mere prediction.
+In this case, f function can
+no longer be treated as a black box.
+Instead, we need to look into the f function,
+understand what form it takes
+and what its structure looks like.
+This actually lead to
+a very important trade-off for data analytic methods.
+That is the trade-off between
+prediction accuracy and the model interpretability.
+In general, if we want
+the model to be more interpretable,
+that means the model cannot be too complex,
+it needs to have a clear structure,
+and clearly indicates the relationship
+between X variables and the Y variable.
+As a result, the model is
+usually more restrictive or limited,
+and it will generally have less prediction accuracy.
+On the other hand, if we want
+a model to have high prediction accuracy,
+the model needs to be very
+fexible enough to fit the data very well.
+As a result, the model typically will be very
+complex and it will lose interpretability.
+So this is the trade-off between
+prediction accuracy and the model interpretability.
+Greater prediction accuracy usually
+comes with less model interpretability,
+and vice versa, higher model interpretability
+usually comes with lower prediction accuracy.
+This plot summarizes some common data analytic methods
+along these two dimensions.
+For example, linear regression based on
+least square is very simple and very easy to understand.
+It has high model interpretability.
+But the model is very restrictive as it is
+limited to linear relationship between X and Y only.
+So very limited model flexibility,
+and as a result, low prediction accuracy in general.
+In contrast, methods like deep learning,
+bagging and the random forests,
+their structure is highly flexible,
+which leads to high prediction accuracy in general.
+However, because they are black box methods,
+and the structure is so complex that it is very hard to
+interpret the exact relationship
+between X variables and the Y variable,
+so the model interpretability is low.
+This is the very important trade-off between
+prediction accuracy and model interpretability.
+Based on the goals of our analysis,
+we need to pick the most suitable method,
+and there is not a single method that
+dominates all the others and fits all purposes.
+This is why we introduce so many different models and
+methods to fit different data analytic needs.
+Next, we'd like to discuss
+another important trade-off in data analytics.
+The trade-off between bias and the variance.
+To understand this trade-off,
+let's start with prediction errors.
+As we know, in data analytics,
+we typically would like to
+minimize the prediction error between
+the predicted outcome from our model
+and the actual outcome value observed in the data.
+The question is how to minimize the prediction error.
+To answer this question, we need to look
+at where prediction errors come from,
+and what are the sources of prediction errors.
+Mathematically, we can
+formally derive the prediction error as this.
+On the left-hand side, this is
+the definition of the expected prediction error.
+Here, E means taking the mathematical expectation,
+which gives us the expected value.
+Y is the actual value of the outcome variable,
+and Y hat is the predicted value of
+the outcome variable based on our model or method.
+And the difference is the prediction error by definition.
+We can then substitute in our model.
+So Y = f(x) plus Epsilon,
+as we just explained,
+and the Y hat is equal to f hat of X as defined.
+After some derivation, which we'll skip,
+we can formally decompose
+the prediction error into these three parts,
+which we'll explain one-by-one.
+Let's first look at the last term.
+This is the variance of Epsilon.
+Recall that Epsilon is the error term,
+which is modeled as a random variable in our model.
+So this part represents the part of
+the prediction errors that is
+caused by the variance of the random error.
+This part is called the irreducible error.
+Why is it irreducible?
+It is irreducible because even
+if we were to have the best model in the world,
+that can perfectly estimate the true f function,
+because of the existence of this random error term,
+we would still be unable to perfectly predict
+the exact value of Y for each individual observation.
+In other words, because of
+the existence of the error term,
+there will be always some errors
+in our prediction of the Y values.
+For this reason, the variance of Epsilon
+actually represents the lower
+bound of our prediction errors.
+The minimum possible level of
+prediction errors we could ever achieve,
+and cannot be further reduced.
+This is why this part is called the irreducible error.
+Now, the first two terms
+combined are called the reducible errors.
+They are reducible because they are due
+to the imperfection of our model or method,
+so that the estimated f function
+is still somewhat different from the true function.
+And this error can be further
+reduced by improving our model or method.
+So in this sense, our goal is
+to minimize the reducible error,
+so as to minimize
+the overall prediction errors of our model or method.
+Now, let's zoom into
+the reducible error and see what's inside.
+So the reducible error can be
+further decomposed into two parts.
+The first part is the variance of
+the estimated f hat. So what does that mean?
+Notice that given our model method,
+the estimated f hat is actually
+a function of the data that we used to train the model,
+which is what we call the training data set.
+So given the same model or method,
+using a different training data set will
+give us a different estimated f hat.
+As a result, the estimated f hat
+will vary with the training data set.
+That's why we have the variance
+of f hat in the first term.
+So the first term actually measures how much
+f hat would change if
+we were to use a different training data set?
+It measures how sensitive of our model or
+method is to the selection of the training data set.
+Now, the second term is the bias of f hat itself.
+It means that suppose we were to
+have an infinitely large training dataset,
+so all the variance in fitting f will be gone,
+then how much would
+the estimated f hat
+still be different from the true f function?
+And this is the bias of f hat in the second term.
+Notice that such a bias is caused by
+the specific form or structure of our model or method.
+With the two parts of the reducible error understood,
+now comes the bias and variance trade-off.
+Generally speaking, if a model is flexible enough,
+it will be able to approximate
+the true function pretty well,
+so the bias will be low.
+However, at the same time,
+those flexible models tend to
+be very sensitive to the training data,
+and hence have higher variance.
+To better understand this, we need to discuss
+another important concept called overfitting,
+which you may have already heard of.
+Overfitting refers to the fact that
+a flexible model is trying
+too hard to fit the training data set,
+so that it follows the noises too closely,
+and starts to pick up the patterns that are
+caused by the random noises in the training data,
+rather than by the real
+systematic relationship within the data.
+Because those noises in
+the training data are idiosyncratic and
+cannot be carried over or
+extrapolated into new data observations,
+as a result, an overfitted model can
+fit the training data very well, in many cases,
+even perfectly, but it will perform poorly in
+predicting new data observations
+outside of the training dataset.
+In the language of the bias and variance trade-off,
+if a model overfits the data,
+it may end up having low bias but high variance,
+which may end up in higher prediction errors overall.
+That's why overfitting is
+a very important issue to keep in mind,
+and to avoid when specifying models or algorithms,
+especially those that tend to be overly flexible.
+As we can see, in some sense,
+the bias-variance trade-off is similar to the
+accuracy interpretability trade-off we just discussed.
+But when we talk about the bias-variance trade-off,
+we focus more on how to
+optimally specify the form or structure of the model,
+given the choice of a particular modeling framework.
+For example, given we are going to use linear regression,
+how many variables should we include,
+or given we are going to use decision trees,
+how large a tree should we construct?
+Overall, the more flexible we set the model,
+the lower the bias,
+but the higher the variance,
+which may or may not result in
+lower overall expected prediction errors.
+Therefore, it's not always the case
+that the more flexible the model, the better.
+Our goal is to find the sweet spot so
+that the bias is low, and at the same time,
+the variance is not too high either,
+so the resulting overall prediction error
+can be minimized.
+Next, let's quickly discuss
+some common categorization in
+data analytics as we often refer to.
+The first is supervised versus unsupervised analysis.
+In the case of supervised analysis,
+we have a clearly defined response variable to
+predict a specific Y variable of interest.
+As a result, we can explore
+the relationship between the X variables
+and the Y variable.
+Actually, most methods we're going to introduce
+in this course belong to the supervised category,
+including all econometric models in
+Part 1 and neural networks in Part 2.
+In contrast, in the case of unsupervised analysis,
+we do not have such a specific response variable
+or Y variable of interest.
+That is, we do not have
+a clearly defined Y variable to
+guide or supervise our analysis.
+As a result, what we do is just
+exploring the structure or the patterns within the data,
+and focus on the relationship among
+the X variables or
+among the data observations themselves.
+Leading examples of unsupervised analysis
+include cluster analysis and association detection.
+Another categorization we often refer
+to is regression versus classification tasks.
+For regression tasks, the response variable or
+the Y variable is what we
+call quantitative or new miracle.
+Meaning that their values are numbers.
+These numbers can be either continuous,
+such as real values with a decimal part,
+or discrete values such as integers.
+But for classification tasks,
+the response variable is what we
+call qualitative or categorical,
+meaning that their values represent
+the membership to a particular category.
+The task of classification analysis is to classify
+each individual observation into one of these categories.
+Notice that what matters here
+is the type of the Y variable.
+Instead, the types of the X variables
+do not affect the nature of the analysis.
+Another thing to notice here is that the boundary between
+regression and classification can sometimes be blurry.
+For example, the logistic analysis can be viewed as
+a classification analysis because the goal is to
+classify each individual record
+into one of the two categories,
+either zero or one.
+But as we are going to introduce later,
+the way we develop
+a logistic regression model is based on
+the probability of an individual
+belonging to a particular category.
+Then the probability is a continuous numerical value,
+which makes the whole problem fall into
+the regression category as well.
+That's why we usually refer to it as logistic regression.
+So as you can see, the boundary between regression and
+the classification can sometimes
+be blurry and also clear cut.
+These are all we want to talk about in this video.
+Just a quick summary. In this video,
+we talk about what data analytics is about.
+And depending on the goals of our analysis,
+we choose different models or methods by balancing
+the trade-off between
+prediction accuracy and model interpretability.
+We also discussed another important trade-off
+between bias and variance,
+and the important concept of overfitting,
+which is something that we need to avoid.
+We also explained some common categorization in
+data analytics that we'll frequently refer to later.
+That's all for this video. Thanks for watching.

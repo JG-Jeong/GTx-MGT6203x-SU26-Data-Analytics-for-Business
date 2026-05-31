@@ -1,0 +1,373 @@
+Hello, everyone. Welcome back.
+We have introduced linear regression
+in great detail in the previous videos.
+In this video, we'd like to discuss how to handle
+qualitative or categorical variables
+by introducing the so called dummy variables,
+which is an important concept that we
+frequently encounter in the late analysis.
+Okay, let's get started.
+Qualitative variables are also
+called categorical variables.
+They are to be differentiated
+from quantitative variables.
+Quantitative variables are also called
+numerical variables and are
+what we are most familiar with.
+Quantitative variables values are just regular numbers,
+which can be either continuous or discrete.
+Continuous values are simply real valued numbers,
+which can have decimal places.
+Discrete values are integer numbers
+one, two, three, four, five.
+In contrast, qualitative variables values
+are not numbers,
+but are instead membership to different categories.
+For example, a qualitative variable
+can take four possible values one, two, three, four.
+However, here, they do not have
+the usual meanings as the integers.
+Instead, they indicate
+four different categories labeled as one,
+two, three, four, for category one,
+Category two, Category three, and category four.
+If you want, you could
+essentially replace these labels with,
+say, A, B, C,
+D, or anything else.
+Here, what matters is the membership to
+different categories rather than
+the category labels themselves.
+Some qualitative variables are so called ordinal,
+meaning there is a natural order
+among different categories.
+For example, different income brackets,
+say below 10,000, 10000-50 thousand
+50000-100 thousand and above 100,000.
+Then there is a natural order
+among these different categories.
+So they are called ordinal
+qualitative or categorical variables.
+The other type is called nominal,
+meaning there is not
+a natural order among different categories.
+For example, the color of a car,
+which can be white, black, red, blue.
+There is no natural order
+among these different color categories.
+So they are nominal qualitative or categorical variables.
+Now, how can qualitative
+variables help account
+for possible nonlinear relationship?
+We need to first understand the difference between
+discrete quantitative or numerical variables
+and ordinal qualitative or categorical variables.
+Let's use a simple example to illustrate the difference.
+Suppose we want to study how
+consumer spending patterns change with the family size.
+Let's say the PX variable of
+interest is the number of children in a household,
+and the Y variable is
+the household's monthly spending on
+a certain type of product or service of interest.
+The X variable, the number of children,
+can be treated as a regular discrete numerical variable
+whose possible values are zero,
+one, two, three, and so on.
+Now think about this. If we include
+such a numerical variable in
+a linear regression with
+a constant beta coefficient in front of it,
+then what are we essentially assuming?
+We are assuming that the increase in family size
+has a constant rate of impact on the household spending.
+Let's say if compared to households with no kids,
+households with one kid on average will
+increase the spending of interest by, say, Delta Y.
+Then compared to households with one kid.
+Households with two kids on average will
+increase the spending of interest by Delta Y as well.
+And similarly, compared to households with two kids,
+households with three kids on average will increase
+the spending of interest by Delta Y as well.
+And so on and so forth.
+So this is what we refer to as
+a linear relationship between the X variable,
+the number of kits, and the
+Y variable, the household spend.
+Now, what if we don't believe
+such a linear relationship is likely to hold?
+It's possible that households with no kids will have
+significantly different spending patterns
+from those with kids.
+In other words, the change in Y when
+X increases 0-1 could be
+significantly different from the change in Y when
+X further increases 1-2 or two to three.
+If this is true, then we say there is
+a nonlinear relationship between X and Y.
+One simple way to account for
+such nonlinear relationship is to treat
+the X variable as
+a qualitative or categorical variable instead.
+We can treat households with no kid
+as one category, say category zero,
+and household with one kid as end of the category,
+say category one, and households with
+two or more kids as end category, say category two.
+Here, 012 no longer represent the usual numerical values.
+Instead, they are the labels of the three categories.
+If you want, you could relabel them as category one,
+two, three, or A, B,
+C, rather than 012.
+What we will do then is to introduce
+a separate coefficient for each of the three categories,
+as we'll discuss in detail next.
+This way, we can allow each category to have
+separate and independent impact on the outcome variable,
+hence relaxing the linear assumption of
+a constant slope and
+accounting for possible nonlinearity.
+Of course, qualitative variables are not
+only used to account for possible nonlinearity.
+They are essential to estimate
+the effects of different categories,
+especially those nominal categories.
+For example, how different colors of
+a car would affect its resale price.
+As we'll demonstrate in R later,
+qualitative categorical variables can be easily
+handled in R using a special data type called a factor.
+A factor variable can have different levels,
+and each level corresponds to
+one possible category of the qualitative variable.
+Once a variable is defined as
+a factor variable and it
+is included in the linear regression,
+R will automatically create
+a dummy variable for each category,
+making handling qualitative variables
+pretty easy and straightforward enough,
+as we'll see in the R demonstration later.
+Now, we are ready to
+introduce the idea of dummy variables.
+Simply put, we create dummy variables to
+represent different categories of a qualitative variable.
+Each dummy variable is a binary variable and
+only takes two possible values, zero or one.
+We create one separate dummy variable for each category,
+include it into the linear regression model,
+and assign a separate b coefficient in front of it.
+Let's start with the simplest case,
+qualitative variables with only two categories.
+In this case, we only need to create
+one dummy variable to
+represent one of the two categories.
+Let's say category one.
+Again, this dummy variable
+takes binary values, either zero or one.
+For each data observation,
+if it belongs to category one,
+then we code this dummy variable as one.
+If it doesn't belong to category one, that is,
+it belongs to the other category,
+then we code this dummy variable as zero.
+For example, if the qualitative variable
+of interest is gender,
+then we can create a dummy variable to represent,
+say, the female category.
+So we code the female as one and the male as zero.
+Notice that because we only have two categories,
+so one dummy variable will be
+enough to represent all possible categories.
+Also, we could choose to represent the male category by
+the dummy variable instead and
+code the dummy variable in the opposite way.
+That is, code the male as one and the female as zero.
+It will be equivalent,
+just that the Beta coefficients interpretation
+will be the opposite, as we'll see next.
+Once the dummy variable is created and
+properly coded for each data observation,
+we can include it into the linear regression,
+just as a regular independent variable.
+As usual, we'll assign
+a beta coefficient in front of the dummy variable and
+estimate all coefficient values using
+the ordinary least square or the OLS estimation.
+Now, how to interpret
+the values of the Beta coefficients.
+In this example, because the D variable xi
+is binary and can be only zero or one,
+we can interpret the two possible categories separately.
+If xi is equal to one,
+meaning this particular individual I is female,
+then I is equal to Beta
+zero plus Beta one plus epsilon I.
+Here again, epsilon I is
+the ton whose expected value is zero.
+So for xi equal to one,
+the expected value of YI is Beta zero plus Beta one.
+Let's say YI is the income of an individual employee.
+The Beta zero plus Beta one hence
+represents the average income among all female employees.
+Similarly, if xi is equal to zero,
+meaning this particular individual employee is male,
+then Yi equals Beta plus Epsilon.
+Notice that Beta one disappears
+here because xi is equal to zero.
+Therefore, the expected value of YI is simply Beta zero.
+So Beta zero represents
+the average income among all male employees.
+Now, what's the difference between these two?
+It's just Beta one.
+So the coefficient Beta one
+represents the difference between
+the average income of
+female employees as compared to that of male employees.
+Notice that Beta one is
+the key coefficient in front of
+the dummy variable we have created.
+Therefore, we can conclude that in general,
+when there are only two categories,
+we can interpret the coefficient of the dummy variable as
+the difference between the category refer
+and the other category.
+That is, compared to the other category,
+how much increase in the outcome variable
+the category D variable represent will lead to.
+Meanwhile, the intercept coefficient
+beta zero measures the expected
+value of the outcome variable for the other category.
+Of course, for a binary D variable,
+we do not necessarily have to code it as zero or one.
+We can code it differently, for example,
+as positive one or negative one.
+Accordingly, the interpretation of
+the Beta coefficients will change as well.
+However, the 01 coding is
+the most common way and is what we'll focus on.
+I'll leave the alternative coding and
+their interpretation to your own exploration.
+Next, let's extend to the more general case
+of qualitative variables with more than two categories.
+In the case of multiple categories,
+we will pick one category as the baseline category
+and create one separate dummy variable
+for each of the other categories.
+In other words, if there are N categories in total,
+then we will need to create N minus one dummy variables.
+Each dummy variable represents
+one category while leaving one category as the baseline.
+Let's use the example of car colors.
+Say the qualitative variable
+of interest is the color of a car,
+which has three possibilities,
+white, black, and red.
+To represent such a nominal qualitative variable
+in a regression model,
+we need to create two D variables. Y two?
+Right? Because there are three categories in total.
+So N equals three,
+and we create N minus one equal to two D variables.
+To code these two dummy variables properly,
+we first pick one of
+the three categories as the baseline category.
+We can pick anyone as the baseline,
+and it will all be equivalent eventually.
+Let's say we pick the red color as the baseline category.
+Then the two dummy variables represent
+the white and the black colors respectively.
+Say the first dummy variable represents the white color.
+Then it will be coded as one if a car's color
+is white and coded as zero if it is not white.
+Notice that X one equal to
+zero means this car is not white.
+It could be either black or red.
+We then use the second dummy variable
+to represent the black color.
+It will be coded as one if
+a car's color is black and
+coded as zero if it is not black.
+Again, X two equal to zero means the car is not black.
+It could be either white or red.
+Now, same as before,
+we can simply include
+these two dummy variables into the regression model,
+each with its own Beta coefficient in the front.
+And we can estimate the model
+using the usual OLS estimation.
+Now let's see how to interpret these Beta coefficients.
+If a car is white,
+how should we code the two dummy variables?
+For the first dummy variable X one,
+because the car is indeed white,
+so X one is equal to one.
+For the second dummy variable X two,
+because the car is not black,
+so X two is equal to zero.
+As a result, i is equal to
+Beta zero plus Beta one plus Epsilon one.
+Beta two disappears here because X two is equal to zero.
+Now, if a car is black,
+then X one is equal to zero because the car is not
+white and X two is equal to
+one because the car is indeed black.
+As a result, YI is equal to
+Beta zero plus Beta two plus Epsilon one.
+Beta one disappears here because X one is equal to zero.
+Now, what if a car is red?
+Then X one is equal to zero because the car is not white,
+X two is equal to zero as
+well because the car is not black either.
+As a result, YI is simply equal
+to Beta zero plus epsilon I
+as both Beta one and Beta two disappear
+because both X one and X two are equal to zero.
+Now, let's say the outcome variable Y
+is the resale price of a car.
+As usual, the ton Epsilon R has an expected value zero.
+So the expected price of
+a white car is simply Beta zero plus Beta one.
+The expected price of a black car is
+simply Beta zero plus Beta two,
+and the expected price of a red car is just Beta zero.
+How to interpret the Beta coefficient step?
+The intercept Beta zero measures
+the expected or average price of red cars,
+which is the category chosen as the baseline.
+The coefficient in front of the first dummy variable,
+Beta one measures the difference between
+the expected or average price of
+white cars as compared to that of red cars.
+And the coefficient in front of the second Dm variable,
+Beta two measures the difference between
+the expected or average price of
+black cars as compared to that of red cars.
+As we can easily conclude,
+in general, when there are multiple categories,
+we can interpret the coefficient of the D variable as
+the difference between the category it
+represents and the baseline category.
+That is, compared to the baseline category,
+how much increase in the expected value of
+the outcome variable a particular category will lead to.
+Meanwhile, the intercept coefficient,
+be zero measures the expected value
+of the outcome variable for the baseline category.
+All right. These are the basic ideas of
+dummy variables for qualitative or categorical variables.
+As we can see, the dummy variable approach
+essentially allows us to estimate
+a separate coefficient for each category
+so as to capture
+the effect of each category independently.
+It is therefore very useful
+to account for nonlinear effects
+of some variables that can be treated
+as ordinary qualitative variables.
+And moreover, the dummy variable approach
+is essential for
+handling the more general case of
+nominal qualitative variables as we see.
+So be sure to understand this approach well.
