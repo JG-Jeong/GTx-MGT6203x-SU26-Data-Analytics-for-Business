@@ -1,0 +1,351 @@
+>> Hello everyone. Welcome back.
+In this video, we are going to demonstrate how to perform
+censored regression in R.
+We'll work with simulated censor data,
+where some observations dependent on
+variables values are censored to zero explicitly.
+We'll show how basic linear regression,
+ignoring the data censoring issue
+would lead to biased estimation,
+and how censored regression or
+the Tobit model can
+successfully restore the two parameter values.
+We'll then analyze how
+the marginal effects change
+with x values in Tobit models.
+Many important concepts for this topic will
+become a lot clearer after this demonstration.
+Now, let's get started.
+We will use the censReg package
+to perform censored regression.
+As usual, whenever we need
+to use an external packa in R,
+we need to first download and install
+the package using the install.package function.
+Notice that we will need to include
+the package name in a pair of double quotes.
+Once the package is downloaded and installed,
+we need to load it into
+the current R session using the library function.
+Notice that with the library function,
+we will enter the package name directly
+and do not need to use the double quotes.
+Each package only needs to
+be installed once on a computer,
+but needs to be reloaded
+every time the R session is restarted.
+Therefore, we just need to render
+installed.package function only once
+for each new package.
+But need to render library function every
+time we want to use the package in a new R session.
+Next, we'll simulate the data for this demonstration.
+The benefits of simulating data
+for this demonstration are two fold.
+First, it can help you better understand
+the exact data generating process for censored data.
+Second, by simulating our own data,
+we know that two parameter values,
+and I can clearly see if our estimation approach
+can successfully restore the two parameter values or not.
+To simulate the data,
+let's keep it simple and only consider
+one independent variable or one x variable.
+Let's simply call it x.
+We'll simulate 100 data points or observations.
+Each data point has an x value drawn from
+a uniform distribution ranging from 2-6.
+Here, we use the R unif function
+to randomly draw values from a uniform distribution.
+The first argument specifies
+the number of values we'd like to draw.
+The next two arguments specify
+the range of that uniform distribution from 2-6.
+We can use the sort function
+to sort all simulated x values from small to large.
+We can take a quick look at the simulated x values.
+Then we simulate the dependent variable values
+or the y values for each observation.
+Following the data generating process
+laid out in the Tobit models.
+We will first simulate the latent y or ystar,
+which follows a linear regression structure.
+Ystar is determined by a linear combination
+of the x variables plus an error term.
+Because we only have one x variable here.
+There are just two Beta coefficients.
+The interceptor coefficient, Beta 0,
+which is set to -4,
+and the coefficient in front of the x variable,
+Beta 1, which is set to one.
+The error term is assumed to
+follow a standard normal distribution.
+Here, we use the rnorm function
+to draw random values
+from a standard normal distribution.
+We draw 100 random values for
+that 100 observations we are simulating.
+Let's take a quick look at the simulated ystar values.
+Having generated the latent ystar values.
+We can now determine
+the observed y values based on the Tobit model setup.
+Recall that in Tobit models,
+the observed y equals the latent ystar,
+if ystar is greater than zero.
+If the latent ystar is less than or equal to zero,
+the observed y is zero.
+To generate the observed y values in this way,
+we can first let y = ystar,
+and then set the y values of
+those observations where ystar is less than 0-0.
+Then the variable y stores all the y values for
+the 100 simulated observations as we can quickly check.
+Notice how the y values
+correspond to the latent ystar values.
+All negative ystar values turned into zero y values,
+and all positive y statr values
+remain the same for y values.
+Now we have simulated
+all the data we need for this analysis.
+We can quickly plot all data points on a scatter plot.
+As we can see, for many data points,
+y values are clearly censored at zero.
+And for those observations with positive y values,
+y and x follow a positive correlation in general.
+Before we proceeded to the analysis, just to clarify,
+this data simulation part is only
+needed for this demonstration example.
+In your homework exercises,
+you are provided with a real dataset.
+So you do not need to simulate any data at all.
+You just perform the analysis based on
+the dataset provided to you in the homework.
+Next, let's first run a basic linear regression,
+ignoring the data censoring problem and just
+treating the observed zeros as regular y values.
+Let's see how the estimated coefficients will be biased.
+Call the L M function to regress y
+on x as usual and save the output,
+and then summarize the results.
+As we can see, the estimated Beta 0 and Beta
+1 are quite off from
+the two parameter values we used in the simulation,
+which are -4, and one.
+We can plot the fitted
+regression line on the scatter plot.
+Here, the predated function calculates
+the predated y for each of the observations,
+and the line function simply
+connects all points using a smooth line.
+Line type equals two means we use a dashed line.
+As we can see, this is
+the fitted regression line
+from a basic linear regression,
+ignoring the data censoring problem.
+Now, let's compare with
+the true line which we used to simulate the data.
+That is with the intercept equal to -4,
+and the slope equal to one.
+We can use the AB line function to plot such as
+straight line with a given interceptor value
+and a given slope.
+As we can see, the linear regression line
+is less steep than the true line.
+In other words, the basic linear regression,
+ignoring the data censoring problem
+would underestimate the slope of x.
+Now, think why.
+This is because a basic linear regression simply
+treats the observed zeros as regular y values,
+and I would then conclude that
+as x values further decrease,
+there will be little decrease in the y value,
+because y will still be equal to zero.
+As a result, the effect of x will
+be under estimated by a basic linear regression.
+Now let's estimate a Tobit model
+and properly account for the data censoring problem.
+We can use the censReg function included
+in the censReg package to estimate a Tobit model.
+With the censReg function,
+we don't need to specify anything special.
+We just need to specify the dependent variable and
+the independent variables in
+the usual way as we specify a regular model.
+That is y, Tilda, x.
+If there are multiple x variables,
+we use plus signs to connect them. That's it.
+Save the result, and we can use
+the same summary function to
+show a summary of the estimation results.
+As we can see, the estimated intercept Beta
+0 is close to
+that two parameter value used for simulation,
+which is -4,
+and the estimated slope,
+Beta 1 is also close to the two parameter value one.
+We can extract the estimated coefficients using
+the coef function and take the first two values.
+Notice that the last coefficient is
+about the variance of the aton in the Tobit model,
+denoted as Sigma square,
+and the Sigma is hence the standard deviation.
+But pay close attention here.
+The value here is the logarithm of Sigma.
+To restore the original Sigma value,
+we need to compute the exponential of this log Sigma.
+As we do here, extract the third element from
+the coef function and calculate the exponential of it.
+This is the standard deviation of the error term.
+Recall that in simulating the data,
+we use the standard normal distribution
+as the distribution of the error term.
+A standard normal distribution has mean
+zero and a standard deviation equal to one.
+So the two Sigma value is one,
+and the estimated Sigma value is close to it.
+So overall, as we show,
+the Tobit regression can
+properly recover the two parameter values.
+We can further plot the string line
+fitted based on the Tobit estimation results.
+First calculate the linear combination of x and Beta,
+then plot them using the lines function.
+Of course, you can also use
+the AB line function here if you prefer.
+As we can see, the fitted line from Tobit regression is
+much closer to the t line
+as compared to the linear regression line.
+As we explain, in corner solution models,
+what matters is the observed y.
+The marginal effect of x is measured as
+its impact on the expected value of observed y.
+Now, let's further probe
+how the marginal effect of x changes nonlinearly in
+a Tobit model to help you better
+understand how to interpret and make sense of this model.
+Let's first at the expected value of the observed y.
+As we introduced, the expected value of
+y in a Tobit model can be derived as this.
+Here, capital site is
+the cumulative distribution function
+or CDF of a standard normal distribution,
+and little site is
+the probability density function
+or PDF of a standard normal distribution.
+X Beta is the usual linear combination of x and Betas.
+So we can specify this expression in R using
+pnorm for the CDF of a standard normal distribution,
+and the dnorm for
+the PDF of a standard normal distribution.
+Xb is what we calculated previously,
+and the Sigma is transformed from that estimation result.
+Now, plot the expected value of
+observed y as a function of x.
+As we can see, it clearly follows a nonlinear pattern.
+As x becomes very small.
+The latent ystar is most likely to be below zero.
+The observed y is most likely to be zero.
+As a result, the expected value
+of observed y is very close to zero.
+On the other hand, when x is large,
+the latent y str is
+moly positive and the far away from zero.
+The observed y is mot surely
+to be uncensored and just equal to ystar.
+As a result, the expected value of observed it will
+converge to the expected value of the latent ystar,
+which is represented by this string line.
+Having understood the meaning of
+expected y and how it changes with x.
+The marginal effect of x is simply taking
+the derivative of expected y with respect to x.
+In other words, the marginal effect of x is determined
+by the slope of the curve of the expected y.
+As we introduced, the marginal effect of
+x in a Tobit model can be derived as this.
+Again, capital site is
+the CDF of a standard normal distribution,
+and Beta j is
+the coefficient in front of the focal x variable.
+We can write out this expression in R similarly and
+plot the curve of marginal effect as a function of x.
+As we see, the marginal effect follows a S curve.
+When x is very small,
+ystar is almost surely negative,
+and hence the observed y is almost surely zero.
+Therefore, although an increase in
+x will cause ystar to increase,
+it is not likely to increase the value of the observe
+the y because the observed y will still be zero.
+Therefore, the marginal effect of x on
+the expected observed y value,
+in this case, is very close to zero.
+On the other hand, when x becomes very large,
+censoring is unlikely to happen,
+and the observed y is almost surely
+positive and equal to the latent ystar.
+As a result, the marginal effect
+of x on the expected value of
+y is almost the same
+as the marginal effect of x on ystar,
+which is measured by the value of Beta 1.
+Overall, as x increases,
+its marginal effect also
+increases as a result of two effects combined.
+On one hand, as x increases,
+the probability of the observed y
+turns positive from zero increases.
+On the other hand, as x increases,
+the expected value of y,
+conditional on its positive also increases.
+The two effects combined lead to an accelerating rate of
+change in the expected value of y as x increases.
+As we see, Tobit models are able to well capture
+that very nature of
+the marginal effect as x value change.
+In contrast, the basic
+linear regression won't be able to do so.
+If we plot the marginal effect
+based on the linear regression model,
+which is simply the estimated Beta one coefficient.
+It's clear that the marginal effect
+is constant and simply equal to
+the average of the changing marginal effect values
+derived from the Tobit model,
+just as a course overall approximation.
+Just to clarify, the above analysis
+and the plotting of the expected y values and
+the marginal effects are meant to help you better
+understand the concepts surrounding
+the censored data models.
+You don't really need to plot
+these curves for the homework exercises.
+In the homework, you are asked
+to calculate the marginal effect
+when evaluated at a certain set of x variable values.
+You can easily do so by using the MGF function,
+included in the censReg package.
+To use this function, first,
+pass in the Tobit regression result.
+Then specify the values of x variables
+at which the marginal effects are going to be evaluated.
+Specify these values as
+a vector in the corresponding order.
+But don't forget to include one as the first value here,
+just to represent the intercept in the model.
+For example, if we evaluate
+the marginal effect at x equal to 2.5,
+it's close to zero,
+as we have previously analyzed.
+If we evaluate the marginal effect at a larger x value,
+say x equal to six,
+it's close to the two Beta one value, which is one.
+Again, consistent with our previous analysis.
+These are all we want to
+demonstrate for the censored data model.
+Hope this example based on the simulated data can help
+you better understand the key concepts
+of this type of models.
+It will also help you work on the homework exercises.
+Okay, that's all for this video. Thanks for watching.

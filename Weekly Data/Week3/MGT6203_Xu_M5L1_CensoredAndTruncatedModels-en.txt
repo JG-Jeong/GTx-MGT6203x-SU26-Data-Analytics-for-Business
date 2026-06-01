@@ -1,0 +1,824 @@
+>> Hello, everyone. Welcome back.
+Let's continue our introduction
+of nonlinear econometric models.
+We'll continue along the line of
+the so called limited dependent variable models and
+introduce a particular category of
+models where depending on the y variables value,
+either the y value or
+the entire observation may not be observable.
+This leads to the so called
+censored and truncated data models.
+In particular, we'll explain the difference
+between censored data models
+and the truncated data models.
+Briefly speaking, for censored models,
+we observe the x variables for all observations,
+whereas the y variables values are
+censored at a certain threshold for some observations.
+In contrast, for truncated models,
+for those observations whose y
+variables values are beyond a certain threshold,
+we do not observe them at all.
+That is, we do not observe both the x variables and
+the y variable of those truncated observations at all.
+As we will further explain,
+that broadly defined censored data models
+can be further separated into two subcases,
+the so called corner solution response models
+and the narrowly defined censored data models.
+The difference between these two subcases
+lies in whether the true y value of
+interest is the corner solution threshold
+itself or the latent value beyond the threshold.
+Such a difference only affects how
+we are going to interpret the partial effects.
+Other than that, the same
+modeling framework and estimation approach
+apply to both cases,
+and we can apply the so called Tobit model to both cases.
+We'll discuss how it is set up,
+what assumptions are involved,
+how to estimate the model,
+and how to interpret the results.
+We'll then introduce the truncated data model,
+which is developed to handle truncated data problems,
+where some observations are completely missing.
+It gives us an example of
+how to handle sample selection bias,
+which is an important issue to be
+aware of when doing data analysis.
+As we'll see, because of
+the different nature of the data structure,
+the way we estimate truncated data models
+is different from the way we
+estimate censored data models.
+Let's get started. As just mentioned, in this video,
+we'll continue our introduction of
+a series of the so called
+limited dependent variable models,
+where the dependent variable y
+can only take some restrictive values.
+In this video, we'll first
+introduce censored data models,
+where some observations y values are
+censored or cut off at a certain threshold.
+We'll then introduce another related class
+of models for truncated data,
+where some observations are not observed at
+all if their y values go beyond a certain threshold.
+We'll start with censored models.
+As just explained, the
+broadly defined censored data problems
+can be further separated into two subcases,
+namely the corner solution response problems
+and the narrowly defined censored data problems.
+And the Tobit model we're going to
+introduce can be applied to both cases.
+Let's start with the so called
+corner solution response case
+first because it's more common and easier to understand.
+The other case of censored data
+can then be easily understood.
+The corner solution response provinces
+refer to the case when
+the dependent or response variable y values
+have a certain lower bound or upper bound.
+For those y values that are
+greater than the lower bound
+or less than the upper bound,
+we can observe the exact y values as is,
+usually as continuous values.
+However, for those y values
+that go beyond the lower bound or upper bound,
+the y values are censored,
+and we can only observe
+the corner solution or the threshold value itself.
+Examples of this type of
+corner solution response data are abundant,
+especially related to consumption values.
+For example, if we have data recording
+each mobile phone users
+daily consumption volume of mobile data amount.
+As we know, consumption volume cannot be negative.
+So there is a natural lower bound
+on the consumption amount. That is zero.
+If the consumption volume is positive,
+we observe the exact positive consumption amount.
+However, we will never observe
+any negative consumption amount.
+Even if that predated consumption volume
+based on a linear regression model would be negative.
+In those cases, the observed consumption volume
+would simply be zero.
+That is censored at the lower bound.
+These zero daily consumption volumes are
+considered as corner solutions because they are
+clearly bonded by the economic constraint on
+non-negative consumption amount and
+are different from those continuous positive values.
+Similar examples can be found in
+other contexts involving monetary spending,
+such as households annual charitable contribution,
+which is bonded below at zero as well.
+Another example would be percentage shares.
+For example, the market share or
+wallet share of a certain product among consumers,
+which by definition is bounded between 0-1.
+Notice that corner solution response problems
+need special treatment only
+when the corner solution value
+accounts for a significant portion in the data.
+For example, if in our data,
+users rarely have zero consumption volume,
+and almost all consumption volumes
+observed in the data are positive values,
+then we can pretty much ignore
+the corner solution response problem and simply treat
+those few zero consumption amount as
+regular values and fit a usual linear regression model.
+It becomes a problem that needs
+special treatment only when
+those zero values account
+for a significant portion in the data.
+If so, ignoring the corner solution issue
+and continuing to fit
+a usual linear regression model
+by treating those zeros as
+regular values would lead to
+biased results, as we'll see.
+Also notice that in the corner solution response case,
+the corner solutions or
+the bound thresholds are meaningful outcome values.
+They are the result of
+some real economic or practical constraints.
+Zero consumption volume means
+no consumption on those particular days.
+The zero threshold value is what actually matters
+rather than some artificial threshold
+created in the data collection process.
+This is what differentiates
+the corner solution response case from
+the censored data case as we'll discuss later.
+Now, let's take a look at the details of the Tobit model,
+which is the most commonly used model to handle
+corner solution response and censored data problems.
+The model is also one type of the latent variable model,
+just like the logit of probe models.
+We introduce a latent dependent variable y star,
+which is modeled as following
+a linear regression relationship
+with all independent x variables.
+Just as usual, the Betas
+are the coefficients for the x variables,
+and we also include the intercept Beta
+0. u is the usual error term,
+which is modeled as a random variable following
+a normal distribution with the mean equal to zero,
+and the variance equal to Sigma square.
+Notice that y star is a latent variable.
+So we do not directly observe it in all data.
+Instead, we observe the actual y value,
+which is determined by y star in this way.
+If y star is greater than zero,
+which is the lower bound threshold,
+then we observe y star's exact value as is.
+If y star is less than or equal to the lower bound zero,
+then we only observe
+the corner solution or the threshold value zero.
+We do not observe the exact negative y star value.
+This is the model setup of the Tobit model.
+What we observe is
+the censored y value and
+the x variables values for each observation.
+And we'd like to estimate
+the Beta coefficient values
+based on such a model framework.
+A few things to note about the Tobit model set up.
+First, notice that in the Tobit model setting,
+the variance of the error term
+Sigma square is assumed to be
+an unknown parameter to be estimated from
+the data together with all Beta coefficients.
+Notice that this is different
+from the binary response model setting.
+Recall that when we construct the probit model,
+the error term u is assumed to
+follow a standard normal distribution,
+whose variance is simply normalized to one.
+Now, think, in the probit model,
+why do we have to fix
+the variance of the error term to a given value?
+Why couldn't we set the variance of
+the error term as a free parameter to be estimated,
+just like what we are doing here in the Tobit model?
+Or in other words, why are we
+able to do so here in the Tobit model?
+This is because for binary response problems,
+the y values are only zeros and ones.
+These binary values can
+only help us to identify the mean,
+which is reflected in the intercept coefficient Beta 0?
+We won't be able to identify
+the variance based on the binary y values.
+However, things are different in the Tobit model.
+Here, the y values are no longer binary.
+All positive y values are continuous and fully observed,
+which provide additional information sufficient
+to help us identify the shape of the distribution,
+which hence allows us to identify not only the mean,
+but also the variance of the error term distribution.
+This is an important distinction between
+the Tobit model and the binary response model.
+Second, in the standard version of the Tobit model here,
+we consider the corner solution happens at the lower
+bound and have normalized the threshold to zero.
+We can easily modify the model
+to allow the corner solution to happen at
+the upper bound and
+all the threshold value to be non zero.
+The structure of the likelihood function,
+and hence the estimation approach
+will stay the same as we'll see next.
+By the way, the Tobit model is named after
+the American economist
+standard statistician, James Tobin.
+For those who have finance background,
+this is also the same person whom
+another commonly used measure in finance,
+the Tobin's Q is named after.
+Having explained the setup of the Tobit model,
+we will next talk about how to estimate it.
+Just like logit or probit models,
+given the nonlinear model structure,
+we won't be able to estimate the model using OLS.
+But instead, we'll use
+the maximum likelihood estimation or
+MLE to estimate the unknown model parameters.
+In order to do MLE,
+we need to first derive the likelihood function.
+That is, we need to specify what is
+the likelihood or probability of
+observing the y values as in
+the data given the corresponding x variable values.
+In the Tobit setting, there are two parts of y values.
+One part is those positive y values,
+because we observe the exact y star values
+for these observations.
+The likelihood of observing these values is simply
+the probability density for the random error term
+u to be equal to y-x Beta.
+This is because in this case,
+y = y star,
+and y star is modeled as
+the x Beta combination plus the error term u.
+Notice that as usual, here,
+x Beta is just a shorthand for
+the linear combination between
+all x variables and
+the their corresponding Beta coefficients.
+Notice that both y and x values
+are all given values in the data.
+So the only random variable
+involved here is the error term u.
+Therefore, given all x values,
+the probability of seeing this particular y value
+is hence equal to the probability
+of the random error term,
+taking the value of y-x Beta.
+>> Because the error term u is
+assumed to follow the normal distribution.
+So the probability density for u = y-xBeta is simply
+determined by the probability density function
+or the PDF of the normal distribution.
+Here, the phi denotes
+the PDF of the standard normal distribution,
+where the mean is zero and the variance is one.
+We hence normalize the value y-xBeta by
+Sigma to make the transformation
+to fit the standard normal distribution PDF.
+And this is the likelihood function for
+those observations with positive y values.
+The second part of observations
+have y value equal to zero.
+Those y values are the corner solution and do not
+equal the exact y star values
+according to the Tobit model.
+Therefore, the likelihood of observing y = 0 is the
+same as the probability of having
+y star being less than or equal to zero.
+Substituted in y star equal to xBeta+u,
+this is equal to the probability of having
+the error term u being less than or equal to -xBeta.
+Again, because u is
+assumed to follow the normal distribution,
+the probability of u being less than or equal to
+this value can be derived as this.
+Here, the Phi is
+the cumulative distribution function or
+CDF of the standard normal distribution,
+again, with mean equal to
+zero and the variance equal to one.
+Again, we normalize that u value by Sigma to
+make the transformation to fit
+the standard normal distribution CDF.
+The last equality is another transformation due to
+the symmetry of
+the standard normal distribution around zero.
+So this is the likely equal the function for
+those observations with the y value equal to zero.
+Now, combining these two parts of
+observations gives us the overall likelihood function,
+which is just the multiplication
+of the likelihood for all observations.
+Based on whether the y value is positive or zero,
+we substitute in different forms of the likelihood,
+and the product over
+all observations is the overall likelihood function.
+As mentioned, we use
+the maximum likelihood estimation or
+MLE to estimate the model parameters.
+As usual, by MLE,
+we'll search for the parameter values that will
+maximize the overall likelihood function given our data.
+Notice that the likelihood function
+is highly non linear here.
+So there is no close form expression for
+the parameter estimates as
+a solution to this optimization problem.
+Instead, we will need to rely on
+numerical search to find
+the solution to this optimization problem.
+For this reason, non linear models like the Tobit model,
+typically takes longer to
+estimate as compared to linear regression models,
+especially when the data size is large.
+Also notice that parameters to be estimated in
+a Tobit model include
+not only the usual Beta coefficients,
+but also the variance of the error term Sigma,
+which is identifiable based on
+the data as we just explained.
+Having explained how to estimate the Tobit model,
+we'll next talk about how to
+interpret the model estimation results.
+As usual, we'd like to evaluate
+the partial or marginal effects.
+The definition of the partial effects
+is the same as usual.
+That is, as
+a particular independent variable increases by one unit,
+how much will it increase or
+decrease the expected value of the dependent variable?
+What's tricky here is how to
+determine the expected value of the dependent variable.
+This is also what differentiates
+the corner solution response case
+from the censored data case.
+As I mentioned previously,
+in the corner solution response case,
+what matters is the observed y values,
+including the corner solution threshold,
+rather than the latent y star values.
+In the example of consumption volumes,
+the corner solution zero is also meaningful.
+It simply represents zero consumption,
+meaning that a user didn't
+consume anything in a certain period.
+In contrast, the latent y star value,
+which should be a negative value accordingly,
+is not really meaningful.
+It is just an auxiliary variable we created artificially
+to facilitate the development of
+the model and the estimation approach.
+In this sense, when we analyze
+the partial effects for
+corner solution response problems,
+we should evaluate the impacts on the expected value of
+the observed y rather than
+the expected value of the latent y star.
+Notice that it will be
+the opposite case for censored data problems,
+where the threshold is
+just some artificial cutoff
+created in that data collection process,
+as we'll discuss in details.
+So here, let's focus on the
+expected value of the observed y.
+We can derive it according to the definition.
+The expected value of y,
+given all x variable values is equal to
+the probability of y being greater than
+zero times the conditional expectation
+of y given y is greater than zero,
+plus the probability of y being equal to
+zero times the expected value of y,
+given y = 0.
+Notice that the expected value of y given y
+= 0 is simply zero.
+So the second term just disappears.
+What we have is simply this equation.
+That is the expected value of y is equal
+to the probability of y being
+greater than zero times
+the conditional expectation of
+y given y is greater than zero.
+Notice that all x variables values are given.
+So y value is
+determined by the random error terms value,
+which follows the normal distribution
+according to the Tobit model.
+Therefore, we can derive both this probability and
+this conditional expectation based on
+the properties of a normal distribution.
+I'll skip the details of
+the math and this is the derived result.
+Again, the Phi is
+the CDF of a standard normal distribution,
+and the phi is the PDF of a standard normal distribution.
+Now, the partial effect of
+a particular x variable is
+simply this expected value of y,
+taking the partial derivative
+with respect to that x variable.
+Mathematically, we just take the partial derivative of
+this equation with respect to a particular x_j.
+Applying the product rule of partial derivative.
+The partial derivative of the product of
+two functions is equal to the partial derivative of
+the first function times the second function itself plus
+the partial derivative of the second function
+times the first function itself as this.
+Substitute in the exact expressions,
+and after some combination and reorganization,
+we can derive the partial effect
+into this neat expression.
+Let's put the math aside,
+but understand the intuition of this partial effect.
+As a particular x variable,
+x_j increases, how will it affect the expected value of y?
+According to the Tobit model,
+given the x values,
+the realized the value of y is uncertain,
+and it depends on the realized value
+of the random error term.
+That's why we can only discuss
+the impact on y in terms of expectation.
+Then how will the change in
+one x variable affect the y value in expectation?
+As indicated by this equation,
+there are two parts of effects.
+First, it will affect
+the probability of y turning out to be positive.
+Second, it will affect
+the expected value of y once y turns positive.
+These two parts of effects combined
+result in the partial effect of x_j on y.
+Notice that the second part of
+the effect here corresponds to
+the usual partial effect
+in the standard linear regression setting,
+where we don't have the data censoring
+or corner solution issues.
+The first part of the effect, however,
+is the unique aspect due to
+the nature of data censoring or corner solution.
+It is what complicates the partial effects in
+a Tobit model and makes
+the partial effect no longer constant.
+As we can see from this expression,
+recall that the Phi
+is the CDF of the standard normal distribution,
+so its range is from 0-1.
+When xBeta is very large,
+y is almost certain to be positive.
+As a result, a change in x_j is not likely
+to affect the probability of y being positive by much.
+So the first part of the effect is almost zero,
+and the marginal effect is mainly
+determined by the second part of the effect,
+which is just equal to
+Beta_j as in the usual linear regression.
+Therefore, as xBeta goes very large,
+the CDF Phi(xBeta/Sigma) converge
+to one and the marginal effect converges to Beta_j.
+On the other hand, when xBeta is very small,
+the probability of y being
+greater than zero is very small,
+therefore, this term will be almost zero.
+So the second part of the effect almost disappears.
+Meanwhile, when xBeta is really small,
+small change in x_j is
+unlikely to bring y to be greater than zero,
+so the first part of the effect is almost zero as well.
+As a result, the overall partial effect is close to zero.
+Therefore, as we can see from this expression,
+as xBeta goes very low,
+the CDF Phi (xBeta/Sigma) converge to zero,
+and the marginal effect converge to zero as well.
+Recall that in regular linear regression,
+the marginal effects are constant and
+simply equal to the Beta coefficients.
+However, as we can see here,
+in Tobit models,
+the marginal effects are no longer constant,
+but change with the x variables values.
+These are the main concepts we'd
+like to discuss for the Tobit model.
+Before wrapping up this part,
+let me quickly mention
+a major limitation of Tobit models.
+As we can see from the Tobit model construction,
+the expected value of y given y is positive,
+is automatically linked to
+the probability of y being greater than zero by design.
+In other words, if an increase in
+one x variable increases
+the probability of y being positive,
+it will also increase the conditional expectation of
+y given y is positive and the vice versa.
+However, in some contests in reality,
+these two components may
+not always change in the same direction.
+For example, as people age,
+the probability of purchasing
+a certain type of life insurance could increase.
+However, the amount of money invested into
+the life insurance could be decreasing as age increases.
+For those scenarios,
+the basic Tobit model would be inadequate to account for
+the disconnected effects on
+the probability of positivity
+and the conditional expectation.
+To more appropriately model these type of scenarios,
+we need to model the two components separately,
+which will naturally make the model more complex,
+something for those who are
+interested to further explore.
+Having discussed the corner solution response problems,
+let's talk about another closely related type of problem,
+the censored data problem.
+As already mentioned, the censored data problem is
+actually very similar to
+the corner solution response problem.
+As a result, they are often mixed
+together and not clearly distinguished.
+>> They may both be referred
+to just as the censored data problem.
+But here, we still want to make that distinction.
+In the hope of not confusing you,
+you can think of the censored
+data problem we're going to discuss
+next as the narrowly defined censored data problem,
+and that colloquially refer to censored data problem,
+as the broadly defined censored data problem,
+which subsumes both the corner solution response problem
+and the narrowly defined censored data problem.
+Now, what's the difference between
+the corner solution response problem
+and the censored data problem?
+Well, the difference is quite nuanced.
+Only in terms of whether it is
+observed y or the latent y star,
+that is meaningful and of interest.
+As we said, in the corner solution response problem,
+the corner solution cutoff is due
+to real and meaningful constraints.
+For example, the consumption or
+spending amount cannot be negative.
+So the lower bound is zero,
+and the zero value observed in the data
+is the meaningful consumption or spending amount.
+In other words, in the corner solution response problem,
+the observed y value is what matters,
+and we're interested in
+the observed y value rather than the latent y star value,
+which in turn is just an auxiliary variable
+to facilitate the model development.
+In contrast, in the censored data problem,
+data censoring is often due to
+some artificial design in the data collection process.
+For example, we may apply top coding or
+bottom coding in data collection by applying
+some artificial upper bound or lower bond so that values
+greater than the upper bound or less than the lower
+bound are not recorded exactly.
+For example, incomes greater than
+a certain threshold may
+simply be recorded as high incomes.
+Or networths below zero simply recorded
+as negative networths without the exact values.
+Notice that we still know that
+the value goes beyond the threshold,
+but just do not observe
+the exact numbers for these out of bound values.
+In this case, because the censoring cutoffs
+are due to artificial design or in some sense,
+the imperfection of the data collection process,
+the threshold values are not what's meaningful.
+Instead, it's still the unobserved
+out of bound exact values that matter.
+In other words, in the case of censored data problem,
+it is the latent y star rather than
+the observed y that matters and it is of interest.
+This is the only difference between the two cases.
+Other structures of the data remain the same.
+What we observe is still
+a random sample of the population.
+We still observe all x variables for all observations,
+including the censored observations.
+And for y values within the bounds,
+we still observe the exact values.
+Given the similar data structure,
+we can apply the same Tobit model
+to the censored data problem.
+Here is a generalized version of the Tobit model,
+with both the upper bound and the lower bound involved.
+Same as before, the late the y star is
+determined by a set of x
+variables in a linear regression structure,
+and we observe the exact y star
+if it falls between the lower bound and the upper bound.
+If y star is greater than the upper bound c_1,
+we only observe y as being equal to the upper bound c_1.
+If y star is less than the lower bound c_2,
+we only observe y as being equal to the lower bound c_2.
+We can derive the likelihood function
+in the same fashion as
+previously in the estimated model
+using the same MLE approach.
+What's different is only the interpretation
+of the partial effects.
+Because in the censored data case,
+what matters is the latent y star.
+It actually makes things simpler.
+We only need to focus on how change in
+an x variable will affect the expected value of y star.
+Because y star follows
+a linear regression structure with
+the eratons expected value equal to zero.
+So the expected value of y star given
+x is simply the x Beta combination.
+Taking partial derivative of the expected value of
+y star with respect to
+a particular independent variable x_j,
+the partial effect is simply Beta j,
+the same as in a regular linear regression model.
+In other words, for censored the data problems,
+the partial effect of
+an x variable on the expected value of
+the outcome of interest
+simply equals the Beta coefficient,
+which is much simpler than the partial effect
+we derived for the corner solution response case.
+These are the two cases involving data censoring.
+One is due to meaningful corner solution restriction,
+the other is due to the imperfection in data collection.
+We can apply the same Tobit model framework to
+both cases and estimate the model in the same way.
+The only difference is interpreting the partial effects.
+Next, let's look at another type of
+problem with a similar and oftentimes confusing name,
+but actually a very different nature,
+that is the truncated data problem.
+Colloquially, truncated data problems are
+sometimes confused with censored data problems,
+and it may be referred to interchangeably.
+But actually, as you'll see,
+the two types of problems are
+quite different in the data structure,
+and we need to apply different models
+with different estimation approach.
+So a clear distinction here is very necessary.
+Simply put, in truncated data problems,
+if the dependent variable value goes
+beyond a certain threshold for some observations,
+we do not observe the observations at all,
+including both the y value and all x variable values.
+This is fundamentally different from
+censored data we just talked about.
+In censored data,
+we still observe all observations.
+For those observations whose y value
+goes beyond the threshold,
+we still observe all x variables values.
+We also partially observe the y value in that
+we know the fact that
+the y value is beyond the threshold.
+In this sense, for censored data,
+we still have a random sample from the population.
+However, for truncated data,
+we no longer have a random sample from the population.
+The observations are selected into
+the sample based on the dependent variables values.
+Therefore, if we do not
+correct for the sample selection issue,
+the estimation results will surely be biased.
+Data truncation is often caused by
+intentional or unintentional sample selection
+in the data collection process.
+For example, we may want to study
+the return of a certain type of
+educational experience on
+the wage people can earn afterwards.
+However, if our sample only includes
+those individuals who have found
+a job and reported their wage,
+and then we have omitted those individuals who have
+not found a job with effectively non positive wages.
+To account for such a sample selection issue,
+we need to apply the truncated data model.
+The basic model framework is very similar to
+the Tobit model with the dependent variable y,
+following a linear regression structure
+over a series of independent x variables.
+As usual, u is the eraton,
+which is modeled as a random variable,
+following the normal distribution,
+with mean zero and the variance Sigma square.
+Due to data truncation,
+those observations with the y values greater than
+a certain threshold c are not observable at all.
+Notice that here, we apply the
+upper bound only as an illustration.
+We can easily adjust the model to apply
+either the upper bound or the lower bound or both.
+To correct for the sample selection bias,
+we need to adjust the way we formulate the likelihood.
+Recall that without data truncation,
+the likelihood of observing
+a record with a particular y value,
+is just the probability density of
+the eraton u being equal to y minus x Beta,
+which equals f(y) minus x Beta,
+where f is the probability density function
+or PDF of the normal distribution,
+the eraton u follows.
+Nonetheless, with data truncation,
+we need to take into consideration
+that the reason we can observe
+this observation is because y is below
+the threshold c. Therefore,
+the true likelihood should be
+adjusted as the conditional probability density,
+conditional on the fact that y is less than or equal
+to threshold c. Mathematically,
+we should normalize the probability density by
+the probability of the eraton u
+being less than or equal to c minus x Beta,
+which is measured by
+the cumulative distribution function
+or CDF of the normal distribution,
+f(c) minus x Beta.
+With such an adjusted likelihood of function,
+we can estimate the model through
+the usual maximum likelihood estimation or MLE,
+again, by numerically searching for
+the parameter values that will
+maximize the overall likelihood function.
+With the truncated data model estimated,
+interpreting it is actually pretty straightforward.
+As usual, we are interested in the partial effect on
+the expected value of the outcome
+when a certain x variable changes slightly.
+Here, the expected value of y is
+simply equal to the linear combination of x and Beta.
+Therefore, taking partial derivative
+with respect to a particular x variable,
+what we get is just its Beta coefficient.
+In this sense, the partial effects in
+truncated data models are just
+like those in linear regression models,
+which simply equal that Beta coefficients.
+These are what we want to discuss
+about truncated data models.
+Be sure to understand
+the differences from the censored data models.
+To apply censored and truncated data models in R,
+we can use existing external package to easily do so.
+The censReg package help us
+to easily estimate Tobit models,
+as we'll demonstrate in the demo example.
+To apply truncated data regression,
+we can use the truncreg package,
+which I'll leave it to your own exploration.
+To quickly sum up.
+In this video, we discussed
+three closely related yet essentially different types
+of problems namely;
+the corner solution response problem,
+the censored data problem,
+and the truncated data problem.
+We introduced how to use the Tobit model to address
+both the corner solution response
+and the censored data problems.
+We also explained how to use
+the truncated data model to
+handle truncated data scenarios.
+Be sure to understand
+the nuanced differences and
+the connections between these models.
+Hope this video helps you well understand
+this broader category of
+limited dependent variable models.
+That's all for this video. Thanks for watching.
