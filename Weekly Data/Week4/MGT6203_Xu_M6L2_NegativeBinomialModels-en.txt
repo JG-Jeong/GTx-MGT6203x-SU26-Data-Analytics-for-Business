@@ -1,0 +1,572 @@
+>> Hello, everyone. Welcome back.
+In this video, we'll continue
+our discussion on Count Data Models.
+We have introduced the Poisson regression model for
+the scenarios where the dependent variable
+takes non negative count values.
+As we mentioned, one limitation of
+a Poisson regression model is that it implicitly
+assumes the variance of the y variable is
+the same as the expected or mean value of y.
+As a result, Poisson regression models
+cannot account for the so called overdispersion pattern,
+where the variance of y is
+greater than the expected value of y,
+which is a phenomenon
+commonly observed in real world data.
+In this video, we're going to extend
+the Poisson regression framework
+to account for overdispersion.
+We'll introduce the so called negative binomial model,
+which extends the Poisson model
+by adding individual random effects.
+As we will show, a negative binomial model reduces to
+a Poisson model in the extreme case
+when individual render effects completely disappear.
+In all other cases,
+a negative binomial model will have the variance of
+y being greater than its expected value.
+Making the negative binomial model
+well suited to address over
+dispersion in the data. Let's get started.
+In this video, we'll first introduce the development of
+the negative binomial modeling framework and
+explain its Gamma-Poisson mixture structure in detail.
+We'll then discuss the connection and the differences
+between negative Binomial and Poisson models.
+Finally, we'll quickly discuss
+some commonly used likelihood
+based goodness of fit measures to
+evaluate and compare the performances of models estimated
+by the maximum likelihood estimation or MLE approach,
+such as the count data models.
+We have introduced in great detail
+the Poisson regression model
+designed to handle count data problems.
+As we explained, one limitation of
+a Poisson regression model is that it
+implicitly assumes the variance of
+the y variable is the same as its expected value.
+As a result, if there's over dispersion in the data,
+that is the variance of y is
+greater than the expected value of y,
+which is common in practice,
+a Poisson regression model may not be a good fit.
+To properly account for overdispersion,
+one idea is to introduce
+the so called individual random effects
+into the Poisson model framework.
+Recall that in the Poisson regression model,
+we assume for each individual observation I,
+the count outcome y_i
+follows the Poisson distribution with
+the mean parameter equal to
+the exponential of the usual x and Beta combination.
+As we know, such a setting
+will not be able to make the variance
+of y large enough to fit the overdispersion data pattern.
+Therefore, to better accommodate overdispersion,
+what we can do is to add an additional level of variation
+or heterogeneity into the mean parameter
+of the Poisson distribution.
+More specifically, the original Lambda parameter of
+the Poisson distribution can be
+revised and be modeled as the product of two parts.
+The second part denoted as
+Mu_i is the deterministic part.
+It is just like the original Lambda parameter
+and it is modeled as a function of the x variables,
+the exponential of x Beta.
+The first part denoted as
+Mu_i is the newly added individual rendered coefficient.
+This parameter is not really
+observable and is just an auxillary parameter
+introduced to facilitate the development of
+the model to account for the added level of dispersion.
+Mu_i is allowed to be individually
+different So for each individual i,
+Mu_i is assumed to be
+randomly drawn from a certain distribution.
+This is what gives its name,
+the individual random coefficient.
+This coefficient is individually
+specific and its value is randomly realized,
+drawn from a common distribution.
+Which new randomly join?
+New i multiplied by Mu_i
+together form the mean parameter
+of the Poisson distribution.
+So the expect the value of y_i is now modeled as equal
+to Mu_i times the exponential of x Beta.
+This gives us the basic framework
+of the so called negative binomial model.
+Now, what probability distribution should we
+choose for that random coefficient Mu_i to follow?
+Notice that the mean parameter
+of the Poisson distribution has to be
+positive so Mu_i has to be positive as well.
+This means the distribution has to
+be defined over positive values only.
+So we cannot choose
+distributions like the normal distribution,
+where the realized the values
+can be either positive or negative.
+A very flexible distribution family defined over
+positive values that we often
+use is the so called Gamma distribution.
+The probability density function or
+the PDF for Gamma distribution is as this.
+As we can see, the general form of
+Gamma distribution has two parameters.
+Alpha, the shape parameter, and the Beta,
+the scale or rate parameter,
+both of which need to be positive.
+This function is called the Gamma function.
+It is a deterministic function and it can be viewed as
+a generalization of the factorial into real values.
+Here, I plotted the PDF functions of
+Gamma distributions in the different Alpha
+and Beta parameter values.
+As we can see, Gamma distribution
+is defined over positive values only,
+and the distribution is very flexible in
+the different combinations of
+the two parameters to fit different distribution shapes.
+Therefore, Gamma distribution is
+a very suitable candidate for us
+to use as the distribution for
+the individual random coefficient Mu_i.
+We therefore model Mu_i
+as following a Gamma distribution.
+To keep the model simple,
+we adopt a simplified version
+of the Gamma distribution by letting
+the two parameters Alpha and Beta be the
+same and denoted as Theta instead,
+which needs to be positive as well.
+As a result, the PDF of
+the Gamma distribution simplifies to
+this form with both Alpha and Beta equal to Theta.
+Notice that as we can show,
+the expected value of a random variable following
+a general Gamma distribution is Alpha over Beta,
+and the variance is Alpha over Beta squared.
+Accordingly, in the simplified
+the Gamma distribution here,
+because Alpha is equal to Beta and denoted as Theta so
+the expected value becomes
+1 and the variance becomes 1/Theta.
+Now, here is an important point.
+Pay attention to the role Theta plays in the model.
+As we can see here, Theta determines
+the inverse of the variance of Mu.
+Recall that the Theta is always greater than zero.
+So when Theta is small and very close to zero,
+1/Theta is very large,
+which means there is a large variance
+in the possible values of Mu.
+In other words, we introduced a large degree of
+individual variation or heterogeneity into the model,
+which can account for
+significant over dispersion in the data.
+On the contrary, if Theta is very large,
+then 1/Theta becomes very
+small so the variance of Mu is small.
+In the extreme case, when
+Theta goes to positive infinity,
+then 1/Theta goes to 0.
+As a result, the variance of Mu reduces to 0.
+So no more variation in realized the new values at all.
+All realize the new values will
+concentrate on the expected value, which is 1.
+As a result, the expected value of each y_i
+will reduce to 1 times the exponential of x Beta,
+which is just like what we
+had in the standard Poisson regression model.
+In other words, that negative binomial model
+will simply reduce to
+the standard Poisson regression model in
+the extreme case when Theta goes to infinity.
+In this sense, we can already see from here
+the important role this
+Theta parameter plays in the model.
+This is why Theta is referred
+to as the dispersion parameter.
+A small Theta value means a large degree
+of variation in individual count outcomes,
+and hence a large degree of overdispersion.
+Whereas a large Theta value means
+a small degree of individual heterogeneity,
+and hence a small degree of overdispersion.
+In the extreme case, when Theta goes to infinity,
+individual heterogeneity disappears completely
+and has no over dispersion at all,
+and the model reduces to the Poisson regression model.
+This is a very important point to
+understand that negative binomial model framework well.
+We'll revisit it later soon.
+Following the negative binomial framework,
+we can derive the probability for the outcome y to be
+equal to any count value k. Notice that here,
+we suppress all subscript
+i's just to keep the notation neat.
+Recall that essentially, y is still modeled as following
+a Poisson distribution so the probability for y to be
+equal to k is still defined
+by the Poisson probability expression.
+The only difference is that the main parameter,
+which was Lambda previously is
+now the product of Mu and Mu.
+As explained, Mu is
+deterministic and is a function of x and Beta.
+So Mu is known given each individual's x values.
+What is tricky is Mu,
+Mu is a random coefficient,
+whose actual value is not observable and we just
+know that its value is
+randomly drawn from the Gamma distribution.
+In this sense, as we derive
+the probability of y equal to a certain value,
+we can only derive the probability in expectation.
+That is by taking the expectation over
+the possible values of
+the unobserved Mu according to its distribution.
+Mathematically we'll integrate this Poisson probability,
+which involves the realized the value of
+u over the distribution of possible Mu values,
+which is the Gamma distribution as we just introduced.
+So this is the PDF of the Gamma distribution.
+Integrating this expression over
+all possible values of Mu from 0 to positive infinity,
+will give us the probability of y = k in
+expectation over all possible values
+of the individual random coefficient Mu.
+This integral, which seems very complex,
+actually can be integrated out in a close form,
+thanks to the special functional forms
+of the Poisson and the Gamma distributions.
+This is actually also the reason
+why we pick a Gamma distribution as
+the distribution family for Mu
+because it works well with the Poisson probabilities.
+We'll skip the detailed derivation here,
+but I encourage those who are interested to
+go through the mathematical derivation on your own,
+which can help further deepen your understanding.
+Eventually, we can derive
+this entire probability into this close form expression.
+As we can see, all components here are known.
+This is the Gamma function,
+which, as we mentioned,
+is a deterministic function,
+and it can be viewed as a generalization
+of the factorial into real values.
+K is the given countervalue,
+and Theta and Mu are the two key parameters.
+The probability distribution defined
+according to this expression,
+is called negative binomial distribution.
+Just like the Poisson distribution,
+the negative binomial distribution
+is a discrete distribution.
+So the random variable involved
+can only take discrete values,
+more specifically non negative integer values.
+For a random variable following
+a negative binomial distribution,
+the probability of it taking
+any count value can be determined by this expression.
+As we see, a negative binomial distribution
+has two parameters.
+Theta is called the dispersion parameter,
+as it is the inverse of
+that variance of the Gamma distribution,
+as we just explain and the Mu is called
+the mean parameter because it determines
+the core part of the mean of the Poisson distribution.
+>> As we see, because
+the negative binomial model is the outcome of
+integrating individual random coefficients
+following the Gamma distribution into a Poisson model,
+it's often referred to as a Gamma-Poisson mixture model.
+Just like the Poisson regression model,
+to incorporate x variables into
+the negative binomial model framework,
+we simply let the mean parameter, Mu,
+equal the exponential of the x and Beta combination.
+Again, we use the exponential function here to
+ensure that Mu is always positive.
+Just replace Mu with the exponential of x Beta,
+we can dive the probability of the outcome y equal to
+a certain counter value in
+a negative binomial regression model as this,
+where Theta is that dispersion parameter,
+and that mean parameter is
+replaced with the exponential of x Beta,
+with the Betas being
+the usual coefficients for x variables.
+This probability also defines
+the likelihood for one single observation,
+the overall likelihood function is
+just the product of
+the likelihood of all observations in the data set.
+Similarly as before, we can estimate
+the negative binomial regression model using
+the maximum likelihood estimation or MLE.
+Again, by numerically for searching for the set of
+parameter values that will maximize
+the value of the overall likelihood function.
+Notice that the unknown parameters to estimate in
+a negative binomial regression model
+included the usual Beta coefficients for x variables,
+and the dispersion parameter Theta.
+One quick side note for those of you who are curious
+about why this distribution
+is called negative binomial distribution.
+It is called a negative binomial because,
+this probability expression resembles
+the probability of the number of failures we'll
+observe before a certain predefined number of
+successes have occurred in repeated Bernoulli trials.
+Binomial corresponds to the nature
+of repeated Bernoulli trials,
+which are just like coin tosses.
+And the negative corresponds to the fact that
+the probability is for the number
+of failures rather than successes,
+which is hence opposite to
+the usual binomial distribution.
+Having understood the details
+of the negative binomial model,
+let's summarize this part of
+the introduction by discussing
+the extreme case of
+a negative binomial model to see
+its connection with that Poisson model.
+Recall that, this is
+the negative binomial probability expression.
+And we can rewrite it as
+this following some straightforward reorganization.
+Now, if we let
+the dispersion parameter Theta go to infinity,
+let's see what this expression will transform into.
+I'll leave the detailed mathematics
+for your own exercise,
+and only quickly point out
+the logic and the results here.
+Recall that the Gamma function
+is similar to the factorial.
+So the difference between these two Gamma functions is
+the product of k factors involving Theta.
+Now that the Theta is going to infinity,
+so Theta plus any finite values all go to infinity.
+And therefore, the product of these k factors will
+be on the same order as Theta to the power of k,
+which will cancel out this term in the limit.
+As a result, this expression converts
+to one as Theta goes to infinity.
+And this expression converge to e
+to the power of Mu as Theta goes to infinity,
+which is essentially how the e constant is defined.
+Therefore, as we can see,
+the negative binomial probability expression will
+converge to this expression as Theta goes to infinity.
+Now, this is exactly the Poisson probability expression.
+Therefore, we have shown that in the extreme case,
+when the dispersion parameter Theta goes to infinity,
+a negative binomial distribution converges
+to a Poisson distribution.
+We can further understand such a convergent connection by
+looking at the variance
+of a negative binomial distribution.
+As we can derive, the expected value of
+a negative binomal distribution
+is just that mean parameter Mu,
+which is not surprising.
+Interestingly, the variance of
+a negative binomial distribution is equal
+to Mu plus one over Theta times Mu squared.
+Because Mu squared and
+the Theta are both greater than zero,
+so the variance and
+negative binomial distribution is
+always greater than Mu,
+which is the expected value.
+In this sense, a negative binomial distribution
+is always overdispersed.
+And hence, a negative binomial model is
+made for the overdispersion scenarios by design.
+When Theta is small and very close to zero,
+one over Theta becomes very large.
+So the second term is very large.
+As a result, the variance is
+significantly larger than the expected value,
+which indicates significant over dispersion in the data.
+On the other hand, if Theta is very large,
+then one over Theta turns very small, and as a result,
+the variance becomes closer to the expected value,
+which indicates little overdispersion.
+This echoes what we pointed out earlier.
+Recall that as we constructed
+the negative binomial model based on
+the Gamma-Poisson mixture structure,
+Theta is the inverse of
+the level of individual heterogeneity.
+Therefore, a small Theta
+indicates great individual heterogeneity,
+which corresponds to
+a significant degree of overdispersion.
+On the contrary, a large Theta
+indicates little individual heterogeneity,
+which corresponds to a low degree of overdispersion.
+In the extreme case, when Theta goes to infinity,
+the variance and a negative binomial
+distribution converges to Mu,
+the same as the expected value,
+which is just like the Poisson distribution.
+So again, as we see,
+as Theta goes to infinity,
+overdispersion disappears completely and
+a negative binomal distribution
+reduces to a Poisson distribution.
+This is a very important result to keep in mind,
+as we can consistently arrive at from different angles.
+Some final words about the connection and
+the differences between Poisson
+and the negative binomial models.
+Notice that in both the Poisson
+and the negative binomal models,
+the expected value of y given x is the same,
+both equal to the exponential of x Beta.
+In this sense, even if there is a
+significant over dispersion in the data,
+and hence a Poisson model is not a good fit,
+a Poisson model is still correct
+in terms of modeling the expected value of y.
+In other words, if our interest is only to
+predict the expected value of the count outcome y,
+then a Poisson model is actually good enough,
+even when there is
+a significant overdispersion in the data.
+Actually, in this case,
+using the Poisson maximum likelihood estimation results
+as the model results,
+even when the Poisson distribution is
+not an entirely correct assumption,
+is still considered as a valid approach called
+Quasi-Maximum Likelihood Estimation or QMLE.
+On the other hand, a negative binomial model
+is necessary in the presence of overdispersion,
+only when what we are interested
+in are not only the expected value of y,
+but also the distribution of possible y values.
+For example, we want to know what is
+the probability of the counter outcome
+being equal to a particular value.
+In this case, we need to use
+that negative binomial model to properly account
+for over dispersion in order to
+approximate the two distribution well.
+Finally, let's quickly mention
+some goodness-of-fit measures that we can use to evaluate
+the fit of the models estimated by
+the maximum likelihood estimation or MLE approach.
+As you are probably already familiar with,
+two commonly used goodness-of-fit measures of
+this kind are AIC and BIC.
+Akaike information criterion, which is named after
+Japanese statistician and
+the Bayesian information criteria.
+We often calculated these measures for
+different competing models and
+compare to see which model fits the data better.
+We won't get into the derivation of these measures,
+but just to let you know how
+these two measures are defined
+and what they are essentially about.
+As we can see, these two measures
+are actually very similar.
+Their core is log( L hat),
+which is the maximized log likelihood
+and an outcome of the MLE estimation.
+Intuitively, if a model fits
+the data better than another model,
+it is supposed to have a higher likelihood
+as an outcome of the MLE optimization.
+So log(L hat) should be the larger, the better.
+But notice that both meshes multiply
+the log likelihood by -2.
+So it is the opposite of
+the maximized log likelihood at play.
+As a result, this value should be the smaller the better.
+Notice that because likelihood is less than one,
+so log likelihood is negative.
+And therefore, -2 times log likelihood is positive.
+And as we said, we'd like to see
+a smaller positive value here.
+However, we cannot compare model fit
+solely based on the maximized log likelihood.
+A model with small parameters
+has more degrees of freedom to fit the data.
+And as a result, its maximized likelihood,
+can unsurprisingly be higher.
+In this sense, to ensure
+a fair comparison of models
+with different number of parameters,
+we need to take into account
+the number of parameters a model contains.
+We should penalize a model with small parameters.
+A model with more parameters
+can win over a competing model with
+fewer parameters only when it can
+achieve a significant increase in the likelihood,
+which can outweigh the additional number
+of parameters introduced into the model.
+Both AIC and BIC measures formalize this idea.
+They both introduce a term into the measure,
+which is increasing with the number of model parameters
+k. Recall that we want the whole measure to be small,
+so this added term serves as
+a penalty for the number of parameters in the model.
+A model having more parameters,
+will have a larger k value,
+and hence a larger penalty term.
+It will end up with a lower overall measure only
+if it's maximized log likelihood can be higher,
+and as a result, the second term is much lower.
+Notice that the only difference
+between these two measures is
+the extent of the penalty they
+impose on the number of model parameters.
+As we can see, BIC actually imposes
+a greater penalty on the number of model parameters.
+In BIC, the coefficient for k is log(n),
+which is the number of observations in the data set,
+which is usually larger than two.
+That is the coefficient for k in AIC.
+Generally, we'd like to see both AIC and
+BIC being smaller in order to
+convincingly conclude that one model is better
+than another competing model
+in terms of the fit to the data.
+Late in our exercises we'll calculate
+the AIC and BIC for both Poisson and
+the negative binomial models to see which model
+is a better fit when there
+is over dispersion in the data.
+This is all we want to introduce
+about negative binomial models.
+We develop the negative binomal model from
+the Gamma-Poisson mixture framework by
+adding individual random effects to a Poisson model.
+As we point out, negative binomial models are
+built to account for over dispersion by design.
+And in the extreme case,
+when the dispersion parameter Theta goes to infinity,
+over dispersion disappears and
+the negative binomial model reduces to a Poisson model.
+Hope this discussion help
+deepen your understanding of the connection and
+the differences between these two important types
+of count data models.
+That's all for this video. Thanks for watching.

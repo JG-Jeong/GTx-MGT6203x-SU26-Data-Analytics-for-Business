@@ -1,0 +1,395 @@
+>> Hello, everyone. Welcome back.
+In this video, we're going to demonstrate how to
+implement count data models in R. We'll
+start with Poisson regression model and then
+investigate whether or not
+there is overdispersion in our data.
+We then implement the negative binomial model and compare
+the two model performance to see how
+the negative binomial model can
+properly account for overdispersion.
+Let's get started. The dataset
+we're going to work on for
+this demonstration is the more visit data.
+A National Shopping Mall chain would like to
+analyze customers visit patterns to
+better understand what type of customers
+are likely to visit their shopping malls more often.
+They've compiled a dataset that
+consists of the monthly visit records
+of 500 customers over the past four years or 15 months.
+For each customer, we observe their gender,
+income level, and distance
+from home to the nearest mall location.
+We also observe their monthly visit data,
+including the number of visits in each month,
+an index measuring the extent of
+discounting applied in each month
+in the corresponding mall,
+and whether or not the customer has received
+a targeted promotional email during that month.
+Given the count value nature of
+the dependent variable visit here,
+we need to apply count data models to properly estimate
+what factors affect customer's expected frequency
+of visits to the mall.
+As usual, the data have already been
+organized and stored in a CSV file.
+Use that read.csv function to read in the data.
+Again, be sure to save the data file
+under the working directory of R Studio,
+or you need to explicitly
+specify the full directory as part of the file name.
+Read.csv function sets header to be true by default,
+so we don't really need to
+explicitly specify header to be true.
+Save the imported the data into
+a data frame variable named myData.
+We can call the str function to
+check the structure of the imported dataset.
+We can also plot the histogram of
+the dependent variable visit
+to quickly examine its distribution.
+Notice that here we set breaks to be
+a vector of zero through 10,
+meaning we'd like to use values
+zero through 10 as the break points.
+As we can see, most of its values
+concentrate on a few small count numbers,
+such as 0, 1, and 2.
+Regular linear regression models will be
+a pool approximation for count variables like this,
+so we need to use
+some proper count data models
+to perform the analysis here.
+Let's start with Poisson regression model.
+To apply a Poisson regression model in R,
+we can use that glm function,
+which is the same glm function
+we used for binary response models,
+such as the Logit and the Probit models.
+This is because Poisson regression models
+actually fall under
+the same big umbrella of generalized linear models.
+The syntax of the glm function is the same as before.
+We first specify the model, as usual,
+the name of the dependent variable,
+tilde, and then the list of independent variables.
+We can list all independent variables one by
+one and connect them using the plus sign.
+Alternatively, we can simply use
+a dot to include all the other variables
+in the dataset into the model as
+the independent variables. That's what we do here.
+What's different from binary response models is that
+the family argument now needs to be
+specified as Poisson instead of binomial.
+Specify the data and save the output into a variable.
+As usual, we can run a summary to
+summarize the estimation results
+of that Poisson regression.
+As we can see, these are
+the coefficient estimates for the Poisson model.
+As we discussed, one potential issue of
+the Poisson model is that
+the variance of the counter variable is
+assumed to be the same as the expected value of
+the count variable by design
+due to the nature of Poisson distribution.
+A Poisson model is hence
+not a good fit if the data are overdispersed,
+meaning that the variance of
+the count variable is larger than the expected value.
+We can investigate whether or not
+our data have the overdispersion pattern using
+the dispersion statistic we have introduced as this,
+which is an estimate of Sigma square,
+the ratio between the variance of
+y and the expected value of y.
+Here, y hat is the predated value of y,
+which is equal to the expected value
+of y according to the Poisson model.
+That is the exponential of x and Beta,
+which is how we set the mean parameter of
+the Poisson distribution as
+we develop the Poisson regression model.
+We can enter this formula in R accordingly.
+Y hat can be estimated using the predictor function.
+Notice that same as what
+we did with binary response models.
+If we want to predict the expected y,
+which is a nonlinear function of
+x Beta in the generalized linear model framework,
+we need to specify
+the type argument as equal to response.
+Otherwise, what we get from
+the predictor function would simply
+be the linear combination of x and Beta itself.
+Extract y from the original data.
+Then we can estimate the formula to
+calculate the dispersion statistic as this.
+Notice that this is the degree of
+freedom adjustment as shown in the original formula.
+Nrow gives us the number
+of rows in the original dataset,
+which is the number of
+data observations or the n in the original formula.
+Coef of Poisson regression results
+gives us the vector of coefficient estimates,
+and the length of this vector
+gives us the number of Beta coefficients,
+which is equal to k+1 as in the original formula.
+Notice that the number of Beta coefficients is equal to
+one plus the number of x variables k,
+because there is also the interceptor coefficient,
+Beta 0 in the model.
+So this part of the expression together is equal
+to n-k-1 as in the original formula.
+Now, calculate the value of this statistic.
+As we can see, for our data,
+the dispersion statistic is estimated to be about 1.046,
+very close to one, which indicates that for this dataset,
+there is actually no overdispersion issue.
+As a result, Poisson regression model
+can be a good fit for the count data here.
+In other contexts, however,
+you may have this statistic being much larger than one,
+which would then indicate significant overdispersion.
+In those cases, we will need to consider extending
+the basic Poisson regression model
+to account for overdispersion,
+and a negative binomial model would be a suitable choice.
+Let's next apply
+a negative binomial model to our data here.
+To apply negative binomial models in R,
+we need to use an external package called MASS.
+As usual, we need to first download and install
+this package using the install.package function.
+We'll then use the library function
+to load the package into the current R session.
+Again, installation needs to be done only once,
+but we need to run the library function to load
+the package each time we use it in a new R session.
+Once the MASS package has been installed and loaded,
+we can use the glm.mb function
+included in this package to
+estimate a negative binomial model.
+The syntax for the glm.mb function is quite simple.
+Specify the model in the usual format and
+then specify the data and save the output.
+Notice that the negative binomial model takes
+a little while to estimate because we need
+to run a numerical search routine to find
+that MLE estimates of the model parameters,
+and the likelihood function
+here is a bit complex to compute.
+Now, summarize the estimation output.
+As we can see, these are
+the estimation results of the negative binomial model.
+One important parameter to pay
+attention to here is that Theta,
+which is the dispersion parameter
+of a negative binomial model.
+Recall that one over Theta is the variance of
+the Gamma distribution for
+the individual random effect we
+introduced to develop that negative binomial framework.
+If Theta is very large, much larger than one,
+then one over Theta is close to zero,
+and the negative binomial model converts
+to a Poisson regression model.
+On the other hand, if Theta
+is less than one and very small,
+then it indicates significant overdispersion.
+As we can see here,
+Theta is estimated to be over 10,
+which is quite large, and as a result,
+we can conclude that there is
+little evidence of overdispersion in this dataset,
+which is consistent with what we
+found from the previous analysis.
+In this sense, the negative binomial model should be
+pretty close to the Poisson model in this example.
+We can quickly verify this by
+comparing the goodness-of-fit measures,
+AIC and BIC across the two models.
+Simply call the AIC and BIC functions to
+calculate the AIC and BIC for the two models.
+We can co-list them side by
+side using the cbind function.
+Notice that for AIC or BIC,
+the smaller the better, as we can see here,
+both the Poisson regression model and
+the negative binomial model have
+almost the same AIC and BIC measures
+indicating the two models fit performance is pretty
+close as a result of
+the lack of overdispersion in this example.
+The last task we'd like to
+perform to help you better understand
+the concepts of count data models is to plot
+that probability density function
+according to the Poisson or the negative binomial models.
+We'd like to plot that probabilities of
+the dependent count variable taking
+different possible count values from 0,
+1, 2, and onward.
+This can help you better understand
+the discrete probability density functions
+for count data models,
+and also allows us to compare
+the probability distributions according
+to the two different models.
+To create such a plot,
+we can calculate the probabilities of
+observing different count values based on
+that probability density function of
+the corresponding Poisson or
+negative binomial distributions.
+Notice that in Poisson or negative binomial regression,
+the mean parameter is modeled as
+the exponential of x Beta,
+which depends on the values of the x variables.
+For this reason, we need to specify the values of
+the x variables at which
+we'd like to evaluate the probabilities.
+A natural choice would be choosing
+the mean values of the x variables in the data.
+We can simply calculate the mean values of
+all x variables in the data using the colMeans function.
+Here, we only include the second through
+the six columns as they are the x varables,
+whereas the first column is used as the y variable.
+Next, we calculate the value of the linear combination
+of x Beta evaluated at these x values.
+We first retrieve the coefficient mates from each of
+the two models and multiply them
+with the x bar values we just calculated.
+Using the cross product function.
+Here, we include one in addition to all the x bar values,
+just to correspond to the intercept coefficient Beta 0.
+The output of this expression is
+simply the usual Beta 0 plus
+Beta 1 times x1 plus Beta 2 times
+x2 plus all the way through Beta k times xk.
+We calculated the x Beta values for
+both the Poisson regression model and
+the negative binomial model and save them separately.
+We then create a vector from
+0-10 to represent the different count values,
+whose probabilities we'd like to plot.
+For each count value or k value,
+the probability of observing
+such a value is simply that probability according to
+the Poisson or the negative binomial distributions
+with their respective distribution parameters.
+For that Poisson model,
+the distribution parameter is the mean parameter,
+which is equal to the exponential
+of x Beta as we just calculated.
+We can use the dpois function to
+get that probability density
+according to that Poisson distribution.
+Recall, as we explained previously,
+the d function is one of the series
+of four functions we have in
+R for each known distribution.
+Dpois gives us
+that density function of Poisson distribution.
+And accordingly, dnbinom
+gives us that density function
+of that negative binomial distribution.
+So this statement gives us the probability for
+all the different count values in
+the k vector according to the Poisson distribution,
+whose mean parameter is equal to this much.
+We can take a quick look at the calculated probabilities.
+As we can see, they are all probability values,
+which are between zero and one.
+We can obtain the probabilities from
+the negative binomial model in the same fashion.
+Use the dnbinom function
+to get the density function
+of the negative binomial distribution.
+Notice that the negative binomial distribution has
+two distribution parameters:
+the mean parameter and the dispersion parameter.
+The mean parameter is specified by the Mu argument and is
+equal to the exponential of
+x Beta as we calculated previously.
+The dispersion parameter is
+specified by the size argument,
+whose value should be set to
+the Theta estimator from
+the negative binomial regression above.
+Again, this statement gives us
+the probabilities for all the different count values in
+the k vector according to
+the negative binomial distribution
+with these two distribution parameters.
+We can also take a quick look
+at the calculated probabilities,
+which are valid probability measures
+between zero and one.
+We can then plot these calculated probabilities
+using the usual plot function.
+We'd like to plot the probability distributions from
+both models on the same plot for easy comparison.
+We can distinguish the two series of
+probability values using two different types
+of points on the plot.
+We can actually plot either series of
+probabilities first, but here,
+we first plot the probabilities from
+the negative binomial model
+because the maximum value in that series is
+greater and plotting that series first will ensure
+that the range of the y-axis of the plot is properly set.
+As usual, the first two arguments of the plot function
+specify the vectors of x
+values and y values sequentially.
+The pch argument specifies
+the point character and code
+16 here corresponds to solid wrong dots.
+We specify the labels for the x and
+y-axis in the xlab and ylab arguments.
+Run this statement, and we plot the probabilities for
+different count values from
+0-10 according to the negative binomial model.
+We can then add the probability values from
+the Poisson model onto
+the same plot by using the points function.
+Similarly, supply the vectors of
+x values and y values in order.
+The point character is left as default,
+which will be Code 1,
+corresponding to hollow dots.
+We can further add legends to the plot
+to note the two series of dots.
+As we can see from this plot,
+for an average customer with the mean x variable values,
+the probability of him or her having
+zero visit to a mall in a month is over 60%,
+the probability of him or her visiting
+a mall once is about 30%,
+and the probability of him or her having
+more than three visits in a month is very small.
+Notice that the probability distributions
+from the two models are very close to each other here.
+This is not surprising given that there is
+little overdispersion in our data for this example here,
+so the two models are
+supposed to be very close to each other.
+However, if there is
+significant overdispersion in the data,
+then the negative binomial model
+will diverge from the Poisson model,
+and the resulting probability
+distributions will be different.
+These are all we want to
+demonstrate for the count data models.
+Hope this example can help you
+better understand the key concepts for this topic.
+It should also be helpful for you
+to work on the homework exercise.
+That's all for this video. Thanks for watching.

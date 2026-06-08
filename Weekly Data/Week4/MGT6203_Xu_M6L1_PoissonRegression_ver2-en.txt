@@ -1,0 +1,641 @@
+>> Hello, everyone. Welcome back.
+In this video, we'll continue along
+the line of non-linear econometric models,
+and introduce another type
+of limited dependent variable models,
+the so-called count data models,
+where the dependent variable takes count values,
+that is non-negative integers.
+We'll start with Poisson regression models
+and discuss one major limitation of Poisson models.
+That is, it cannot properly
+handle the so-called overdispersion issue.
+We'll then introduce an extension
+of Poisson regression model,
+the negative binomial model,
+which can help account for overdispersion in the data
+and subsumes the basic Poisson model as an extreme case.
+Let's get started. In this video,
+we'll focus on the Poisson regression model first.
+We'll first introduce the Poisson distribution,
+a commonly used discrete probability distribution,
+based on which the Poisson regression model is developed.
+We'll then explain the setup of
+the Poisson regression model in
+detail and how to estimate it.
+We'll then discuss how to interpret
+Poisson model coefficients by discussing
+both the direct interpretation of
+the Beta coefficients and
+the usual partial or marginal effects.
+Finally, we'll introduce the issue of overdispersion,
+which is a major limitation of
+Poisson regression models. Let's dig in.
+As mentioned, the type of model
+we're going to introduce is part
+of the series of
+limited dependent variable models
+we have been discussing.
+This time, we'll focus on the case where
+the dependent variable takes only count values.
+That is non-negative integers starting from 0,
+1, 2, and so on.
+Apparently, such a case is very common in
+real world settings and examples can be easily found.
+For example, the number of
+customer visits during a certain period of time.
+Due to the nature of count values,
+the y variable can only take
+integer values and cannot be negative.
+So it differs from the standard linear regression setting
+and hence calls for
+a different approach to properly handle it.
+Notice that if the count values
+are spread over a wide range
+and involve a lot of
+large integer values like hundreds or thousands,
+then we can simply treat the integer values
+as continuous values as an approximation,
+which should be close enough given
+the wide range and the large scale of the values.
+In this case, if zero appears a lot in the data,
+which means the non-negative constraint binds often,
+then we can apply the tobit model as we have introduced.
+If zero doesn't appear that often,
+then we can even ignore the data sensoring
+issue and simply apply a regular linear regression.
+A specially designed count data model
+is needed and the most
+meaningful only when the dependent variable
+mostly takes relatively small count values.
+For example, mostly 0,
+1, 2, and 3.
+In this case, approximating these small integer values
+with continuous real values
+would be a poor approximation,
+and the regular linear regression models or
+tobit models would hence be inadequate.
+In this case, we will need to apply
+some specially designed count data model as we'll
+introduce next to properly handle this type of problem.
+To introduce the Poisson regression model,
+we need to first introduce
+the Poisson distribution which is
+a very commonly used probability distribution
+for discrete values.
+So this is a probability distribution
+just like a normal distribution.
+But the full co-random variable
+here only takes discrete values.
+If a random variable say
+y follows the Poisson distribution,
+then the probability of y being equal to
+a particular non-negative integer k is equal
+to this value as determined by this expression.
+This expression may look daunting at the first glance,
+but we can easily understand it
+once we dismantle it into parts.
+First, Lambda is a parameter of the Poisson distribution.
+So Lambda is a given
+constant and it needs to be positive.
+So Lambda is always greater than zero.
+It can take any positive real value.
+Lambda is the only parameter of
+a Poisson distribution and plays
+a key role in determining
+the distribution shape as we'll discuss soon.
+E represents the usual exponential function
+whose base is the so-called Euler number,
+the magical constant that is approximately 2.718.
+And the k!
+is the factorial of k,
+which equals the product of
+all positive integers less than or equal to k. That is,
+the factorial of k is equal to k times
+k-1 times k-2 times all the way to one.
+Notice that if k = 0,
+the factorial of zero is defined as one.
+As we can see, given the parameter
+Lambda's value and the integere k's value,
+this expression's value is
+fully determined and it represents
+the probability of the focal random variable being
+equal to k. Now,
+let's look at some concrete numbers as examples.
+If the focal random variable y follows
+a Poisson distribution with Lambda as the parameter,
+then, for example,
+the probability of y = 0 is equal to
+(Lambda)^0 times e^(-Lambda) divided
+by the factorial of zero.
+(Lambda)^0 is one. The factorial
+of zero is one, as we just mentioned.
+So the P(y = 0) is simply equal to e^(-Lambda).
+If Lambda is one, this probability is simply e^-1,
+which is 1/e or 1/2.718,
+which is approximately 0.37 or 37%,
+as is also illustrated in this plot here,
+for Lambda = 1 and the k = 0.
+If Lambda takes a different value, say 4,
+then this probability is equal to e^-4,
+which is about 0.018 or 1.8%,
+as is illustrated here for Lambda = 4.
+Now, what if k takes a different count value,
+let's say k = 1?
+Then the P(y = 1), again,
+following the defining expression is equal
+to (Lambda)^1 times e^(-Lambda),
+divided by the factorial of 1.
+The factorial of 1 is 1.
+So this expression simplifies to Lambda*e^(-Lambda).
+Again, depending on the value of that parameter Lambda,
+we can easily calculate the value of this probability.
+For example, if Lambda = 1,
+then this probability is simply e^-1,
+which is the same as
+the probability above, as we can see here.
+If Lambda is four,
+then this probability becomes 4*e^-4,
+which is about 7.3%,
+as is illustrated here.
+Following the same fashion,
+we can derive the probability of y being equal
+to any other count value based on this expression.
+And such a series of
+probability measures define a Poisson distribution.
+Notice that this series of
+probability measures depends on the parameter Lambda.
+As we can see here, given
+a particular parameter Lambda's value,
+we have a different series of probability measures.
+In other words, the Poisson distribution takes
+different shapes under different Lambda values.
+Notice that the Poisson distribution is
+defined over non-negative count values only.
+So k can only be integers greater than or equal to zero.
+Now, how can we say for sure that the values calculated
+based on this expression constitute
+a valid probability distribution?
+Recall that in order for this series of
+values to be a valid probability distribution,
+two requirements need to be met.
+The first requirement is that
+all these values need to be non-negative.
+This can be easily verified
+because each component of
+this expression is non-negative.
+The second requirement is that
+all these probabilities need to be summed to one.
+This is actually less obvious and harder to verify.
+We won't get into the mathematical proof here,
+but just tell you the result.
+Magically, if we add up the values of
+this expression for k = 0,
+1, 2, 3,
+and all the way to infinity,
+the sum is exactly one.
+This is a fascinating result,
+and we can rigorously prove it mathematically.
+It holds regardless of the value of Lambda.
+In other words, given any positive Lambda value,
+the entire series of probabilities
+generated by this expression add up to one.
+Very magical and interesting.
+This makes the Poisson distribution defined
+as this a valid probability distribution.
+Now, an important property of the Poisson distribution.
+As we can mathematically derive,
+the expected value of a random variable
+following a Poisson distribution is equal to Lambda.
+And interestingly, the variance of
+that random variable is also equal to Lambda.
+In other words, for a Poisson distribution,
+its variance is equal to its mean,
+both of which are equal to the key parameter Lambda.
+Note that this property has
+very important implications as we'll revisit soon.
+Having understood the Poisson distribution,
+we can now introduce that Poisson regression model.
+Simply put, in a Poisson regression model,
+we assume that dependent variable y
+follows the Poisson distribution where
+the parameter Lambda is modeled as
+a function of all independent or x variables.
+We may want to model Lambda as simply equal to
+the usual linear combination
+of x variables and the Beta coefficients.
+However, remember that Lambda has to always be positive.
+But x variables and
+the Beta coefficients can take all kinds of values,
+and there's no guarantee that the X,
+Beta combination will always be positive.
+So to come up with a function of
+X and Beta that will always be positive,
+here is a trick that we often use.
+We will wrap the usual linear combination of X and Beta
+with an exponential function as we see here.
+We use the usual XBeta expression as the shorthand of
+Beta_0+Beta_1x_1+ Beta_2x_2 plus etc.
+We'll then let the Lambda parameter be
+equal to the exponential of X Beta.
+Notice that here, exp is
+just another way of
+writing the usual exponential function.
+It just enables us to write
+the entire function on
+one line rather than using the superscript.
+So exp(X Beta) simply means the same as e^(X Beta).
+The reasons to introduce
+the exponential transformation here are first,
+the exponential function is an increasing function.
+So the exponential of
+XBeta increases with the XBeta value.
+As a result, the exponential transformation preserves
+the relative magnitudes of the original XBeta values.
+Second, more importantly,
+the exponential function always returns a positive value.
+The XBeta value can be either positive or negative,
+but the exponential of XBeta will always be positive.
+This helps satisfy the positive constraint for
+the Lambda parameter and makes
+the model specified this way a valid model.
+So in this way, we have
+developed our Poisson regression model.
+Again, we let the dependent variable
+y follow the Poisson distribution
+with the parameter Lambda being equal to
+the exponential of XBeta combination.
+Recall that the expected value of y following
+the Poisson distribution is equal to Lambda.
+Therefore, essentially,
+the Poisson regression model
+assumes that expected value of
+y given the x variable values is equal
+to the exponential of the XBeta combination.
+And this is the core of the Poisson regression model.
+It is actually very similar
+to that linear regression model,
+where we assume the expected value of y is
+simply equal to the XBeta combination itself.
+But here, for Poisson regression models,
+we let the expected value of y equal
+the exponential of XBeta combination.
+Now, because y follows the Poisson distribution,
+it's very easy for us to write down that probability of
+y being equal to any non-negative count value.
+Just apply the Poisson probability expression with
+Lambda replaced by the exponential of XBeta.
+As a result, it's straightforward for us to
+derive the likelihood function
+for a Poisson regression model.
+The likelihood of observing the y value is
+simply the probability of
+y taking that particular count value,
+which is just the same
+Poisson probability expression we just saw.
+We'll use the maximum likelihood estimation
+or MLE to estimate a Poisson regression model.
+We could directly maximize
+the likelihood we just derived.
+However, in practice, we
+can make it even more computationally
+efficient by first taking
+the logarithm of the likelihood of function,
+and then maximizing the loglikelihood of function.
+Notice that because the log function
+is an increasing function,
+so the log transformation preserves
+the relative magnitudes of
+the original likelihood function values.
+Therefore, the model parameter values that maximize
+the log likelihood function
+also maximize the original likelihood function.
+Therefore, the two forms of
+objective functions will yield
+the same estimation results
+and are hence equivalent in this regard.
+To see how the log transformation can
+help simplify the expression and the computation,
+let's take the logarithm of this likelihood function.
+Applying the rules of logarithms,
+multiplication turns into addition,
+division turns into subtraction,
+and exponentiation turns into multiplication.
+>> Therefore, the logarithm of this likelihood turns
+into the log of the first component,
+plus the log of the second component,
+minus the log of the third component.
+We can further simplify that expression.
+After logarithm, exponentiation turns into multiplication
+so this exponent becomes
+a multiplicative coefficient in the front.
+Notice that logarithm and exponential cancel each other
+out so we only have the x Beta left here.
+Similarly, for the second part,
+logarithm and exponential cancel each other out so we
+only have minus exponential of x Beta left here.
+Notice that the last part does
+not contain any Beta coefficients,
+which are the unknown here for estimation.
+Therefore, the last term is simply a constant,
+and it will not affect the optimization result
+at all so we can safely throw it away.
+As a result, we can write
+the log-likelihood function as this.
+Just y*x Beta minus the exponential of x Beta.
+Here, we use the tilde sign to
+represent that the log-likelihood is not
+exactly equal to the expression on
+the right because we have thrown away a constant term,
+but it's increasing in this expression and hence
+equivalent for the purpose of MLE optimization.
+This is the log function for one observation I.
+The overall log-likelihood function
+of all observations in the data
+is simply that sum of
+the log-likelihood of each observation.
+Here, it's the sum because it's the log-likelihood.
+The overall likelihood function is
+the product of the likelihood of each observation,
+but the overall log likelihood function is in term
+the sum of the log likelihood of each observation.
+As a result, we can simply use this expression as
+the objective function and to perform
+that maximum likelihood estimation.
+Same as before, we will numerically search for the set of
+Beta coefficient values that will
+maximize this objective functions value.
+And the dataset of Beta coefficient values are
+the MLE estimate of our Poisson regression model.
+Having explained how to
+estimate the Poisson regression model,
+we'll next discuss how to
+interpret the model estimation results.
+We'll discuss the usual partial or marginal effects.
+Because the Poisson regression model
+is a non-linear model,
+so the partial effect will not simply be equal
+to the Beta coefficient as in a linear regression model.
+However, it's important to note that
+the Beta coefficient in
+a Poisson regression model has a direct interpretation.
+This is because of the special functional structure
+of the Poisson regression model,
+the so called log linear structure.
+Recall that in a Poisson regression model,
+the expected value of y given x is modeled
+as equal to the exponential of the x Beta combination.
+As a result, if we take
+the logarism on both sides of this equation,
+what we get is that
+the logarithm of the expected value of
+y is equal to
+the linear combination of x's and the Betas.
+In other words, the log of the expected y is linear in x.
+This is the so called log linear structure.
+Given such a structure,
+if we take the partial derivative
+with respect to a certain x variable,
+say x_j on both sides of the equation,
+what we have on the right is
+just a coefficient for Beta_j.
+And what we have on the left is the partial derivative of
+the log of the expected y with respect to x_j,
+which can be further derived following
+the chain rule of partial derivative.
+We first take that partial derivative
+of that logarithm function,
+which gives us one over the expected y.
+We then take the partial derivative of
+the expected y with respect to x_j,
+and then multiply these two parts together.
+Now, this expression on the left
+actually has a direct interpretation.
+If we look at this part,
+it represents the small change
+in the expected value of y caused by
+a small change in x_j
+divided by the original value of the expected y.
+Now, think, what does this mean?
+It represents the percentage change in
+the expected value of y caused by a small change in x_j.
+In other words, in the Poisson regression model,
+the Beta coefficients have direct interpretations.
+Beta_j measures the percentage change of
+the expected value of y when
+a particular x variable x_j increases by one unit.
+For example, if Beta_j is equal to 0.25,
+it means if x_j increases by one unit,
+the expected value of y,
+the counter value of interest
+will increase by roughly 25%.
+This is a very neat and a nice interpretation
+of Beta coefficients in a Poisson regression model,
+and then an important feature to keep in mind.
+We can of course, also derive
+the usual partial or marginal effect
+according to the definition.
+That is the absolute amount of change in
+the expected value of y caused
+by one unit of change in x_j.
+Following the definition, take
+the partial derivative of the expected value of y,
+which is equal to the exponential of
+x Beta with respect to x_j.
+Again, applying that chain rule of partial derivative.
+That partial derivative of
+the exponential function is
+the exponential function itself,
+and the partial derivative of x Beta with
+respect to x_j is simply Beta_j.
+Therefore, that partial effect of x_j is equal to
+Beta_j multiplied by a coefficient
+equal to the exponential of x Beta.
+As we said, because
+the Poisson regression model is non linear,
+so the partial effect is not equal to Beta_j directly.
+However, as we can see,
+the partial effect still has
+a clean expression and it can be easily calculated.
+Note that the partial effect depends
+on the values of all x variables.
+Therefore, in order to determine the partial effect,
+we have to specify the values of all x variables.
+Now, what x variable values should we use?
+Well, if we want to investigate
+the partial effect for a particular individual,
+we can simply use the x values of that individual.
+More often, however, we usually like to evaluate
+the partial effects on
+an average level across all individuals in our sample.
+In that case, we can calculate
+the average partial effect or APE.
+That is, first calculate the partial effect for
+each individual by substituting
+each individual's x values,
+and then average the partial effect
+over all individuals in the data sample,
+and then average value gives us the APE,
+which measures on average
+among all individuals in our data sample,
+what is the partial effect
+of a particular x variable x_j?
+Notice that due to
+the functional structure of the Poisson regression model,
+the APE calculation can be
+further simplified to be equal to
+the estimated Beta_j value
+times the average y value in the data sample.
+This last equality is due to
+the first order condition in the MLE estimation.
+I'll skip the detail,
+the mathematical derivation here,
+but the result is certainly worth noting.
+As we can see, the average partial effect in
+a Poisson regression model can be very easily calculated.
+After estimating the model,
+we already have the Beta_j estimate,
+and we just need to multiply it by
+the average value of y in the data,
+which will give us the APE for x_j.
+Intuitively, this also makes a lot of sense.
+As we just discussed,
+Beta_j has that direct interpretation as
+the percentage change in
+the expected value of y
+caused by one unit increase of x_j.
+Now, multiplying Beta_j by
+the average value of y gives us
+the absolute amount of the change in
+the expected y as x_j increases by one unit,
+which is exactly what the partial effect
+measures so everything is nicely coherent.
+Finally, let's discuss an important limitation
+of the Poisson regression model.
+Recall that, as we mentioned previously,
+the Poisson distribution has an important property.
+That is the variance is equal to the mean,
+both of which are equal to the parameter Lambda.
+In a Poisson regression model,
+because we assume that dependent variable
+y follows a Poisson distribution,
+we are essentially assuming that the variance of y
+should be equal to the expected value
+or the mean value of y.
+Well, if this is really the case
+in our data, then that's great.
+The Poisson regression model is
+a perfect fit to our data.
+However, in reality, this oftentimes does not hold.
+In real data samples,
+a common case would be that
+the variance of the outcome variable y
+is significantly greater than
+the expected or mean value of y.
+This is referred to as the overdispersion case.
+Similarly, we may have the opposite case as well,
+where the variance of y is
+significantly less than the mean value of y,
+which is referred to as the underdispersion case.
+Of course, in practice,
+underdispersion is relatively rare
+and overdispersion happens more
+often than underdispersion,
+so our main focus will be on overdispersion.
+If there is notable overdispersion in your data,
+then Poisson regression model may not be a good fit,
+and we may need to consider some alternative model
+to model the data as we'll introduce later.
+Now, how to examine
+whether there is overdispersion in the data?
+There are some formal tests,
+but we'd like to introduce a simple statistic that we can
+easily compute to examine
+the existence of overdispersion.
+That is the dispersion parameter Sigma squared.
+To understand it, let's write
+the variance of y as equal to
+the expected value of y
+times the dispersion parameter Sigma square.
+Essentially, Sigma square is the ratio
+between the variance of y and the expected value of y.
+Notice that the ratio is non-negative by definition,
+because y is a non-negative counter variable,
+so both its expected value
+and the variance are non-negative.
+By definition, if Sigma square
+is significantly greater than 1,
+then there is overdispersion.
+If Sigma square is significantly less than 1,
+then there is underdispersion,
+and if Sigma square is equal to or very close to one,
+then we are good and the Poisson model is a good fit.
+To estimate the Sigma squared,
+we can compute this statistic
+based on the data in our sample.
+Here, y_i is the y value of observation i. Y^_i is
+defined as the exponential of
+the combination of x_i and the Beta estimates.
+In other words, y^_i is
+the expected count outcome for observation i.
+So the denominator here is
+just an estimate of the expected value of y.
+And the numerator here measures
+the deviation of the actual y from its expected value,
+which reflects the definition of variance.
+Therefore, this expression constitutes an estimate of
+the ratio between the variance
+of y and the expected value of y,
+which is the dispersion parameter Sigma squared.
+Here, n is the total number
+of observations in the data sample,
+and the k is the number of x variables.
+And this divisor here is
+the so called degree of freedom adjustment,
+given that we are using
+the estimated mean rather than the actual mean.
+In practice, however, it doesn't really
+matter much because usually
+the total number of observations
+is much larger than the number
+of x variables so n is dominating here,
+1/n-k-1 is very close to 1/n.
+Therefore, for all practical purposes,
+you can pretty much ignore
+the degree of freedom adjustment
+and simply think of this expression as just 1/n,
+which makes the whole expression a standard average.
+In short, this expression gives us
+a consistent estimate of
+the dispersion parameter Sigma square.
+Notice that it is readily
+available after we estimate the Poisson regression model.
+Y^_i's are readily available as
+the output of the Poisson model estimation,
+and the y_i's are just y variable values in the data,
+therefore, we can easily calculate this statistic.
+If it turns out to be notably greater than 1,
+then there is overdispersion in the data
+and the Poisson regression model may not be a good fit,
+which prompts us to consider
+alternative models as our next topic.
+That's all we want to discuss about the Poisson model.
+To quickly sum up, in this video,
+we first introduced the Poisson distribution,
+a very useful discrete probability distribution,
+based on which the Poisson regression model is developed.
+We then introduced the framework of
+a Poisson regression model and its estimation approach.
+We discussed the interpretation of
+a Poisson regression model in terms of
+both the direct interpretation of
+Beta coefficients and the usual partial effects.
+We further discussed
+an important limitation of Poisson models,
+that is it cannot account
+for the overdispersion in the data.
+We introduced that simple statistic
+to help examine potential overdispersion.
+Hope this video gives you a good idea of
+data problems and how to model them properly.
+That's all for this video. Thanks for watching.
