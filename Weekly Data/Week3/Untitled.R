@@ -37,7 +37,7 @@ lines(x, marg.eff, lty=1)
 
 abline(h=coef(lm.res)[2], lty=2)
 
-margEff(tobit.res, c(1,2,5))
+margEff(tobit.res, c(1,2.5))
 margEff(tobit.res, c(1,6))
 
 
