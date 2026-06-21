@@ -1,0 +1,493 @@
+>> Hello, everyone. Welcome back.
+Let's continue our introduction
+of non linear econometric models.
+We have previously introduced
+an important type of limited dependent variable model,
+where the outcome is binary.
+That is the binary response models,
+including the logit and probit models.
+In this video, we'll extend
+the binary response framework
+by adding time information to it.
+Instead of the binary response models,
+for each individual observation,
+we only observe whether the outcome is zero or one.
+Now, what if we also observe,
+at what time the outcome turned from 0-1?
+Incorporating such information into the model can
+enable us to predict
+when will the outcome of interest occur.
+The expected duration for an individual to stay in
+a certain state and
+the probability of a state change at any point of time.
+Survival models will enable us to
+incorporate such information and perform this analysis,
+as we'll discuss in detail.
+In this video, we'll provide
+an overview of the survival model setup.
+We'll go over the basics of survival models,
+including the concept of durations,
+survival functions, and hazard functions.
+We'll then introduce a commonly applied framework
+to specify survival models,
+called the proportional hazard model.
+Let's get started. As we just mentioned,
+survival analysis involves
+binary response data plus time information.
+For each individual observation data,
+the outcome is still binary,
+involving two states, which can be
+labeled as zero and one or success and failure.
+In addition, we also observe
+the time lapse before the change of outcome state occurs.
+In the typical setting of survival analysis,
+all individuals in our observe
+the data start with an initial state,
+which can be labeled as state zero.
+Before the observation window ends,
+some individuals exit the initial state
+and enter a different state,
+which is usually the state of
+interest and can be labeled as State 1.
+For these individuals, we observe
+the exact time lapse between when they
+start the initial state and when they
+exit the initial state and switch to the other state.
+Such time lapses are called durations.
+This is why survival analysis is
+also referred to as duration analysis.
+For those individuals who remained in
+the initial state till
+the end of the observation time window.
+We say these individual observations are right censored,
+and we know that their actual durations are longer than
+the time lapse observed
+till the end of the observation window.
+Therefore, the data structure for
+survival analysis is a bit more
+complex than the standard data structure
+we have been working with so far.
+In survival analysis, for each individual observation,
+we still have the usual
+independent variables or x variables.
+But the dependent or y variable is different.
+It now consists of two pieces of information.
+One is whether an individual observation
+is right censored or not.
+The other is the time lapse
+between when an individual entered the initial state and
+when that individual either exit
+the initial state or got right
+censored at the end of the observation window.
+As we can see, survival analysis is
+commonly applicable in real world contests.
+Examples can be easily found.
+For instance, survival analysis can be
+applied to study what effects
+how long patients having a certain disease
+can survive after receiving a certain medical treatment.
+In that case, we can collect the data
+on past patients receiving the treatment.
+Each patient entered the initial state
+after receiving the treatment,
+and we observe that time lapse till
+either a patient unfortunately
+died later or the observation window ended.
+Actually, this is a motivating application of
+survival analysis and what
+gives its name, the survival analysis.
+We can easily find other examples
+with a similar underlying structure,
+but in very different contexts.
+For instance, what affects how long companies
+remain in business before
+going bankrupt in a certain industry?
+Or how long machines can
+operate properly before going out of order,
+or how long people remain
+unemployed before finding another job?
+Or how long customers stay with
+a company before they leave or turn,
+and so on so forth.
+With survival analysis, we will
+be able to find out what factors
+could affect the expected duration
+before the stay change occurs.
+We're also interested in
+another important measure called hazard,
+which is the instantaneous probability
+of stay changing at any given point of time.
+We like to see how hazard changes over time
+and is affected by various independent variables.
+As we said, the centerpiece of
+the dependent variable in
+survival analysis is the duration.
+Often denoted as T which is the time lapse between when
+an individual enters the initial state and
+when that individual exits that initial state.
+If the observation is not right censored,
+then we fully observe the exact duration.
+If the observation is right censored,
+then we only partially observe the duration.
+In that, we do not observe the exact duration,
+but just know that the actual duration is longer
+than the time laps observed
+till the end of the observation window.
+Needless to say, duration t
+plays a central role in survival analysis.
+The specification of a survival model is
+essentially specifying the properties of
+duration t. Notice that
+the duration t is viewed as a random variable,
+and each individual's actual duration
+is a random realization of
+the random variable T. As a random variable,
+T follows a certain distribution.
+As usual, we can characterize that distribution through
+either the cumulative distribution function or
+CDF or the probability density function or PDF.
+We use F to denote CDF,
+and we use f to denote PDF.
+As usual, CDF,
+F(t) is equal to
+the probability of the random variable T,
+taking a value less than or equal to a given
+time lens t. PDF,
+small f(t) is simply
+the CDF taken derivative with respect to
+t. Be sure to differentiate between the notations
+of T and the t. T represents the random variable itself,
+and the t represents
+a particular realized value
+that random variable can take.
+A certain time length,
+like 10.5 hours or 5.2 days.
+With slight abuse of notation,
+we may also use t to represent a particular time instant.
+If we set the time instant when an individual enter
+the initial state as the origin Time 0.
+Then time instant t is essentially equivalent to
+the time lapse since the origin till that point of time.
+Knowing the distribution of
+duration t through the cumulative distribution function.
+We can define another important function
+in survival analysis,
+called the survival function.
+The survival function s(t) is defined
+as the probability of the duration t,
+taking a value greater than
+a certain given time length t. In other words,
+the survival function s(t)
+measures the probability of a duration,
+lasting or surviving beyond the given value.
+By definition, s(t) is simply equal to
+1-f(t) because f(t) is
+the cumulative distribution function,
+which is defined as the probability of
+the duration being less than or equal to the given value.
+As we can see, the survival function and
+the CDF function are essentially equivalent.
+Knowing one means knowing the other.
+Specifying either function defines
+the whole distribution of the duration.
+Another very important function in
+survival analysis is the so called hazard function.
+Formally, the hazard function, length.t,
+defines the instantaneous probability
+density of an individual
+exiting the initial state at
+any given time instant t. Conditional on that,
+this individual has survived up to that point of time.
+Again, as just mentioned,
+we set the origin when an individual entered
+the initial state as Time 0 so t can
+be viewed as either the time instant
+at which the individual exited
+the initial state or
+the time length that individual has survived through.
+Mathematically, length of t is
+defined as the probability
+of the duration t
+falling within a small interval between a certain value,
+t and t plus
+an infinitesimal amount h. Conditional on that,
+the duration is greater than the given value
+t. Divided by that infinitesimal amount h,
+taking the limit of h going to zero.
+This definition is actually in
+the similar way as how we define probability density.
+Intuitively, what the definition means is
+that conditional on the duration has
+lasted for length t.
+The probability for the duration to end between
+t and t plus a small amount Delta h is equal to
+the hazard Lambda of t times Delta h. Loosely speaking,
+you can think of the hazard as measuring
+the instantaneous probability of a state change
+happening at any given time
+instant t. Notice that by definition,
+the hazard function is always non negative.
+Just like the survival function is
+equivalent to that duration distribution functions,
+CDF or PDF,
+there is also equivalent relationship between
+the hazard function and
+that duration distribution and the survival functions.
+Given the hazard function,
+we can derive that CDF and
+the PDF of that duration distribution,
+as well as the survival function and vice versa.
+Defining any one of these functions defines
+the whole distribution of
+the duration and hence the survival model.
+To see such an equivalence,
+we can start from the definition of hazard function.
+The probability of the duration falling within
+the small interval from t to t + h is
+equal to.CDF f(t) + h - f(t).
+To condition that probability on
+the fact that the duration has lasted until t time t,
+we divide it by 1 -
+f(t) which is the probability
+of the duration being greater than t?
+We then divided the whole expression by
+h and take the limit according to the definition.
+As we said, this part is actually
+the definition of probability density,
+which is captured by.PDF, f(t).
+The hazard function,
+Lambda of t, can be written as a very simple expression.
+The PDF, f(t) divided by one minus the CDF, F(t).
+Or alternatively, the PDF,
+f(t) divided by the survival function s(t).
+This equation already shows the equivalence between
+the hazard function and
+the duration distribution and the survival functions.
+To further see the connection more clearly,
+we can further simplify this ratio as this expression.
+The log of s(t) taken
+the derivative with respect to
+t and then take the negative.
+This equivalence holds by the chain rule of derivative.
+To take the derivative of log of
+s(t) we first take the derivative of the log function,
+which gives us 1/s(t).
+We then take the derivative of s(t) which gives us minus
+small f(t) because s(t) is equal to one minus F(t).
+Hence, this expression is equal to this expression.
+With this equation, we have written
+the header function as a transformation
+of the survival function.
+Reversely, we can then write the survival function as
+a transformation of the header function
+by first taking the integral of Lambda of t,
+and then taking the exponential as this.
+As we see, we can write
+the survival function in the form of
+the header function because s(t) is just 1 - f(t).
+The CDF function, F(t )
+can also be written in the form of the header function,
+as this because the PDF f(t) is just the CDF F(t) taken
+derivative with respect to t. We can therefore write
+the PDF f(t) also
+in the form of the hazard function, as this.
+I'm going through these equations
+and the mathematical transformation,
+just to show you that the header function,
+Lambda of t can be transformed into
+the CDF and the PDF of the duration distribution,
+as well as the survival function.
+Knowing what means knowing the others,
+and specifying one of
+these functions specifies the others,
+and hence the full distribution of the duration.
+You don't have to memorize these equations,
+but just be sure to
+understand the equivalence relationship,
+which is essential for survival analysis.
+Because of the equivalence relationship,
+to specify a survival model,
+we usually specify that has a function,
+Lambda of t. Once Lambda of t is defined,
+we can derive the duration distribution accordingly,
+and hence the whole survival model is well defined.
+The simplest form of the hazard function,
+is just a constant,
+which does not change with time at all.
+That is at any time instant t,
+the hazard is always equal to a constant.
+This is called a constant hazard model.
+Substituting the constant hazard into these equations,
+we can derive that PDF and
+the CDF of the duration distribution as this,
+which are actually the PDF and
+CDF of the exponential distribution.
+In other words, in a constant hazard model,
+the duration follows an exponential distribution.
+Another important feature of
+a constant hazard model is the memorylessness.
+Because the probability of
+state change does not depend on time.
+Then the history of the process doesn't matter.
+No matter how long an individual has survived through,
+it doesn't affect the instantaneous probability
+of ending the survival state at any time instant.
+In general, the hazard function is a function of time.
+We need to specify how the hazard changes with time.
+We would also like to incorporate
+the independent or x variables into the hazard function.
+We can find out what x variables would affect
+the hazard and in turn affect the expected duration.
+A general function that
+changes with time and x variables would be too
+flexible and the number of ways we can
+specify such a function would essentially be infinite.
+Therefore, to narrow down our consideration space,
+we usually impose some structure to the hazard function.
+One particular structure that is
+especially convenient to apply and hence
+commonly used in survival analysis
+is the so called proportional hazard model.
+As the name suggests in
+a proportional hazard model, the hazard function,
+which is a function of both time and
+x variables is separated into two parts.
+One part is only a function of
+time and that does not contain any x variables.
+This is called the baseline hazard,
+and is often denoted as Lambda 0.
+There are many existing families of
+functions that we can choose as the baseline hazard,
+as we discussed later.
+Notice that because the
+baseline hazard is a function of time,
+the hazard does change with time.
+However, because it does not contain any x variables,
+the baseline hazard is the
+same for all individuals in the data.
+Then how do we capture individual heterogeneity?
+We will introduce another term in the hazard function
+as a coefficient multiplied to the baseline hazard.
+This term is a function of x variables,
+but does not change with
+time because each individual
+will have different x variable values.
+So this term will have
+different values for different individuals.
+Because it is a coefficient multiplied to
+the baseline hazard to form the full hazard function,
+so the full hazard will
+be different for different individuals.
+Notice that however, because
+the baseline hazard is the same for all individuals,
+and that the baseline hazard
+determines how hazard changes with time,
+so the full hazard changes with time in the same way for
+all individuals and the only difference
+is the multiplicative coefficient in the front,
+which would scale the hazard differently.
+In other words, the full hazard
+will be proportional across
+individuals based on the coefficient term
+determined by their different x variable values.
+This is why the model is called proportional hazard.
+Notice that because the hazard function
+needs to be non negative,
+so the coefficient term,
+kepa also needs to be non negative.
+Since x variables can take all kind of values,
+to ensure Kaplan is always non negative,
+we use the same trick and adopt
+the usual exponential transformation.
+That is to specify Kaplan as
+the exponential of the x Beta combination.
+Also note that Kaplan is not
+a function of time t. However,
+some x variables could be time varying.
+That is, they may take
+different values at different time.
+The proportional hazard framework can still
+work for time varying x variables.
+Just that the calculation will be a bit more complex
+in [inaudible] For simplicity,
+in all our examples and exercises,
+we'll focus on the basic case where
+the x variables are all time invariant.
+That is their values do not change over time.
+As we said, once the hazard function is specified,
+the survival model is defined.
+If we specify the hazard function
+in the proportional hazard form,
+we can derive the CDF and
+the PDF of that duration distribution accordingly,
+by substituting the hazard function into these equations.
+With properly selected baseline hazard functional form,
+we will be able to derive the CDF and the PDF
+in need close form expressions, as we'll show later.
+Once the PDF and the CDF
+of the duration distribution are derived,
+we can write out the likelihood function.
+For each individual observation i,
+the likelihood of observing the particular length of
+duration t_i can be written as this.
+If the observation is not right sensored,
+t_i is the exact duration length.
+The likelihood of duration equal to t_1 is
+simply the probability density, the f(t_i).
+If the observation is right censored,
+then what we can say is that
+the actual duration should be longer than t_i.
+As a result, the likelihood for the duration to be longer
+than t_i is simply 1 - F(t_i).
+Note that here, we are using the same way
+of expression as we have already seen many times.
+DI is the binary indicator for right censoring,
+and it is used as the exponent to turn on and
+off a particular part of
+the expression for different scenarios.
+The overall likelihood function is just a product of
+the likelihood functions for
+all individuals as we have already explained previously,
+for easier and faster computation,
+we typically use the log likelihood function
+instead as the objective function.
+When taking the logarithm of the likelihood,
+product becomes sum and
+exponents become
+multiplicative coefficients in the front.
+Same as usual, we will use
+the maximum likelihood estimation or
+MLE to estimate the model parameters.
+We will numerically search for the set of
+parameter values that will
+maximize this objective function.
+Notice that the model parameters in
+a proportional hazard model include two parts.
+The usual Beta coefficients for
+the x variables in the Kaplan function,
+and the parameters inside
+the baseline hazard function denoted as Theta here.
+This is an overview of the survival analysis.
+We introduced the key concepts of
+survival analysis, including that duration,
+the CDF and the PDF functions,
+describing the duration distribution,
+the survival function,
+and the very important hazard function.
+We also explained the equivalence
+relationship among these functions.
+So specifying one specifies
+the others and defines the survival model.
+We then introduced a useful structure
+to specify the hazard function.
+That is the proportional hazard model.
+The hazard function is modeled as the product of
+a baseline hazard function and
+a multiplicative coefficient term.
+That is a function of the x variables.
+We didn't discuss how to derive
+the likelihood function and
+estimate a proportional hazard model.
+Hope these discussions give you
+a good idea of this important type of analysis.
+That's all for this video. Thanks for watching.

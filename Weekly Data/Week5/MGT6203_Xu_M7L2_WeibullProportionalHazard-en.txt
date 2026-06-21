@@ -1,0 +1,471 @@
+>> Hello, everyone. Welcome back.
+In the previous video, we provided
+an overview of survival models,
+and introduced one commonly used framework
+to specify survival models.
+That is the proportional hazard model.
+In a proportional hazard model,
+the hazard function is modeled
+as two parts multiplied together.
+One part is the coefficient term,
+which is a function of the independent x variables.
+The other part is the baseline hazard,
+which is a function of time
+and does not contain any x variable.
+How we specify the baseline hazard function
+determines what survival model will have.
+In this video, we're going to introduce
+what commonly applied baseline hazard specification,
+the Weibull function.
+We'll discuss how
+a Weibull proportional hazard model is constructed,
+estimated, and interpreted. Let's get started.
+In this video, we'll
+start with the Weibull distribution,
+which is used to model the distribution of the duration,
+and based on which the baseline hazard is derived,
+and the Weibull proportional hazard model is constructed.
+We'll then discuss how to
+interpret the Weibull model coefficients,
+and how to use the proper r package
+to perform survival analysis.
+Let's start with introducing
+this particular distribution family
+called Weibull distribution.
+We'll use this distribution family to model
+the distribution of the duration
+in Weibull proportional hazard models.
+Weibull distribution is a probability distribution
+defined over positive values,
+which makes it suitable
+as the distribution of the duration,
+which by definition should be positive.
+Just like any other distributions we have introduced,
+to characterize Weibull distribution,
+we can specify either the probability density function,
+the PDF, or
+the cumulative distribution function, the CDF.
+This is the PDF of a Weibull distribution.
+If you read the different test books,
+you may see different forms of Weibull PDF.
+Here, I list three versions of
+Weibull PDF that you may often find in different sources.
+These may seem confusing,
+but they are just different versions of
+parameterization of that same function,
+which can be easily shown to be equivalent to each
+other after some transformation of parameters.
+For consistency and to avoid confusion,
+I'll follow the standard version of parameterization and
+stick with this form of
+expression for the Weibull PDF function,
+which can also be written as this.
+Notice that here, t is
+the possible realized value of the focal random variable.
+And a and b are
+the two parameters of the Weibull distribution.
+Both of them need to be greater than zero.
+An a is often referred to as
+the shape parameter because
+it determines the shape of the distribution.
+And b is called the scale parameter
+because it determines the scale of the distribution.
+This plot shows the probability density functions of
+Weibull distributions under different a and b values.
+As we can see, Weibull distribution
+is defined over positive values.
+And under different combinations of a and b values,
+a Weibull distribution can take
+very flexible shapes to
+fit different patterns in the data.
+Therefore, Weibull distribution is
+a very flexible and useful distribution family.
+As we said, given the PDF function,
+we can derive the CDF function
+and also the hazard function accordingly.
+So here are the PDF
+and the hazard function of Weibull distribution,
+and we'll later construct the baseline hazard of
+a Weibull proportional Hazen model, baseline dysfunction.
+As we said, in the Weibull distribution,
+parameter a is called
+the shape parameter because
+its value determines the shape of the distribution.
+If a = 1,
+then the exponent of t = 0.
+As a result, the hazard function no longer depends on
+time t. So the hazard simply reduces to a constant,
+which is equal to b^-1
+by substituting a = 1 in to the Weibull PDF.
+In other words, when the shape parameter a = 1,
+the Weibull distribution reduces
+to the constant hazard case.
+As we introduced previously,
+when the hazard is a constant,
+the corresponding distribution of
+the duration is the exponential distribution.
+In other words, when the shape parameter a = 1,
+the Weibull distribution reduces
+to the exponential distribution.
+When a > 1,
+however, the exponent is positive,
+so that hazard function is increasing in
+time t. This is
+what we refer to as positive duration dependence.
+It means the longer an individual has survived,
+the greater the probability
+this individual will "die" instantaneously.
+An example of positive duration dependence
+is the typical operational patterns of machines.
+The longer a machine has been operating normally.
+Usually, it is more likely some part of it
+may wear out causing it to stop work.
+On the contrary, if a < one,
+since a is always positive,
+so a is between 0-1.
+And then this exponent is negative.
+As a result, the hazard function
+will be decreasing in time t,
+which is what we refer to
+as negative duration dependence.
+That is, the longer an individual has survived,
+the lower the probability,
+this individual will "die".
+An example of negative duration dependence will be
+the post surgery survival pattern for some diseases.
+If a patient survives past
+the initial period of time after the surgery,
+which is usually the most critical and risky,
+the chance of that patient keeps surviving increases.
+Graphically, we can plot
+how the hazard function changes in
+time when the shape parameter takes different values.
+When a = 1, the hazard function is
+a constant and does not change with time at all.
+When a > 1,
+the hazard function increases with time,
+and we have positive duration dependence.
+When a < 1,
+the hazard function decreases with time,
+and we have negative duration dependence.
+A useful side note before we proceed.
+Recall that we already know
+the CDF function of the Weibull distribution.
+So we can easily derive the survival function s(t),
+which is just 1 - f(t) as this.
+If we take the logarithm
+twice on both sides of this equation,
+what we get is this equation.
+Notice that we need to take the opposite here,
+because after taking the first logarithm,
+the value we get is negative.
+So we need to take the opposite to turn it
+positive before we can take the second logarithm.
+Now, the value of this equation is that,
+as we can see here, for a Weibull distribution,
+the log-log of the survival function
+is actually linear in the log of time.
+This property is actually what we
+often utilize to examine
+whether the data follow
+a Weibull distribution reasonably well or not.
+What we can do is to first empirically estimate
+the survival function based on
+the distribution of the duration or observed in the data,
+and then plot the values
+of log-log of the survival function
+against the log of time to
+see whether they fit to a straight line or not.
+If these data points lie closely along a straight line,
+it suggests the Weibull distribution
+is a good distribution to assume.
+Otherwise, the Weibull distribution
+may not fit the data well.
+Having understood the Weibull distribution,
+we can then construct
+that Weibull proportional hazard model
+to incorporate x variables.
+As introduced, a proportional hazard model specifies
+the hazard function as the product of
+a coefficient term and the baseline hazard.
+For the baseline hazard,
+we now use the Weibull hazard.
+We use a simplified version by setting
+the scale parameter b = 1.
+So the baseline hazard,
+Lambda 0, is simply a.t^a-1.
+For the multiplicative coefficient term,
+we use the standard specification and set it to
+be the exponential of the usual x and Beta combination.
+To ensure that coefficient term is
+always positive as we discussed previously.
+And this is the specification of
+the hazard function for
+a Weibull proportional hazard model.
+The hazard function changes with time
+according to the Weibull hazard as we discussed,
+and different individuals hazards are proportional
+to each other based on their x variable values.
+One important property to point out here is
+that not only the baseline hazard
+itself is a Weibull hazard.
+The full hazard is also a Weibull hazard.
+If we view this expression as that scale parameter b,
+and then e^x Beta is simply b^-a,
+which makes this full hazard
+function a Weibull hazard function,
+as we derived previously.
+Therefore, we have a very important property.
+If we use Weibull distribution
+to specify the baseline hazard,
+then the full hazard also follows a Weibull distribution.
+We can also say that the Weibull distribution family
+is closed under the proportional hazard specification.
+This property is very helpful because now
+that the full hazard also follows a known distribution,
+then the PDF and the CDF of
+the duration distribution can
+be easily derived in closed forms.
+Recall that this is
+the PDF and the CDF of a Weibull distribution.
+We now just need to replace b^-a with e^x Beta,
+which will give us the PDF and the CDF for
+the duration distribution in
+the Weibull proportional hazard model.
+And as we explained previously,
+the PDF and CDF of
+the duration distribution
+determine the likelihood function.
+Then the likelihood of observing and uncensored duration
+is just equal to the PDF function
+evaluated at that duration value.
+And the likelihood of observing a censored duration is
+one minus the CDF function
+evaluated at that duration value.
+Taking the logarithm of each individuals
+likelihood and add up all log-likelihood.
+We get the overall log-likelihood function,
+which will surv as the objective function to be
+maximized for the maximum likelihood estimation or MLE.
+Notice that the model parameters to be estimated include
+both the usual Beta coefficients for
+the x variables and
+the parameters in the baseline hazard.
+In this case, the shape parameter
+of Weibull distribution, a.
+Next, let's talk about how to interpret
+the parameters of Weibull proportional hazard models.
+We already know how to interpret the shape parameter a.
+Based on whether a is greater than or less than one,
+we have positive or negative duration dependence.
+The Beta coefficients in
+a proportional hazard model
+also have direct and clear interpretation.
+Because the full hazard in a Weibull model is defined as
+this take the logarithm of both sides.
+We have this equation.
+We can then take the partial derivative
+with respect to a particular x variable,
+x_ j on both sides of this equation.
+On the right hand side, the last term
+is the log of the baseline hazard,
+which does not involve any x variable.
+So it goes away when taking
+the derivative with respect to an x variable.
+So what we have left is
+only the Beta coefficient for x_j.
+On the left hand side,
+we take the derivative of log of Lambda,
+which by the chain rule of derivative is equal
+to one over Lambda times the derivative of Lambda.
+Notice that the structure here
+is the same as what we already
+saw in possum regression models for data problems.
+This expression represents the percentage change of
+Lambda induced by one unit change of x_ j.
+Therefore, in Weibull proportional hazard models,
+just like in portion regression models.
+The Beta coefficients measure how much percent
+the hazard will change if
+an x variable increases by one unit.
+For example, if Beta_j = 0.25,
+then it means that if x_ j increases by one unit,
+the hazard at any given point of
+time will increase by about 25%.
+In economics, the percentage change in one variable,
+caused by a percentage change in another variable,
+is called the elasticity.
+Here, we have the percentage change in hazard,
+caused by a unit change in x_ j.
+So we can call such a value that semi elasticity.
+In other words, the Beta
+coefficient in Weibull proportional hazard model
+measures the semi elasticity
+of an x variable on the hazard.
+So as we see, the Beta coefficients in
+Weibull proportional hazard models have
+very clear direct interpretations.
+Having explained the development estimation and
+interpretation of Weibull proportional hazard models.
+I'd like to quickly mention
+an alternative way of
+specifying and estimating Weibull models.
+The intuition and the mathematics involved in
+this alternative form are
+less straightforward and harder to understand.
+Therefore, I don't want to get too much into
+it to cause too much distraction and confusion.
+Just want to let you know
+the existence of this alternative representation.
+It's relevant because in
+the R package we're going to use,
+it actually applies and estimates
+the Weibull model according to this alternative form.
+So the results need to be transformed back
+properly to restore the parameters
+as we have just introduced.
+That's why I'd still like to
+introduce this alternative representation.
+Recall that the duration T is a random variable,
+and in a Weibull model,
+it follows that Weibull distribution with
+the hazard function equal to
+the proportional hazard as we have specified.
+Now, as we can show mathematically,
+if we construct this transformation of duration T,
+which is still a random variable,
+and we can denote it as Epsilon.
+Then this random variable Epsilon follows
+another known distribution called
+the type-1-extreme value distribution.
+Utilizing this result, we can reorganize
+this equation and write log(t) as
+equal to the x Delta combination plus
+e. Where Delta is equal to minus Beta over a,
+and e is equal to minus Epsilon over a.
+In this form, we can view e as a new eta.
+Just that its distribution is
+no longer the usual normal distribution,
+but a variation of the extreme value distribution.
+But otherwise, it's still a separate random eta,
+just as in a standard linear regression model.
+In this sense, we can represent
+a Weibull proportional hazard model
+in a linear regression form.
+In that the dependent variable
+becomes log of the duration,
+and the independent variables are
+still the original x variables.
+Following this form, we can
+estimate a Weibull model just like
+a usual linear regression by regressing
+the log of duration on the x variables.
+The coefficients we obtain this way would be the Deltas.
+They can be transformed to back out
+the original Beta coefficients by multiplying -a,
+which is the shape parameter,
+and it can be estimated based on the error distribution.
+This is exactly the output from
+the R package we're going to use to
+estimate a Weibull survival models.
+The estimated coefficients in the output will be Deltas,
+and we need to multiply them by
+negative a to restore the Beta coefficients.
+So be very careful in this regard.
+Notice that the Delta coefficients
+have direct interpretation as well.
+Note that we have the similar structure
+here as we had with
+the standard representation of
+the Weibull model discussed just now.
+The difference is that previously,
+it was log(lambda) on this site.
+Here it is log(T) on this site.
+In this sense, the Delta coefficients have
+the same semi elasticity interpretation
+as the Beta coefficients.
+But the difference is that a Delta
+coefficient measures the semi elasticity of
+an x variable on
+the expected duration rather
+than on the hazard as for Beta coefficients.
+In other words, Delta_j measures how much percent
+the expected duration will change
+if x_ j increases by one unit.
+Notice that the expected duration and
+the hazard change in the opposite directions.
+If hazard increases, it means the probability for
+an individual to "die" at any point of time increases.
+As a result, the expected duration
+that individual can survive should be shorter.
+And vice versa, if hazard decreases,
+the probability of dying is lower,
+and as a result, the expected duration will be longer.
+Such opposite directions are consistent with the sines of
+Delta and Beta because a is positive.
+So Delta takes the opposite sine as Beta by definition,
+which is consistent and makes sense.
+The R package we're going to use to perform
+survival analysis is the survival package.
+We'll use the survreg function
+provided in the package to estimate
+a Weibull proportional has a model with
+the distribution argument specified as Weibull.
+As we said, the coefficient estimates reported in
+the survreg function output are
+the Delta coefficients rather than the Beta coefficients.
+To obtain the Beta coefficient values,
+we need to manually perform the transformation by
+multiplying the Delta
+coefficient estimates by negative a.
+Notice that the value of
+the shape parameter a
+also needs to be obtained through transformation.
+The survreg function output will
+report an estimate of the so called scale,
+which is actually the inverse of a.
+So we need to take the inverse of
+the scale estimate to back out the shape parameter a,
+and then use the value of a to transform
+the Delta coefficients into the Beta coefficients.
+Another special aspect of using
+the survreg function is that we need to
+first use the surv function to
+construct an object as the dependent variable.
+As we said, in survival analysis,
+the dependent variable consists
+of two pieces of information.
+One is the observe the time lapse,
+the other is the indicator of right censored.
+We need to supply both pieces of
+information to the surv function to
+properly construct the dependent variable
+to be used by the survreg function.
+One place to pay special attention to
+is how the right censoring is indicated.
+By the design of the surv function,
+zero means an observation is right censored,
+and the one means not censored.
+This way of coding is often the opposite
+to how censoring is usually coded in the data.
+So we need to be careful and perform
+the appropriate transformation when necessary.
+We'll explain how to use
+these functions in more detail in the demonstration.
+This is all we want to introduce
+about Weibull proportional hazard models.
+In this video, we introduced and
+explained the Weibull distribution,
+which is a very flexible and useful distribution family.
+We didn't discuss the development, estimation,
+and interpretation of Weibull proportional hazard models.
+We also introduced an alternative form to
+represent and estimate
+Weibull proportional hazard models,
+and pointed out some important nuances
+in using the survival package.
+Hope these discussions help give you
+a clear idea of how to construct,
+estimate, and interpret
+a proportional hazard model for survival analysis.
+That's all for this video. Thanks for watching.

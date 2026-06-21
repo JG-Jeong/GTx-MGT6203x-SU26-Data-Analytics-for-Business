@@ -1,0 +1,367 @@
+>> Hello, everyone. Welcome back.
+In this video, we're going to
+demonstrate how to implement survival models in R.
+We will estimate a Weibull proportional hazard model
+and then plot that hazard function
+and the duration density function to help you
+better understand the relationship
+between these important concepts.
+Let's get started. The dataset
+we're going to work on for
+this demonstration is the repurchase data.
+Suppose an online retailer wants to predict
+whether and when past customers will make repurchases.
+Based on past sales data,
+they organized a dataset that records
+the time lapse before
+the latest repurchase occurred for each customer.
+If a repurchase never happened for a customer,
+then the time lapse between the last purchase
+and the end of the observation window
+is recorded as the duration.
+And this customer's record is marked as right censored.
+As we see here, the column repurchase records
+the time length of the duration before
+the repurchases measured in days.
+And the column censored
+indicates whether a record is right censored or not.
+If right censored, it is marked
+as one, otherwise as zero.
+For each customer, we also
+observe many independent variables.
+As an illustration here,
+we keep the data simple and only
+include a few variables here as an example.
+For each customer, we record their customer ID,
+whether they have been sent a promotional offer,
+their income level, and gender.
+We like to estimate a survival model
+to see how these variables could
+affect the expected time duration
+before repurchases occur.
+Now, let's switch to R to perform the analysis.
+To apply survival models in R,
+we can use this external package called Survival.
+As usual, we need to first download and install
+this package using the install.package function.
+We'll then use the library function
+to load the package into that current R session.
+Again, installation needs to be done only once,
+but we need to run the library function to load
+the package each time we use it in a new R session.
+As usual, the data have already
+been organized and stored in a CSV file.
+Use the read.csv function to read in the data.
+Again, be sure to save
+the data file under the working directory of RStudio.
+Or you need to explicitly specify
+the full directory as part of the file name.
+Save the imported data into
+a DataFrame variable, named Mydata.
+To estimate a survival model,
+we can use that survreg
+function within the survival package.
+Notice that the syntax of specifying
+the model formula is a bit
+different from the usual regression model specification.
+Here, we need to first call that
+surv function to create a survival object,
+which will serve as the
+response variable for the survival model.
+In the surv function, we need to specify two things.
+One is the time duration.
+The other is the indicator of data censoring.
+For the duration, we simply supply
+that repurchase variable because
+it records that time duration
+before repurchases occur in our data.
+For the censoring indicator, pay attention here,
+the way it's coded in
+the surv function design is special.
+Zero means duration is right censored,
+and one means the duration
+is observed at the full length.
+Therefore, the way the censoring indicator is coded by
+the surv function is opposite to the usual way.
+It is recorded in the data.
+In our dataset, the censored variable is set to one if
+the duration is right censored and
+it is set to zero if it is not censored.
+Therefore, we need to use one minus
+censored here to reverse the 0,
+1 values to fit the coding design of the surv function.
+The surv function then creates
+the survival object recognizable
+by the survreg function,
+which will serve as the dependent variable
+in the survival model.
+The rest of the model specification is the same as usual.
+Use tilde as the separator and specify
+the list of all independent variables
+to be included in the model.
+As usual, we can use Tau to represent
+all the remaining variables
+and use minus sign to mean excluding.
+Here, we'd like to exclude the first column,
+custom ID, which is not a real variable.
+After specifying the model formula,
+specify the data as usual,
+and then specify the distribution of the duration.
+The distribution determines the baseline hazard function
+we'd like to use for that proportional hazard model.
+Here, we specify the duration as
+Weibull to apply that Weibull model.
+So these are the arguments we need
+to specify for that survreg function.
+Run the survreg function and then save the results.
+The survival model has been estimated.
+We can call the usual summary function
+to summarize the estimation results.
+As we can see, this is the coefficient table,
+where we can see the estimated value
+of the coefficient for each x variable,
+as well as, for example, the p value,
+which indicates the level of
+significance for each coefficient.
+Notice that, as we explained,
+the coefficients from
+the survreg function output are not directly
+the coefficients in the usual specification
+of proportional hazard models.
+Instead, we need to perform
+some transformations to restore the usual coefficients.
+As we explained, instead of directly
+reporting the shape parameter
+of the Weibull distribution,
+a, what the survreg function reports is scale,
+which is the inverse of a.
+So we need to take the inverse or reciprocal
+of scale to restore the original shape parameter a.
+Also, all the coefficients for x variables reported by
+the survreg function are not the usual Beta coefficients,
+but instead the Delta coefficients from this regression,
+which is regressing the logarithm of
+the duration T on the x variables.
+As we explained, the relationship
+between Deltas and Betas is that
+Delta is equal to
+negative Beta divided by the shape parameter A.
+Therefore, to restore
+the original Beta coefficient values,
+we should multiply the coefficient estimate from
+the survreg output by -a.
+We can do the transformation accordingly in R. First,
+extract the estimated scale from
+the survreg output and take the inverse,
+and this is the shape parameter
+of the Weibull distribution, a.
+Notice that log scale in the survreg coefficient table
+here is simply the logarithm
+of scale as we can easily verify.
+Then extract the coefficients from that
+survreg output using the coef function,
+which returns that Delta coefficients.
+Then multiply the Delta coefficients by -a,
+and what we get will be the original Beta coefficients.
+Now, take a look at the Beta coefficient values.
+As we explained, the Beta coefficients in
+proportional hazard models have
+that semi-elasticity interpretation.
+So the Beta coefficient for that promotion variable,
+for example, means if
+a customer receives a promotional offer;
+so the promotion variable changes from 0-1,
+the hazard rate,
+which can be interpreted as
+the instantaneous probability density
+of repurchase occurring,
+will increase by about 17%.
+Also, notice the opposite signs of
+the Beta coefficients and the Delta coefficients.
+As the hazard rate increases,
+the expected duration before
+a repurchase happens will decrease.
+So the Delta coefficient for
+promotion is negative accordingly,
+which is conceptually coherent.
+Having obtained the coefficient estimates
+for the proportional hazard model,
+the next task we'd like to
+perform is to plot the hazard function.
+Recall that this is
+the hazard function of
+a Weibull proportional hazard model,
+where this is that baseline Weibull hazard,
+and this is the scale function,
+which is a function of the x variables.
+Therefore, to determine the hazard values,
+we need to specify the x variable values.
+Again, a natural choice would be
+the mean values of the x variables in our data.
+To calculate the mean x values, as usual,
+we can render colmean function
+to calculate the column means of the original DataFrame.
+Columns 2, 3,
+4 correspond to the three x variables
+incorporated in our data.
+So calculate the column means of
+these three columns and use
+the mean values as the x values,
+denoted as x bar.
+Then calculate the usual x Beta combination,
+using the crossprod function to
+calculate the cross product of x bar and Beta.
+Notice that Beta are
+the Beta coefficients we just transformed above.
+Also notice that we need to
+include an additional one here,
+just to correspond to the interceptor coefficient,
+Beta 0, included in the Beta coefficient vector.
+With the x value determined
+and the x Beta value calculated,
+we can now plot that hazard function.
+It's a function of
+time t. There are
+many different ways to plot such a function in R. Here,
+we show how to use the curve function to plot
+a function of a certain
+independent variable as a smooth curve.
+The syntax of the curve function is very straightforward.
+First, specify the functional form
+of the function to be plotted.
+Notice that there is one requirement here.
+The independent variable needs to be specified as x,
+so the curve function knows
+which one is the independent variable.
+According to the hazard function of the Weibull model,
+we can specify it accordingly in R. The exponential of
+x Beta times a times x^(a-1).
+Notice that this x is
+actually time t in the original formula,
+which is the independent variable of the hazard function.
+So it has to be specified as x for the curve function.
+Also, notice that here,
+we wrap x Beta inside that c function.
+This is to eliminate the matrix structure of x
+Beta and to turn it into a single value.
+Some version of the k function may not be able to
+automatically convert a one
+by one matrix into a single value,
+and it may hence generate some error.
+Adding the c function here
+can prevent such a problem from happening.
+After specifying the hazard function,
+we can further specify
+the range of the independent variable on
+the plot by the xlim argument, say from 0-20.
+And the labels for
+the x and y-axis by xlab and the ylab as usual.
+Execute this statement.
+And this is the hazard function of
+our Weibull proportional hazard model.
+Be sure to understand how to read this plot.
+Notice that the shape parameter
+of the Weibull distribution, a,
+is estimated to be around 0.84,
+which is less than one.
+So this model has
+the so called negative duration dependence.
+It means the longer
+an individual remains in the current state,
+the lower the probability
+it will switch into the other state.
+Reflect on the plot.
+The hazard function is decreasing as time t increases.
+At any given point of time,
+we can find the corresponding hazard rate from the plot.
+For example, when time equals five days,
+the hazard rate is about 0.04.
+But when time equals 10 days,
+the hazard rate decreases to around 0.035.
+To be contrasted against the hazard model,
+we can further plot the density function of
+that duration distribution according
+to that same Weibull model.
+Recall that the probability
+density function of the duration
+in that Weibull proportional hazard model
+can be derived as this.
+To implementing it, however,
+we don't have to explicitly specify the density function.
+We can simply use the dweibull function,
+which automatically computes the PDF
+of Weibull distribution for us.
+We just need to specify
+the two parameters of Weibull distribution;
+the shape parameter, which is equal to a,
+as we calculated above,
+and that scale parameter b,
+which is equal to this value
+in the Weibull proportional hazard model,
+as we can easily transfer.
+Again, be sure to denote the independent variable time t
+as x here in order for
+the curve function to properly recognize it.
+Then specify the user argument such as xlab,
+ylab, xlim, and ylim.
+We can then produce the probability density function
+of the duration distribution
+according to our Weibull model.
+Recall our model has that negative time dependence.
+So the hazard rate when time t is small, is very high.
+As a result, the probability of
+observing short durations is very high.
+Because many observations end with short durations,
+the probability of observing longer durations is small.
+As a result, the density function of
+duration distribution can be expected to look like this,
+which is decreasing as that duration gets longer.
+To help you better understand
+the concept of duration density function,
+we can plot that histogram
+of all the durations observed in
+our data and then map
+that histogram onto
+the plotted duration density function here.
+As usual, we can use that hist function to
+plot that histogram of the duration in our data set,
+which is recorded by this repurchase variable.
+Notice that we should plot
+only those durations that are not right censored.
+Because for those right censored durations,
+the observed duration is
+not the full length of the true duration.
+So their distribution would be distorted.
+So we use this condition as
+the subsetting index to extract
+those observations that are not right censored.
+Set the appropriate being size by
+specifying the number of
+beings using the brakes argument.
+Set frequency to FALSE so that
+the y-axis or the height of
+the bars are not the frequency counts,
+but the probability density instead.
+This way, the histogram can match
+the duration density function in scale.
+Setting the add argument to TRUE means
+we want to add the histogram onto the current plot.
+By default, add is set to FALSE,
+so the histogram will be
+plotted as a stand alone new figure.
+Finally, set color to NULL so that we
+don't feel any color into the bars for a neat display.
+As we can see, the histogram of observed
+durations match pretty well with the density function.
+From this exercise, the nature of
+duration density function should be very clear to us.
+It describes the probability of
+observing durations in different lenses,
+and that duration density function
+can be closely approximated
+by the histogram of
+the actual durations observed in the data.
+These are all we want to demonstrate for survival models.
+Hope this example can help you better
+understand the key concepts for this topic.
+That's all for this video. Thanks for watching.
