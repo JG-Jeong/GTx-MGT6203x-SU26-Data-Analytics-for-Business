@@ -1,0 +1,298 @@
+>> Hello, everyone. Welcome back.
+In this video, we are going to demonstrate
+how to apply instrumental variables in
+R to address potential endogeneity issues
+and to perform causal analysis.
+We'll perform two-stage least square,
+both manually and using a package.
+We'll then compare the coefficient
+estimates with and without
+IVs and discuss what are
+the effects of potential endogeneity issues.
+Let's get started. The dataset
+we're going to work on for this demonstration is
+a simplified version of the
+classical and frequently cited dataset
+on return of education first
+proposed by David Card in 1995.
+The dataset records a large number of
+individuals with their years
+of schooling and hourly wage.
+As an illustration, we keep the data simple and
+include a subset of the individuals and a few variables.
+For each individual, we have observed
+their hourly wage since years of schooling,
+years of post-school experience,
+calculated as age minus education minus six.
+We also include a few variables that could
+potentially serve as instrumental variables,
+which include an indicator of whether
+each individual lives near a four-year college or not.
+The individual's father's years of
+schooling and the individual's
+mother's years of schooling.
+We'd like to see whether and how much years of
+schooling can help an individual to earn a higher wage.
+Apparently, years of education is
+an endogenous variable here because the length of
+education is a choice variable of
+each individual and is affected by lots of
+observable factors that may also
+affect the earning capability of each individual.
+For example, the innate ability,
+financial and social resources, etc.
+This hence constitutes a classical example
+of endogeneity caused by omitted variables.
+Simply regressing earnings on years of
+education will lead to
+biased estimation of return on education.
+We need to properly account for the endogeneity issue.
+Funding and using some appropriate instrumental variables
+would be a good solution.
+Now, let's switch to R to perform the analysis.
+To apply IV regression in R,
+we can use this external package called AER.
+As usual, we need to first download and install
+this package using the install.package function.
+We'll then use the library function to
+load the package into the current R session.
+Again, installation needs to be done only once,
+but we need to render library function to load
+the package each time we use it in a new R session.
+As usual, the data have already been
+organized and stored in a CSV file.
+Use the read.csv function to read in the data.
+Again, be sure to save the data file
+under the working directory of R Studio,
+or you need to explicitly specify
+the full directory as part of the filename.
+Save the imported data into
+a data frame variable named mydata.
+We can use the str function to
+quickly examine the structure of the data frame.
+Next, let's first run
+the regular OLS estimation
+without accounting for the endogeneity issue.
+Before running the linear regression,
+we can first take a quick look at
+the distribution of the dependent variable, wage's value.
+Let's plot the histogram of wage values.
+As we can see, the distribution of
+wage values is right-skewed,
+having a few high wage values as outliers.
+For a dependent variable whose
+distribution is right-skewed,
+a common approach is to use
+the logarithm of that variable instead of the raw value.
+After taking the logarithm,
+the originally right-skewed distribution
+can be more symmetric.
+To see this, we can quickly plot
+the histogram of log of wage.
+As we can see, the distribution of log wage is more
+symmetric and it can be better
+approximated by the usual normal distribution assumption.
+Therefore, instead of using
+the raw wage value as
+the dependent variable in the linear regression,
+we can use log wage instead.
+Just be careful with the interpretation
+of the Beta coefficients in this case.
+When the dependent variable is log wage,
+what a Beta coefficient measures is
+the percentage change in
+wage caused by one unit change in an x variable,
+as we have explained previously.
+We can use the usual lm function
+to perform the linear regression.
+Regress log of wage on years of
+education and the years of post-graduation experience.
+Notice that here we add a quandratic term
+of experience or experience squared into
+the regression as an illustration
+to show you how to account for
+possible nonlinear relationship between
+the y variable and some x variable.
+Notice that in the model formula specification in R,
+to include the quadratic term of an x variable,
+we cannot simply use ^2
+because ^2 has special meaning in model formula,
+which represents up to two-way interactions,
+whose exact meaning is
+totally irrelevant to what we want to do here.
+Therefore, to indicate,
+we'd like to include
+the quadratic term experience
+squared into the regression.
+We need to use the I function,
+which stands for the identity function meaning as is.
+Here, I experience squared simply means to
+include the term experience
+squared as is into the regression.
+Run the lm function and summarize the results.
+This is the OLS estimation results
+without accounting for the potential endogeneity issue.
+Notice that the coefficient for education is about
+0.09 and is significant at 99.9% confidence level.
+It indicates that one additional year of education could
+increase a person's expected hourly wage by about 9%.
+However, due to the potential endogeneity issue,
+this coefficient estimate might be biased here.
+It may overestimate or
+underestimate the true coefficient for education.
+So next, we'd like to use
+some instrumental variables to account
+for the potential endogeneity issue
+and adjust the coefficient estimates.
+In our dataset, we have
+three additional variables that
+could be considered as I candidates,
+namely whether an individual
+lives near a four-year college,
+father's years of schooling,
+and mother's years of schooling.
+Now, think, among these variables,
+which one or ones could be
+an appropriate instrumental variable or variables?
+Recall the requirements for IV are
+twofold, exogeneity and relevance.
+That is, the instrumental variable
+needs to be uncorrelated with
+the error term or
+the unobserved variables that
+cause the endogeneity problem.
+Meanwhile, the IV needs to be highly
+correlated with the endogenous independent variable.
+Based on these two criteria,
+I'll leave it to you to think which will be
+the most appropriate instrumental variable here and why?
+For now, let's use father's years of education and
+the mother's years of education
+as the instrumental variables.
+Let's use the two-stage least square
+to perform the IV regression.
+We'll first perform the two-stage least square
+manually and then use
+an external package to perform
+the same analysis and compare
+to see if the results are consistent.
+To perform the two-stage least square explicitly,
+we will do it in two steps.
+First, regress the endogenous independent variable on
+all exogenous independent variables
+and the instrumental variables.
+The syntax is the same as usual.
+Use the lm function to perform the linear regression.
+In the model formula,
+the dependent variable of that first-stage regression
+is the endogenous independent
+variable in the original model,
+which is the variable education.
+The independent variables include
+the instrumental variables we have chosen,
+which are father's education and the mother's education,
+as well as the exogenous
+independent variables in the original model,
+which is the variable experience.
+Notice that we also included
+the quadratic term, experience squared as previously,
+just to state consistent,
+using the same I function to mean as is.
+Execute the regression and summarize the output.
+As we explain, to more
+formally test the strengths of the IV,
+we would usually use the F test,
+a concept we didn't introduce.
+Loosely speaking, we can roughly use the T statistic of
+the first-stage coefficients to
+check the strengths of the IVs.
+As we can see here, the coefficients
+for father's education and mother's education
+are positive and significant at 99.9% confidence level,
+which indicates there is significant positive correlation
+between the two instrumental variables
+and the endogenous independent variable.
+The relevance requirement for
+the IVs appears to be satisfied.
+Therefore, we can move on to the second stage,
+which is to perform the original regression by replacing
+the original endogenous independent variable
+with the fitted value from the first-stage regression.
+To obtain the fitted y from the first stage.
+We can simply use the fitted function
+and supply the regression output
+from the first stage as the argument.
+Use this fitted y to
+replace the original endogenous independent variable,
+education, and specify the original regression as usual.
+That is, to regress log of wage on fitted education,
+experience, and experience squared.
+Save the result and display the summary.
+As we can see, these are
+the estimation results from the two-stage least square.
+This is the two stage least square estimate
+of the coefficient for
+education after applying the two instrumental variables,
+father's education and the mother's education.
+Assuming that two IVs satisfy the exogeneity requirement,
+this estimate should be able to account for
+the potential endogeneity issue and
+properly measure the marginal effect
+of years of schooling on wage.
+The estimated coefficient value indicates
+that one additional year of education
+could increase a person's expected hourly wage
+by about 15%.
+To further verify that
+the two-stage least square estimation we
+have performed manually is indeed correct.
+We can use some pre-programmed routine
+to perform the same analysis.
+We can install and loaded this package called AER and use
+the ivreg function included in
+this package to perform the IV regression,
+which is implemented by two-stage least square.
+The syntax of ivreg works as this.
+First, specify the dependent variable as usual,
+then queue the operator,
+then list all the independent variables
+in the original regression,
+including the endogenous independent variable.
+Followed by a pipe sign,
+and then list all the exogenous variables,
+including the exogenous variables in
+the original regression and the instrumental variables.
+Save the output, run the ivreg function,
+and the summarize the results.
+As we can see, the coefficient estimates
+from the ivreg function are exactly the
+same as those from
+our manual implementation of
+the two-stage least square estimation.
+Finally, let's co-list the coefficient estimates
+from the regular OLS and the two-stage least square.
+As we can see, the regular OLS,
+without accounting for the potential endogeneity
+of the education variable,
+ends up underestimating the marginal effect
+of education on earning.
+This result is actually
+somewhat surprising and counterintuitive.
+Now, based on what we have
+explained about how the correlation between
+the endogenous independent variable
+and the error term would
+result in bias of
+the OLS estimator in different directions.
+Think what such an underestimation implies.
+Does it mean the endogenous education variable
+is positively or negatively
+correlated with the error term?
+Can you come up with some possible explanations?
+I'll leave this thinking to you as an exercise.
+These are all we want to
+demonstrate for instrumental variables.
+This is a very important topic.
+Hope this example can help you
+better understand the related concepts.
+That's all for this video. Thanks for watching.

@@ -1,0 +1,981 @@
+>> Hello, everyone. Welcome back.
+Let's continue our introduction of
+non linear econometric models.
+Previously, we introduced the binary response models,
+where the outcome variable is binary,
+that is, taking only two possible values,
+either 0 or 1.
+In this video, we'd like to extend
+the binary response models to allow
+the outcome variable to
+take more than two possible values.
+This lead to the so called discrete choice models.
+And one commonly applied form of
+discrete choice models is known as
+the multinomial logic models.
+As we'll see, discrete choice models
+enable us to handle problems
+with qualitative dependent variables
+involving multiple categories,
+which naturally account for
+a broad class of problems commonly encountered.
+We will start with describing
+the framework of discrete choice models in general.
+And then introduce the setup of multinomial logit model,
+by imposing a particular assumption
+on the error term distributions.
+We will then discuss the connection between
+multinomial logit models and
+the binary response logic models that we already know.
+We'll point out the identification requirements
+for discrete choice models.
+As usual, we'll discuss how to estimate
+discrete choice models, and most importantly,
+how to interpret the model estimation results by
+focusing on the particularly important concept
+of marginal effects.
+Now let's get started.
+As already mentioned,
+this discrete choice problems can be viewed as
+an extension of the binary response problems
+we discussed previously.
+For binary response problems,
+the dependent variable or the outcome variable
+is binary categorical variable, that is,
+to take one of two possible values,
+or to choose between two possible categories.
+Then, what if we are facing
+more than two possible
+categories for the outcome variable?
+That's where discrete choice models come in.
+It extends the number of categories
+for the dependent variable to be more than two.
+Actually any finite integer values.
+In the language of discrete choice models,
+we often call the possible categories for
+the dependent variable alternatives.
+So in discrete choice problems,
+each individual chooses one out of multiple alternatives,
+whereas binary response problems deal with
+choosing one out of only two alternatives.
+In this sense, you can also
+view the binary response models we have
+introduced as a special case of
+the more general discrete choice models.
+Examples of discrete choice problems are abundant.
+A leading example of discrete choice problems
+would be brand choices of consumers.
+Almost every day, consumers
+face the decisions of choosing one brand
+out of many options available on
+the market for the same type of products.
+This is a typical example of discrete choice problems.
+That's why discrete choice models are well studied and
+widely applied in the fields of economics and marketing,
+where understanding and influencing
+consumer behaviors is an important theme.
+Other examples include the choice
+of transportation mode for daily commute.
+For example, choosing among driving,
+taking buses, riding a bike, et cetera.
+Also, choosing a college
+or an academic program to attend.
+For example, there are many programs
+on analytics available.
+What made you guys choose the program of gergeorgia Tech?
+There must be something great about this program,
+so what are the most influential factors?
+So these are all examples of discrete choice problems,
+where discrete choice models can help
+analyze the data and answer many questions of interest.
+Before we introduce the details
+of discrete choice models,
+let's first quickly discuss the properties of
+the choice set we typically
+require for discrete choice models to work.
+Here, the choice set means the set of
+alternatives or options
+each individual decision maker faces.
+First, alternatives in
+the choice set are mutually exclusive.
+Meaning that an individual can only
+choose one alternative out of the choice set.
+Second, the choice set is exhaustive,
+meaning that all possible alternatives can be
+chosen from are already included in the choice set.
+As a result of the first two properties,
+each individual will need to choose one
+and only one alternative out of the choice set.
+Third, the number of
+alternatives in the choice set is finite.
+At a first glance, these requirements
+on the choice set might seem pretty
+restrictive and hence may limit
+the applicability of discrete choice models.
+But actually, they are not.
+Most restrictions can be
+relaxed by some simple transformations.
+For example, if in some real applications or
+alternatives are not strictly mutually exclusive,
+meaning that individuals may
+choose two or more alternatives at the same time,
+then we can simply create
+new alternatives by combining those alternatives
+that could be chosen together and add
+these combinations as new alternatives to the choice set.
+As a result, we can still withhold
+the mutually exclusive requirement for the choice set.
+Similarly, if we cannot
+observe all possible alternatives in our data,
+we can simply add an additional alternative that
+represents anything else or
+the outside option to the choice set,
+which could restore the
+exhaustive property of the choice set.
+Perhaps the real limitation is the third requirement.
+That is the number of
+alternatives in the choice set needs to be finite.
+We hence cannot apply
+discrete choice models to
+problems with infinite number of options.
+In fact, in practice,
+it's also hard to estimate
+a discrete choice model where
+the number of alternatives is too large.
+In this sense, discrete choice models
+are best suited for problems
+where the choice set consists of
+a relatively small number of alternatives.
+However, even with this restriction,
+we may still get around it by
+categorizing all possible alternatives into
+a few groups and modeling the choice of
+groups in place of the large number of alternatives.
+So as we can see, with some reasonable transformations,
+discrete choice models can have
+very general applicability and
+hence are widely applied in
+various economics and business contexts.
+Let's start to introduce
+the details of discrete choice model framework.
+Discrete choice models will be the most complex among
+all models we have introduced in
+this module of model-based learning.
+I'll show some mathematical expressions
+and derivation just to help those
+who are interested in learning
+the model details better
+understand what's inside the box.
+But don't worry if you don't
+fully understand the meth details.
+Be sure to get the big picture and the main ideas.
+Remember the key properties and
+features of the model and you'll
+see how to apply the model to
+real applications in our demonstration later.
+Discrete choice models are developed based on
+the so called random utility model framework,
+We model an individual's utility from
+choosing a particular alternative j as this.
+Here, utility is a commonly used term in economics.
+We can think of utility as the value
+an individual derives from
+choosing a particular alternative.
+We use U_ij to represent the utility of individual,
+i, choosing alternative, j.
+IN discrete choice models,
+we need to pay special attention to
+the subscripts in the model specification.
+Because now we are dealing with two dimensional indices.
+We use subscript i to represent different individuals,
+which correspond to different observations
+in the data sample as usual.
+We use subscript j to
+represent different alternatives in the choice set,
+which correspond to different categories
+or qualitative values the outcome variable can take.
+Utility ij consists of two parts,
+one, deterministic part,
+and one, random part.
+The deterministic part is denoted as V_ij,
+and is sometimes called the representative utility.
+It is a function of the variables observed in the data.
+Usually, will model V_ij simply as
+a linear combination of
+x variables and their Beta coefficients,
+just as in regular linear regression.
+V_ij represents the utility of individual i from choosing
+alternative j that can be
+explained by the observed attributes in the data.
+It's deterministic given the data
+and the model coefficients.
+The second part is that random error term,
+as we often see, denoted by Epsilon_ij.
+It represents the overall effects of
+unobserved factors that could affect
+the utility of individual i from choosing alternative j.
+Because its actual value is unobserved,
+Epsilon_ij is modeled as
+a random variable following
+a certain probability distribution.
+Notice that while we say
+the error term Epsilon is un observed,
+what we mean is it is observed to us,
+the analysts or the researchers.
+But individual i, him or herself,
+does observe the actual values of
+Epsilon_ij ij's for all alternatives case,
+and determines his or her utilities and
+makes the choice decision based on these values.
+However, because the actual values of
+Epsilons are not observed in the data,
+we can only treat them as random variables.
+So be sure to understand
+the correct meaning and
+observe the random error terms well.
+Now, based on the utilities,
+each individual makes the choice among
+all alternatives in the choice set by comparing
+the utilities from all alternatives and eventually
+picks the one offering
+the highest utility among all alternatives.
+This leads to our definition of the choice probabilities.
+The probability of individual i,
+eventually choosing alternative j
+over all the other alternatives.
+P_ij is equal to the probability of utility U_ij being
+greater than the utility from
+any other alternative U_ik for all k not equal to j.
+This definition is pretty straightforward.
+Each individual eventually picks
+the alternative offering the highest utility.
+So if individual i picks alternative j,
+then alternative j must deliver
+a higher utility than
+any other alternatives in the choice set.
+We can then substitute in the definition of U.
+So the choice probability,
+P_ij is equal to the probability of
+V_ij+Epsilon_ij being greater than
+V_ik+Epsilon_ik for any k not equal to j.
+Then we can reorganize the terms.
+And this choice probability is hence
+equivalent to the probability of
+the difference between the error terms being less
+than the difference between the representative utilities.
+As we can see, given all the variable values in the data,
+the probability of each individual ending up choosing
+a particular alternative will
+depend on the distribution of the error terms.
+If we assume the error terms follow
+the so called extreme value distribution,
+then we'll have the logy model,
+as we'll introduce in detail next.
+If we assume the error terms follow
+the so called multivariate normal distribution,
+then we'll have the probit model,
+and the more complex distributions
+of the error tons will lead
+to other more complex models like nested logit,
+mixed logit, et cetera.
+As an illustration, we'll
+focus on the logit model here only.
+To differentiate from the logit model
+for binary response problems,
+we usually refer to the logit model for
+discrete choice problems as multinomial logit models,
+and the one for binary response problems,
+binomial logit models,
+or just the logit models by default.
+In multinomial logit models,
+we assume each error term,
+Epsilon_ij, follows an iid extreme value distribution.
+Here, iid means independent and identically distributed.
+As the name indicates,
+we assume each Epsilon_ij follows
+an identical distribution and
+they are independent from each other.
+The extreme value distribution is
+one type of probability distribution,
+just like any other distribution we are familiar with,
+for example, normal distribution,
+the logistic distribution.
+There are different variations
+of extreme value distribution,
+and the one we're using is called
+type I or Gumbel extreme value distribution.
+It's PDF and the CDF functions are defined as these.
+As we can see, there are a lot of e's,
+which are the exponential functions.
+Although the expressions may seem a little bit weird,
+the good thing is that both the PD and
+the CDF functions of
+extreme value distribution have close form expressions.
+A very favorable feature in fact.
+Now, how does an extreme
+value distribution actually look?
+This is the plot of
+the pdf function of an extreme value distribution.
+As we can see, it pretty much follows
+the same bell-shaped curve
+as the familiar normal distribution.
+What's different is that it's slightly
+skewed to the right and has slightly fatter tails.
+Therefore, extreme value distribution
+is not symmetric about 0.
+In fact, the expected value of
+extreme value distribution is no longer 0.
+It's equal to the so called Euler's constant,
+which is about 0.5772, slightly above 0.
+And the variance of extreme value distribution
+equals this constant,
+about 1.6, a bit larger than 1.
+Despite these differences in theory, practically,
+extreme value distribution is empirically
+indistinguishable from the usual normal distribution.
+So it behaves very
+similarly to normal distribution in practice.
+Then a question comes naturally.
+Why do we bother to introduce this a bit weird looking
+new distribution instead of
+simply using the usual normal distribution?
+Well, just as why we wanted to introduce
+the logistic distribution for binary response models.
+The extreme value distribution leads to
+a very neat close form expression
+for the choice probabilities in discrete choice models,
+which is a highly desirable analytical property,
+and therefore makes it the most
+popular choice for discrete choice model specification.
+>> Now, let's see how
+extreme value distribution can help us
+simplify that derivation of
+choice probabilities in discrete choice models.
+Recall that the probability of individual i
+eventually choosing alternative j
+over all the other alternatives,
+P_ij can be written as this.
+The probability of V_ij plus Epsilon_ ij being greater
+than V_ik + Epsilon_ ik for any k not equal to j.
+To derive the choice probability explicitly,
+the trick is to first reorganize the expression by
+treating the ariton of
+the chosen alternative Epsilon_ ij as given.
+So it's equal to the probability of each
+Epsilon_ ik being less than Epsilon_ ij +V_ij-V_ik.
+Because Epsilon_ ik's are independent from each other.
+So this probability simply equals the product of
+the probabilities that each
+Epsilon_ ik being less than this expression.
+As Epsilon_ ik is a random variable,
+whose distribution, we know.
+This probability is simply defined by
+the CDF function of the extreme distribution,
+for the probability of
+the focal random variable being less than a given value.
+And we already have
+the CDF function of the extreme value distribution,
+which is as this.
+So this probability is equal to
+this and then take that product.
+Now, what's left undetermined is Epsilon_ ij,
+which we had treated as if it's given.
+But actually, it's also a random variable,
+who's realized value we will never know.
+Therefore, what we need to do is to take expectation over
+this random variable by
+integrating its possible values over its distribution,
+which leads to this big expression.
+Notice that this part is
+the PDF or the density function
+of extreme value distribution,
+as we defined previously here.
+Now, this expression defines
+the choice probability under
+the extreme value distribution assumption.
+After some mathematical simplification
+through change of variable and integral calculus,
+which I'll skip here,
+we can simplify this big expression for
+the choice probability into a very neat form.
+Again, this is all thanks to
+the unique distribution form
+of extreme value distribution,
+which makes such simplification possible.
+Now, take a close look at
+this final expression and make sense of it.
+The probability of individual i eventually
+choosing alternative j over all the other alternatives
+is equal to the exponential of
+the representative utility of the chosen alternative,
+V_ij, divided by the sum of
+the exponential of
+the representative utilities of all alternatives.
+To better understand the intuition
+behind this expression,
+you can ignore the exponential function for now,
+which is the output from
+the extreme value distribution specification.
+So you can think of it as
+just some transformation of V_ij,
+that is increasing in V_ij.
+That the expression of choice probability
+essentially says that the probability
+of a certain alternative j
+being eventually chosen over
+all the other alternatives is equal to the ratio of
+this chosen alternatives or observe the utility
+over the sum of
+all alternatives or observe the utilities.
+Isn't such a result intuitive and making a lot of sense.
+As one alternative becomes more attractive itself,
+which is reflected by
+its representative utility V_ij being higher.
+Then the probability of
+this alternative being chosen will increase.
+In contrast, if
+other competing alternatives become more attractive,
+which means the other
+V_ik's in the denominator are increased,
+then the probability of
+the focal alternative being chosen will become smaller.
+Moreover, this expression is
+guaranteed to be a valid probability measure.
+Because it will always be between 0 and 1.
+Exponential of V is always positive
+so the whole ratio is always greater than zero.
+The numerator is always less than the denominator
+because the denominator is
+the sum which contains the numerator.
+Therefore, the ratio is always less than one.
+Furthermore, if we add up
+the choice probabilities of all alternatives,
+what value do they add to?
+They add up to one,
+as we can quickly verify,
+the sum of all numerators will
+add up to be the same as the denominator.
+Because each individual has to pick one alternative,
+the sum of the probabilities of each
+of the alternatives being chosen should equal to one,
+which is exactly right here.
+As we can see, we started with
+this theoretically sound model framework
+of discrete choices.
+We found a particular distribution for the error term,
+which practically
+resembles the common normal distribution,
+but it has very favorable mathematical properties.
+Then following rigorous mathematical derivation,
+we arrive at
+this very neat and very reasonable expression
+of choice probability.
+To me, this is the magic
+of math and the beauty of modeling.
+This explains why multinomial logit model is
+such a powerful and popular modeling tool
+widely applied in various contexts.
+Now, take another look at this expression.
+Does it look familiar?
+In binary response models,
+how was the probability of
+success in the logit model defined?
+It's the exponential of x Beta,
+which is just a representative utility V/1 plus
+exponential of V. Because
+binary response models only involve two alternatives,
+and the probability of success is basically
+the choice probability of one of the two alternatives.
+So if we normalize
+the representative utility of
+the other alternative to zero and define V
+as the difference between the representative utility of
+the alternative labeled as
+success and that of the other alternative,
+then we can derive the probability of success in
+the binomial logit model directly from
+the choice probability in the multinomial logit model.
+Because exponential of 0 = 1.
+So the denominator here simply becomes 1 + e^v here.
+As we can clearly see,
+the binomial logit model in
+the binary response framework can be viewed as
+a special case of
+the multinomial logit model
+in the discrete choice framework.
+In fact, if we define
+a new random variable as a difference between
+two error terms that follow
+IID extreme value distribution, say Epsilon star.
+Then as we can mathematically prove,
+this new random variable Epsilon star
+follows exactly the logistic distribution,
+which is the error terms distribution for
+the binomial logit model
+as we defined in the previous topic.
+In this sense, we can view the binomial logit model as
+a discrete choice model
+where there are only two alternatives
+with one alternatives representative utility
+normalized to zero and
+the error term being actually
+the difference between the error terms
+of the two alternatives.
+Now, it should be crystal clear to you that
+the discrete choice model framework naturally
+and nicely extends
+the binary response framework we introduced previously.
+There are several identification requirements
+of discrete choice models that you need to be aware of.
+First, think about this.
+If we add a common constant
+to the utilities of all alternatives,
+will it change each individual's choice decision?
+The answer should be no.
+Because when individuals choose among alternatives,
+they compare the utilities from
+different alternatives and the pick
+the one generating the highest utility.
+If we add a common constant
+to the utilities of all alternatives,
+it won't change the comparison result,
+and therefore won't change individuals choice decisions.
+For this reason, in discrete choice models,
+only differences in utility matter.
+Only the relative values
+between different alternative utilities matter.
+The absolute values of utilities do not really matter.
+We can change the utilities of all alternatives by
+the same amount and it
+doesn't affect the choice decisions at all.
+Therefore, we say we are unable to identify
+the absolute value of
+each alternative utility from our data.
+Because an infinite number of
+different absolute values of
+utilities could all lead to the same data observation.
+In other words, we will not be able to identify
+a common intercept in
+the utility functions for all alternatives.
+Because we can simply set this common intercept to
+any value and it won't affect the choice decisions.
+For this reason, we can only include
+the so called alternative specific intercepts
+in the utility functions.
+That is, each alternative
+has its own intercept coefficient,
+which is separate from
+other alternatives intercept coefficients.
+And we will need to normalize
+one alternatives intercept to zero as the baseline.
+As a result, what are
+the other alternatives intercepts measure?
+Actually the differences between
+each alternative and the baseline?
+Notice that we can actually choose any alternative as
+the baseline and it will eventually be all equivalent.
+In the same vein, if we have
+some x variables whose values
+are the same for all alternatives.
+For example, those so called demographic variables,
+which are tied to each individual,
+but are the same for all alternatives,
+then we cannot let the coefficients
+of these variables be the same for all alternatives.
+Because if so, we would essentially have
+the same constant value for all alternatives,
+which wouldn't be identified when we
+estimate these model coefficients
+based on the observed data.
+Instead, we will have to let
+the coefficients for these common variables also be
+alternative specific so that each alternative needs
+to have its own Beta coefficients
+that are separate from others.
+In addition, we will need to normalize one
+of the alternative specific coefficients to zero.
+This identification constraint is very important
+to keep in mind when we set up a discrete choice model.
+Otherwise, we won't be able to obtain a
+definite set of model coefficient values from estimation.
+In addition to the absolute values
+of utilities being unidentifiable,
+the scale of utilities is also unidentifiable.
+Think about this. If we multiply
+all alternative utilities by a common positive factor,
+will this change individual's choice decisions?
+Apparently not. Because multiplying
+two alternatives utilities by
+the same positive factor will
+not change that comparison result and
+whichever utility was larger
+will still be larger after the multiplication.
+Therefore, the scale of utilities also doesn't matter.
+In order to normalize the scale,
+we usually normalize the variance
+of the error term to a fixed value.
+A good thing about multinomial logit model is that
+by assuming the error terms
+follow an extreme value distribution,
+the variance of the distribution
+is already set to a fixed value.
+Which is this value as we introduced just now.
+In this sense, with multinomial logit models,
+the normalization of the scale of utilities
+is automatically taken care
+of and we don't need to worry about it.
+Having understood the identification requirements
+of discrete choice models.
+Now we can discuss how to
+specify the representative utility V_ij.
+The most general form of specification of
+the representative utility V_ij would be like this.
+Again, recall that V_ij measures the observed or
+explained part of the utility
+of individual i from choosing alternative j.
+It can consist of an intercept,
+but as we just said,
+the intercept has to be alternative specific.
+So it's Alpha_ j instead of a common Alpha.
+That is separate interceptor values
+for different alternatives.
+Also, one of the intercepts
+needs to be normalized to zero.
+As usual, we can include independent variables in V_ij.
+However, in the context of discrete choices,
+there are different types of independent variables.
+Some independent variables are both
+individual specific and alternative specific.
+Meaning that these variables take
+different values for
+different individuals and different alternatives.
+For example, if we are studying
+the choice of transportation modes for daily commute,
+then the time of commute needed under
+different transportation modes will
+be different for different individuals.
+These types of independent variables
+are denoted with subscripts of
+both i and j as x_ij and w_ij here in this equation.
+For these variables, we have the flexibility
+to either consider common coefficients
+for all alternatives as denoted
+by Beta without any subscript here,
+or allow the coefficients to still be alternative
+specific as denoted by Delta_ j here.
+>> There is another type of independent variables
+that are only individual-specific,
+but take the same values across different alternatives.
+A leading example of this type of
+individual-specific variables are demographic variables.
+For example, each individual's income level may have
+different impacts on
+an individual's choice of transportation mode.
+But an individual's income takes
+the same value for all different transportation modes.
+These types of variables are denoted as
+Z_i here with only one subscript i.
+Notice, that for this type of variables,
+we cannot use a common coefficient, because if so,
+then this whole term will take
+the same value for all alternatives and
+will hence be canceled out in
+utility comparison and won't be identified.
+Therefore, we will have to let the coefficients to be
+alternative-specific as denoted by Gamma_j here,
+and need to normalize one of the Gamma js to zero.
+Finally, there are
+some independent variables that are only
+alternative-specific and
+take the same value for all individuals.
+For example, the prices or
+some other characteristics of products.
+Notice, that we won't be able
+to include these variables into
+the model if we
+have specified alternative-specific intercepts.
+Because such terms would essentially be
+a common constant term for
+each alternative across all individuals,
+which would be subsumed into
+the alternative-specific intercept and
+won't be able to be identified separately.
+As we can see, discrete choice models are more
+complex due to its two-dimensional structure.
+We need to be very careful when specifying the models,
+especially with regard to
+the identification of model coefficients.
+For our exercises, to keep it simple,
+we will only focus on the simplest model specification.
+We will only consider x variables that are
+both individual and alternative-specific,
+and we will only consider common or
+the so-called generic coefficients for
+these x variables so that
+these Beta coefficients will take
+the same value across different alternatives.
+In addition, we will include
+alternative-specific intercepts in the model.
+As we said, one alternative-intercept needs
+to be normalized to zero.
+So if we have j alternatives in total,
+there will only be j-1 intercepts to be estimated.
+To estimate a discrete choice model,
+we will use the same approach
+as binary response logic models,
+that is the maximum likelihood estimation, MLE.
+The likelihood function can be
+formulated in a similar fashion.
+It is equal to the product of the likelihood or
+the probability of observing
+each individual's choice decision.
+For each individual i,
+the probability of observing
+he or she choosing alternative j
+over all the other alternatives is
+simply the choice probability P_ij.
+This notation here is just to
+make the expression formulated in a systematic way.
+Y_ij is an indicator variable
+indicating the choice position of each individual i.
+For those alternatives that were not chosen by
+individual i, y_ij= 0.
+For the alternative chosen by individual i, y_ij= 1.
+Because P_ij to the power of zero is simply equal to
+one and will hence not appear in the product so,
+eventually, only the
+chosen alternatives choice probability
+remains for each individual,
+and the overall likelihood function
+is just the product of
+the choice probabilities of
+the alternatives chosen by each individual,
+which takes this form, as we already know.
+As we introduced previously,
+given the data in the model,
+the likelihood function is
+a function of the unknown coefficients.
+The MLE estimation routine search for the set of
+model coefficient values that will
+maximize the value of the likelihood of function.
+One highly favorable property
+of multinomial logit models is that
+its log-likelihood function is
+globally concave in coefficients.
+So the numerical search algorithm is guaranteed to
+converge and can quickly
+fund the optimal coefficient values.
+As usual, the next question would be
+how to interpret the model estimation results.
+In particular, we'd like to
+evaluate the marginal or partial effects,
+which are the usual measures that measure the effects of
+one unit change in
+a particular x variable under choice probabilities.
+But notice that things are a bit
+complex in discrete choice models,
+because we are now dealing with multiple alternatives.
+The marginal effects depend
+on which alternatives x variable is
+changing and which alternatives
+choice probability is affected.
+Let's first discuss the self-marginal effect,
+that is the impact of one alternatives,
+one particular x variable on
+the choice probability of the same alternative.
+Recall that we only consider the case where
+all x variables are alternative-specific.
+Notice, that when calculating
+the marginal effects in discrete choice models,
+we will pick one x variable of interest and
+focus on its impacts on different alternatives.
+For example, we can focus on
+the commute time as the focal x variable of interest.
+Then we can investigate how
+an increase in the commute time of
+a particular transportation mode will change
+the probability of
+that same transportation mode being chosen.
+So here, x_ij is the commute time for
+a particular individual i from
+using a particular transportation mode j,
+say by taking buses,
+and P_ij is the probability of
+that individual eventually choosing
+buses as the commute mode.
+As usual, we can follow
+the definition of marginal effects to derive it
+mathematically by taking the partial derivative
+of P_ij with respect to x_ij.
+We'll substitute in the expression
+of choice probability P_ij
+and perform partial derivative
+according to the chain rule of calculus.
+I'll skip the details of
+the mathematical derivation here and
+leave it to those who are
+interested to follow the mass on your own.
+Take a look at the resulting expression.
+The first term Beta is
+the coefficient for that particular x variable.
+In the most general form of the model,
+we may have alternative-specific Beta coefficients.
+Then this is the coefficient
+specifically for alternative j.
+In the basic form of
+the model which we're going to focus on,
+where we only consider
+common generic Beta coefficients for x variables,
+then there will be
+only one Beta value associated with the focal x variable,
+and we can just ignore this subscript j here.
+The next two terms are the probability of
+the focal alternative j being chosen P_ij*1-P_ij.
+There are a few points worth discussing about
+this expression of self-marginal effects.
+First, the self-marginal effect of
+a certain x variable has
+the same sign as the Beta coefficient for that variable.
+If the Beta coefficient is positive,
+it means increasing the value
+of the focal x variable for one alternative,
+will increase the probability
+of that alternative being chosen.
+This is very intuitive and easy to understand.
+Second, take a look at the term
+Pij*1-P_ij and think about this.
+When will the marginal effect be the
+largest and when will it be the smallest?
+Given a Beta value,
+the marginal effect gets the largest when P_ij= 1/2,
+and the marginal effect gets the
+smallest when P_ij is equal to,
+either zero or one.
+Now, what does this mean?
+It's actually easy to interpret and understand.
+It means, if an alternative is already
+very likely or very unlikely to be chosen,
+then further improving some of
+its attributes will have
+little impact on its choice probability.
+Instead, if an alternative has about 50,
+50 chance to be chosen,
+then improving some of its attributes will be the most
+rewarding and will have
+the greatest effect on the choice probability.
+This actually shares the same spirit as
+the result we derived from binary response logic models,
+where the choice probability follows
+a S shaped curve as
+the attributes of the focal alternative improve.
+Near both ends,
+the choice probabilities change marginally.
+However, the choice probability
+changes the most significantly
+at the steepest slope when
+the attributes fall in the middle range.
+Similarly, we can derive
+the cross marginal effects, that is,
+how much one unit change in
+one alternatives attribute will change
+the choice probability of another alternative.
+In our previous example of commuting mode choice,
+the cross-marginal effects would be
+how much the probability of an
+individual choosing to drive
+his own car will be affected if
+the commute time from
+taking buses is increased or decreased.
+We can derive the cross-marginal effects
+in a similar way by taking
+that partial derivative of
+P_ij prime with respect to x_ij.
+Substituting in the expression of
+choice probability and applying
+the chain rule of calculus,
+we can arrive at this final expression.
+The cross-marginal effect equals
+minus Beta*P_ij*P_ij prime.
+Here, this Beta is
+the coefficient in front of the focal x variable.
+Again, in our basic form of a model specification,
+where we only consider
+a common Beta coefficient for all alternatives,
+we can ignore this subscript j,
+and there is only one Beta coefficient
+for all alternatives.
+P_ij is the choice probability of the alternative,
+whose x variable is changing.
+And the P_ij prime is
+the choice probability of the alternative,
+whose probability of being chosen is being affected.
+Take a look at this expression,
+which also makes a lot of sense.
+First, notice that the sign is the opposite as
+compared to that of
+the self-marginal effects as we just introduced.
+This is easy to understand.
+If one alternatives attribute is improved,
+it will increase its probability of being chosen.
+At the same time, it will decrease the probability
+of any other competing alternative being chosen.
+This explains the opposite signs
+between the self and cross-marginal effects.
+Second, if we add up
+the self-marginal effect and
+the cross-marginal effects of all competing alternatives,
+the sum, not surprisingly adds up to zero.
+It has to be the case
+because each individual eventually,
+chooses one and only one alternative from the choice set.
+Therefore, if some attribute of one alternative improves,
+it will increase the chance of
+that alternative being chosen,
+yet at the same time,
+decrease the chances of
+all the other competing alternatives being chosen.
+And the changes will cancel out each other and
+the net change should eventually be zero,
+as we can easily verify from
+the mathematical expressions here.
+As we can see, the full marginal effects
+of a focal x variable actually
+form a j by
+j matrix with j being the number of alternatives.
+If any one of
+the j alternatives focal x variable changes in its value,
+how will it affect
+the choice probability of all j alternatives?
+So we are going to have j by j different measures
+of marginal effects in a j by j table structure,
+as we'll see in the R package output
+later in the demonstration.
+These are all we want to talk
+about for discrete choice models.
+We started with the general model framework
+for discrete choice problems and derived
+a multinomial logit model by assuming
+the arritans follow extreme value distributions.
+As we show, the binomial logit model from
+the binary response framework is actually
+a special case of the multinomial logit model.
+So discrete choice models are a natural extension of
+binary response models to allow
+the outcome variable to take multiple categorical values.
+We then discuss the identification conditions
+of discrete choice models, in that,
+neither the absolute values or
+the scales of the utilities of alternatives matter.
+So we need to normalize the model coefficients properly.
+We then discussed how to
+estimate multinomial logit models using
+the usual MLE method and how to
+interpret the model by evaluating the marginal effects.
+Due to the multiple alternatives,
+we now have both self and cross-marginal effects,
+and the full marginal effects of
+a focal x variable form j by J matrix.
+Hope the content in this video is helpful for you to
+understand this advanced yet
+very useful modeling framework.
+That's all for this video. Thanks for watching.

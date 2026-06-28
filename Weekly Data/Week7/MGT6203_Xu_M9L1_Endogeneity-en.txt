@@ -1,0 +1,587 @@
+>> Hello, everyone. Welcome back.
+We have so far introduced
+many different types of econometric models to
+handle different types of problems with
+different data structures of the dependent variables.
+In this last topic of the first part of this course,
+we'll return to the starting point
+and revisit the linear regression model.
+We'll zero in on a crucial assumption
+of linear regression model,
+and discuss, what if this assumption does not hold?
+Which is actually very common in practical applications.
+This leads to a very important issue called endogeneity.
+With the presence of endogeneity,
+basic linear regression will lead to
+biased estimation of the coefficients,
+making any causal interpretation inappropriate.
+In this video, we will go over
+the causes and the symptoms of endogeneity,
+and introduce possible treatments. Let's get started.
+We will describe the issue of endogeneity and
+explain its causes both intuitively and formally,
+based on which you should be
+able to tell how endogeneity will
+bias the coefficient estimates and
+lead to incorrect causal interpretations.
+Let's go back to where we started
+and revisit that basic linear regression model.
+In a linear regression model,
+the dependent variable y is modeled as equal to
+a linear combination of
+a series of independent x variables,
+plus an unobserved random error term.
+A critical assumption for
+a standard linear regression model is
+that the expected value of the error term,
+given any values of the x variables,
+is always equal to zero.
+As we explained when introducing
+linear regression models,
+the centerpiece of this assumption is that
+the expected value of the error term is independent of,
+or uncorrelated with the x variables.
+In other words, when some x
+variable's value increases or decreases,
+it does not affect the expected value of the error term.
+As a result, the expected value of y is simply
+equal to the x Beta combination so
+a Beta coefficient measures
+the partial or marginal effect of
+the x variable on the expected value of y.
+That is how much the expected value of y will
+change if that x variable increases by one unit,
+holding everything else unchanged?
+This is what we refer to as the causal interpretation,
+because it has the so
+called ceteris paribus interpretation,
+holding everything else equal.
+If only a particular x
+variable's value changes a little bit,
+how much will the outcome of
+interest be expected to change?
+We can then say such a change in the outcome is
+caused by the change in that x variable's value.
+In this sense, the Beta coefficients
+have causal interpretations,
+which is clearly very meaningful and valuable in
+revealing the underlying mechanism
+that could affect the outcome of interest.
+Now think, what if
+this critical assumption does not hold?
+In other words, what if the error term is
+correlated with one or more x variables?
+Let's say the error term is now correlated with x_1.
+Then if x_1 increases,
+the expected value of the error term will also increase,
+both of which will affect the value of the outcome y.
+As a result, the Beta coefficient, Beta 1,
+will no longer be able to measure
+the correct partial effect of x_1,
+because we will no longer have
+a clean ceteris paribus setting.
+When x_1 changes, now,
+something else inside that error term will also change,
+violating the qualification of
+holding everything else unchanged.
+We call the violation of
+this critical assumption, the endogeneity issue,
+and call the x variable or
+variables that are correlated with the error term,
+the endogenous variables,
+as opposed to exogenous variables,
+where are those x variables that
+are uncorrelated with the error term.
+As we'll show, when endogeneity is present,
+applying basic linear regression while
+ignoring the endogeneity issue will cause
+the Beta coefficient estimates to be different from
+their true values and to
+lose their correct causal interpretation.
+In this case, we say that
+coefficient estimates are biased.
+Unfortunately, endogeneity is an issue way too common in
+real-world contexts so it's a major challenge
+for causal analysis based on most observational data.
+There are different sources of endogeneity,
+such as measurement errors and simultaneous equations,
+but we'll focus on the most common source of endogeneity.
+That is the omitted variables,
+as we'll explain in detail next.
+Omitted variables, as the name suggests,
+are those variables that we do not observe in the data,
+but can affect the outcome of interest.
+By definition, omitted variables will enter
+the error term and become
+part of it in the regression analysis.
+Omitted variables are
+the most common cause of endogeneity issues.
+To see this, let's consider an example.
+Suppose we'd like to analyze the return on education,
+and we'd like to see how more years of
+education would affect
+the expected wage a person can earn.
+As an illustration, let's keep the model simple,
+and only focus on one focal variable here,
+the years of education.
+Let's say we collected data
+of a large sample of individuals,
+including the years of education
+they received and the wage they earned,
+so our simplified model has wage as
+the dependent variable and
+education as the independent variable.
+As usual, we have Beta 1 as the coefficient of education,
+and Beta 0 as the intercept.
+Our key interest is the value of Beta 1,
+which supposedly, measures
+the marginal effect of education on the expected wage.
+That is the return on education.
+Now, let's say we have
+another hidden factor that
+will also affect the wage a person can earn.
+That is an individual's innate ability.
+However, as we know, it is very hard to
+quantify or measure a person's ability.
+Not to mention to precisely
+observe and record it in the data.
+As a result, we do not
+observe this ability variable in our data.
+In this sense, ability
+becomes an omitted variable for our analysis.
+And by definition, it enters the error term,
+which as we introduced previously,
+contains everything that could affect outcome y,
+but was not included in the observed x variables.
+Let's use v to denote the new error term,
+that includes both the unobserved variable ability
+and the original error term u.
+Notice that having some unobserved variables
+per se is not a problem,
+because they can simply be included in the error term,
+and this is what the error term is designed for.
+What would be a problem is that if
+this omitted variable is correlated with the x variable,
+which is highly likely to be the case here.
+As we can think of, education is,
+to a large extent, a choice variable.
+Different individuals choose to receive
+different lens of education
+based on their own situations.
+People having, say a higher ability level,
+may choose to receive more years of education,
+perhaps because pursuing advanced degrees
+does not appear too harder to them.
+Alternatively, the opposite may also be true.
+People having a higher ability level may find a lot of
+opportunities to advance their career
+and say, make a fortune.
+So they may find less incentive
+to stay in school for long,
+because that would incur too much opportunity cost.
+In either case, the omitted variable, ability,
+is likely to be correlated with
+the focal x variable, education.
+For easier reference and discussion,
+let's simply assume the first case,
+albeit not necessarily true,
+but let's just assume that education
+is positively correlated with ability.
+That is, individuals with a higher ability level are
+more likely to receive longer education and vice versa.
+And let's also assume both higher ability and
+more education can help
+increase the expected wage a person can earn.
+In this case, since
+the error term v contains the omitted variable,
+ability, and ability is
+correlated with the focal x variable, education.
+Even if we assume all the other factors included in
+the original error term u
+are uncorrelated with education,
+the new error term v
+will still be correlated with education.
+Therefore, the assumption that the error term is
+uncorrelated with x variables is violated,
+and that we run into the problem of endogeneity,
+and the key x variable education is now endogenous,
+no longer an exogenous variable.
+Let's first intuitively think about
+the consequences of such an endogeneity issue,
+and how it will bias
+the estimated effect of education on wage.
+Now, because of the presence of the endogeneity,
+individuals with more years of
+education are likely to earn higher wages,
+not only because of the effects of education per se,
+but also because of
+the potentially higher ability levels
+associated with the higher education levels.
+However, if we don't correct for
+that and simply run regular linear regression,
+ignoring such an endogeneity issue,
+we would attribute the higher wages
+entirely to the effects of education.
+As a result, the effects of education on
+wage will be over estimated.
+This is exactly the impact of endogeneity,
+and why it has to be properly accounted for.
+Next, let's formally analyze how
+endogeneity will bias the Beta coefficient estimate,
+using the same example of regressing wage on education.
+Recall that the standard OLS estimator
+of Beta 1 is equal to the covariance
+between the x variable and the y variable
+divided by the variance of the x variable.
+The x variable in this example is education,
+and the y variable is wage.
+Substituting y equal to Beta
+0 plus Beta 1 times x plus the error term v,
+and expand the calculation of covariance.
+We can write this covariance as equal to
+the covariance between x and Beta 0, which is 0,
+since Beta 0 is a constant and does not vary,
+plus the covariance between x and the Beta 1 * x,
+which is equal to Beta 1 times the variance of x itself,
+plus the covariance between x and
+the v divided by the variance of x.
+We can then derive the OLS estimate
+of Beta 1 as equal to the true value of Beta
+1 plus the covariance between
+the focal x variable and
+the error term v divided by the variance of x.
+In the standard linear regression setting,
+the key assumption is that
+the error term is uncorrelated with the x variable.
+So the covariance between x and v is zero.
+Therefore, the OLS estimator of Beta
+1 is equal to the true value of Beta 1.
+So the OLS estimator is unbiased.
+However, when endogeneity is present,
+the error term will be correlated with the x variable.
+So the covariance between x and
+the v will no longer be 0.
+As a result, the basic OLS estimator,
+ignoring endogeneity, will no
+longer be equal to the true value of Beta 1.
+So the OLS estimator will be biased.
+Depending on how the error term is
+correlated with the endogenous x variable,
+we can determine the direction of the bias.
+In our example, the error term v
+contains the omitted variable ability,
+and the ability is expected
+to be positively correlated with wage.
+So v is equal to Beta 2 times ability plus u,
+where Beta 2 measures the ability's impact on wage,
+and is hence positive.
+We can then expand
+this covariance in the same way as previously.
+The first part is the covariance between
+education and Beta 2 times ability,
+which leads to this expression.
+The second part is the covariance
+between education and u.
+Notice that the u is the error term after excluding
+the omitted variable that causes the endogeneity.
+So u is supposed to be
+uncorrelated with the x variable, education.
+Therefore, the covariance between education and u is 0.
+So the last part disappears.
+Therefore, the OLS estimate of Beta 1 can be written as
+the true value of Beta 1 + Beta 2 times this ratio.
+>> Notice that this ratio has
+the same structure as what we saw here.
+Which means it is equal to the coefficient
+from regressing ability on education.
+We can denote it as Delta 1.
+Again, Delta 1 is the coefficient in front of education.
+If we run a separate regression where
+the omitted variable ability becomes the y variable,
+and the endogenous variable education
+serves as the x variable.
+Now, as we can see,
+the OLS Simta of Beta 1 is equal to
+the true value of Beta 1 plus Beta 2 times Delta 1.
+The bias is measured by
+the product of Beta 2 and the Delta 1.
+And the direction of the bias is hence jointly
+determined by the size of Beta 2 and Delta 1.
+Again, Beta 2 measures the impact of
+the omitted variable ability on the y variable wage,
+which is supposed to be positive.
+And Delta 1 is the coefficient of
+education from regressing ability on education,
+where it measures the correlation
+between education and ability.
+By our assumption, education
+is positively correlated with ability.
+So Delta 1 should be positive.
+As a result, the product of Beta
+2 and the Delta 1 should be positive.
+So the bias is positive.
+In other words, the OLS estimator of Beta 1 ignoring
+the endogeneity issue will end up
+being greater than the true value of Beta 1.
+So the basic OLS estimation,
+ignoring endogeneity will end up
+overestimating the value of Beta 1.
+This is consistent with
+the conclusion from our intuitive reasoning just now.
+That the effect of education on wage will be
+overestimated if we ignore
+the positive correlation between education and ability.
+The previous example involves only one x variable.
+In the more general case of multiple regression,
+where there are more than one x variables,
+we have a similar result.
+As we can formally derive,
+the OLS estimator of
+the Beta coefficient of a particular x variable,
+say Beta j is equal to the true value of
+Beta j plus Beta k times Delta j.
+Where Beta k measures the impact of
+the omitted variable x_k on outcome y.
+And Delta j is the slope coefficient of x_j
+from regressing the omitted variable
+x_k on all x varables.
+It measures how the full x varable is correlated with
+the omitted variable after
+controlling all the other x varables.
+Depending on the science of Beta k and the Delta j,
+we can determine the direction of the bias.
+For example, if the omitted variable
+negatively affects the outcome,
+so Beta k is negative,
+and the omitted variable is positively
+correlated with the focal endogenous x variable.
+So Delta j is
+positive and then the bias will be negative.
+And the OLS estimation ignoring the endogeneity
+will end up under
+estimating the true coefficient value Beta j.
+The other scenarios can be analyzed similarly.
+Unfortunately, endogeneity is way
+too common in applications,
+and hence becomes a major challenge for
+causal analysis based on
+observational data in almost all contexts.
+Unless we are dealing with
+carefully designed randomized controlled experiments,
+it is actually very hard to find
+a context that is free of endogeneity concerns.
+Examples are pervasive, and just to name a few here.
+Let's say, for example,
+I want to analyze
+how much class participation can
+help improve students academic performance.
+So I collected data on
+students grades and
+class participation records in the past.
+If I simply regress students grades on
+their class participation rates
+using the usual OLS regression,
+I may see a significantly positive coefficient
+for class participation.
+However, if I simply based on that and conclude
+that class participation does
+significantly boost the student's academic performance,
+I may end up overestimating
+the effects of class participation.
+The reason is that class participation
+is largely a choice,
+and it could be correlated with
+many unobserved factors that
+would also affect the final performance.
+For example, let's say self motivation
+which is unobservable,
+but will surely affect the performance.
+Hence, it is an omitted variable
+and enters the error term.
+It is very likely that self-motivation is
+also correlated with class participation.
+Students with higher levels of motivation may
+be more motivated to attend each class actively.
+Such a correlation makes
+the x variable class participation endogenous,
+and hence causes the endogeneity issue.
+Since the omitted variable,
+self-motivation can be expected to be
+positively correlated with
+the focal x variable class participation,
+and it also positively affects
+the y variable, the grade performance.
+As we have analyzed,
+it will cause positive bias and cause the OLS estimator,
+ignoring the endogeneity to overestimate
+the effect of class participation on grade performance.
+Intuitively reasoning.
+Students who participate in
+class actively do well in coursework,
+not only because of class participation per se,
+but also because they are also likely to be
+highly motivated students who say spend
+a lot of time and effort after class to read,
+practice, and absorb everything taught in class.
+Attributing the out performance entirely to
+class participation alone would
+hence be an overstatement.
+This he serves as
+a typical example of endogeneity problems.
+Other examples of endogeneity
+can also be easily sought of.
+For example, if we simply regress the crime rates of
+different city districts on
+the police forces deployed to these districts,
+we may surprisingly find a positive coefficient.
+If we then simply conclude that
+more police forces would lead to higher crime rates,
+that would obviously be misleading.
+Intuitively, we should expect
+a negative coefficient for
+police force on the crime rate.
+That is more police force can reduce the crime rate.
+What's missing here is
+the safety characteristics of different districts.
+Generally, more police forces are deployed to
+those districts that are
+expected to have higher crime rates.
+In other words, a district safety characteristics,
+which enter the error term as
+an omitted variable are
+correlated with the focal x variable,
+the police force deployment,
+and hence causes the endogeneity issue here.
+Ignoring it could lead to
+a significant overestimation of
+the coefficient for police force,
+turning it from otherwise negative to positive.
+Similarly, if we simply regress
+the historical demand of a certain product on its price,
+we may surprisingly find a positive coefficient
+which appears to suggest that
+a higher price leads to a higher demand,
+which could obviously be very misleading because
+a higher price is supposed to
+suppress demand if everything else is equal.
+So what's missing here is
+the potential so called demand shocks.
+Again, price is a decision variable,
+and companies raise prices when they see
+certain demand shocks that are
+expected to increase the demand from consumers.
+In other words, the unobserved demand shocks inside
+the ton are likely to be correlated with the price,
+which causes the endogeneity issue,
+resulting in an overestimation of the coefficient of
+price turning it from otherwise, negative to positive.
+Another example would be regressing
+consumer spending on their participation
+in some promotional program.
+Simple OLS regression may lead to the conclusion that
+consumers spend a lot more
+after signing up for the promotional program.
+However, what's missing here is that those
+consumers who sign up for the promotional program
+maybe those who are interested in
+this company's product in
+the first place and intended to spend anyway.
+Ignoring such an endogeneity issue would overestimated
+the effects of the promotional program
+on boosting consumer spending,
+which could result in misled business decisions.
+As we said, unfortunately,
+endogeneity issues are present in
+almost all empirical settings
+involving observational data.
+However, one very important question is,
+when do we need to worry about endogeneity?
+If our goal is only to predict
+the outcome variable based on
+the values of the independent variables,
+then we don't need to be bothered
+too much with endogeneity concerns.
+This is because even if
+the error term is correlated with the x variables,
+as long as the same correlation remains in the new data,
+which we'll use to predict the y values,
+then using the OLS result
+for the prediction will still be valid in general.
+Endogeneity becomes a real problem when our goal is to
+perform causal analysis and
+to derive causal implications.
+That is, if we want to measure
+the causal effects of a particular x variable on
+the outcome of interest just like
+the partial or marginal effects
+we have been driving previously,
+so that we want to say something like if
+a particular x variable changes
+whereas everything else stays the same,
+how much will that cause the outcome to change?
+Then we will have to take care
+of the endogeneity issues properly.
+Because as we see,
+simple OLS estimation will
+result in biased and misleading measures.
+Then how can we tackle endogeneity issues?
+Well, there are many different approaches that have been
+developed to help alleviate endogeneity concerns.
+And one can easily spend
+a whole five year PhD study to learn
+this method and still struggle with
+endogeneity issues in their research analysis.
+Remember, there is no perfect solution
+to the endogeneity problem.
+Unless we can do carefully designed
+and well controlled randomized experiments,
+none of these listed methods
+can eliminate endogeneity concerns perfectly
+and deliver 100% clean causality
+for analysis based on observational data.
+They can only help eliminate some aspects of
+the possible sources of endogeneity and to some degree,
+mitigate the endogeneity concerns.
+And we often utilize multiple methods
+in the same research analysis to minimize
+the endogeneity concerns and to enhance our confidence
+that our results should be
+close enough to the true causality.
+Notice that even randomized
+controlled experiments are not that easy
+to design and oftentimes
+still suffer from potential confounding factors,
+it is usually easier to design
+randomized control experiments in
+natural science such as physics and chemistry,
+where we can control all the other possible variables and
+only the focal variable change
+so as to tease out its true causal effects.
+However, in social science such
+as business and economics research,
+it is very hard if not impossible at all,
+to design a perfect randomized controlled experiment
+in real world settings.
+Simply because there are
+so many potential confounding factors at play in reality.
+Therefore, even the causal effects derived from
+experimental studies may still need
+to be taken with some grains of thought.
+Given the limit of our time,
+we'll focus on one classical method with
+a solid theoretical foundation to tackle endogeneity.
+That is the instrumental variable or IV approach.
+We'll introduce the details of
+the IV approach in the next video.
+This is an overview of
+causal analysis and endogeneity concerns.
+We went over examples of endogeneity issues and discuss
+the causes and the symptoms
+both intuitively and rigorously.
+We introduced the possible treatments for endogeneity,
+and particularly mentioned
+the caveats about their limitations.
+Hope this video helps bring this advanced yet
+very important issue to your attention
+and helps to give you a good understanding of it.
+That's all for this video. Thanks for watching.

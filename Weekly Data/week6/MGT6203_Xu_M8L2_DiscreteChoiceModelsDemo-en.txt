@@ -1,0 +1,528 @@
+>> In this video, we're going to demonstrate how
+to implement the important concepts related
+to discrete choice models in R. We
+will start with how to
+organize data for discrete choice models,
+and then estimate a discrete choice model
+and interpret the coefficient estimates.
+Based on the estimation results,
+we'll evaluate the choice probabilities
+of different alternatives and finally,
+demonstrate how to evaluate
+marginal effects for a certain variable of interest.
+As usual, this demonstration will give you
+a concrete sense of the theoretical concepts we have
+explained in the previous videos and help you better
+understand this relatively more complex model framework.
+Let's get started. The dataset
+we're going to work on for this demonstration
+is the heating data.
+The original dataset was put together by
+Professor Kenneth Train from UC Berkeley,
+whose book titled
+Discrete Choice Methods with Simulation is
+a classic piece for anyone who is
+interested in learning discrete choice models in depths,
+which I highly recommend.
+The data set is also included in the M logit package,
+which we're going to use to fit multinomial logit models.
+I have extracted a simplified version of
+the original dataset and
+saved the clean data in a CSV file.
+We will use this data file directly.
+As we see here, the data sample consists
+of 900 single family houses
+in California that were newly
+built and already had central air conditioning.
+The house IDs are indicated in this chid column,
+which stands for choice ID.
+The choice of interest is the heating systems.
+Five types of heating systems are considered here.
+Gas central, gas by room,
+electric central, electric by room, and heat pump.
+These are the five alternatives in
+the choice set facing each house owner.
+For each house, we calculated
+the installation costs denoted as IC,
+and the annual operating costs denoted as
+OC for each of the five heating systems.
+These costs were calculated
+based on the characteristics of the house,
+the price of gas,
+and the electricitys in
+the house location and
+the weather conditions in the area.
+The actual choice of the heating system
+by each house owner
+is recorded as indicated by depvar here,
+which stands for dependent variable.
+It uses binary indicators
+to indicate the choice decision.
+The heating system alternative
+eventually chosen is indicated as one,
+the other alternatives that were not
+chosen are indicated as zero.
+We'd like to examine how the costs of
+each heating system alternative would affect
+the choice probabilities of all these options.
+Before we proceed, I'd like to quickly mention
+the two different formats of
+storing data for discrete choice problems.
+For the exactly same information,
+there is actually another way of storing the data,
+which takes fewer roles,
+but without losing any information at all.
+Now, think, how would you do that?
+In the current format,
+each individual house occupies
+multiple rows with each row
+corresponding to one heating system alternative.
+This way, we can easily save
+the information for those alternative specific variables,
+like the installation costs and operating costs here,
+which are different for different heating systems.
+This type of format is called
+the long format because
+there are multiple rows for each individual.
+So the data sheet is very long.
+Instead, we can save the data in
+a different format where
+each individual house only occupies one row.
+We will need to create multiple variables for
+each alternative specific variable
+to store the different values for different alternatives.
+The data format will look like this.
+We need to create five separate variables
+for the IC variable,
+and the name them properly as IC dot GC, IC dot GR,
+IC dot EC, IC dot ER,
+and IC dot HP to
+represent the installation costs for gas central,
+gas by room, electrical central,
+electric by room, and the heat pump respectively.
+We will need to do the same for the OC variable as well.
+This type of format is called
+the wide format because we now have a lot more columns.
+So the dataset is wider.
+Notice that if we have
+some individual specific
+but alternative invariant variables,
+such as the demographic variables.
+In the wide format, these variables
+only need to appear once for each individual.
+Whereas in the long format,
+these variables need to appear multiple times for
+each individual with the same value repeatedly.
+Therefore, the wide format is
+a more efficient way of data storage if
+we have many individual specific
+yet alternative invariant variables.
+The downside of the wide format is, of course,
+the greater number of columns or
+variables with usually cumbersome variable names,
+which are generally less efficient to handle.
+Also notice that the choice decisions are stored
+differently for the wide format versus the long format.
+The R package we're going to use can import
+data in both the long and the wide format.
+For our exercises, we'll simply use the long format
+as we don't have any individual
+specific but alternative invariant variables.
+Let's start working on the R code now.
+In order to fit multinomial logit discrete choice models,
+we need to use some external R package.
+Again, these are third party packages
+developed and shared by
+different people around the world.
+The package we're going to use is called mlogit,
+which stands for multinomial logit.
+Again, if this is the first time you've
+ever used this package on your computer,
+you need to first download and install it
+using the install dot package statement.
+Once the package is installed,
+you need to use the library statement
+to load it into the current R session.
+Again, installation needs to be
+done only once on each computer,
+but you need to load the package
+every time you start a new R session.
+As usual, we read
+dot CSV function to read
+in the data stored in the CSV file.
+Again, be sure to save the data under
+the working directory of R studio,
+or you need to explicitly
+specify the full directory as part of the file name.
+Read dot CSV function sets header to be true by default,
+so we don't really need to
+specify the header option explicitly.
+Save the imported data into
+a data frame variable named my data.
+To fit a multinomial logit model
+using the mlogit package,
+we need to first convert the data
+into an object recognizable by the package.
+To do so, we can use the mlogit dot data function.
+There are a series of arguments we need to
+specify properly in order to use this function.
+The first argument is that data
+frame where the data are saved.
+The shape argument specifies
+that format of the original data.
+Because our data was stored in the long format,
+so we specify long here.
+For wide format data,
+just specify wide for that shape argument.
+The choice argument designate which variable
+in the original data stores the choice decisions.
+In our data, the depvar variable stores
+the choice decisions,
+so we set that as the choice variable.
+The alt var argument specifies which variable
+in the original data stores
+the names of the alternatives.
+In our data, that is the alt variable.
+So we specify it here.
+Finally, the chid var argument
+specifies which variable stores the choice ID,
+which is the identifier
+for each so called choice situation.
+For our applications, you can simply think of
+each choice situation as each individual.
+So here, each choice ID is
+the ID for each individual house,
+which is stored in this chid variable,
+as we specify so here.
+Having specified all necessary arguments,
+we can then call the mlogit dot data function
+and save the created data object into a variable.
+We can use the head function to quickly
+show the first 10 rows of the data.
+Notice that the format of
+the mlogit dot data function output is the long format.
+So the first 10 rows contains
+the data for the first two houses,
+each of which occupies
+five rows for the five alternatives.
+Having the data properly imported and converted,
+we are now ready to apply
+the multinomial logit model to our data.
+To estimate a multinomial logit model,
+we can use the mlogit function.
+The syntax is similar to what
+we used for linear regressions.
+The model is specified as
+the dependent variable tilled
+the list of independent variables.
+Notice that in our simple cases,
+where there only involve
+individual and alternative specific variables,
+and we only consider common or generic coefficients.
+The independent variables can be specified as usual.
+Just list each variables
+name and connect them by the plus sign.
+In more complex full model specification,
+as we explained in the previous videos.
+We need to separate the independent variables
+into different parts using the pipe sine here.
+I'll leave the more complex model specification
+to those who are interested to explore on your own.
+As usual, specify the data
+object and save the output to a variable.
+Run the R statement.
+As we can see, the estimation of
+a multinomial logit model is completed almost in no time.
+As we said previously,
+although the likelihood functions of
+multinomial logit models may seem complex,
+they are actually globally concave.
+So the estimation can be done very quickly,
+even if there are a lot of
+variables and the data size is large.
+The estimation results can be interpreted in
+pretty much the same way as those of linear regressions.
+Let's take a quick look at the coefficient table.
+Pay attention to the first four rows. What are they?
+They are the intercepts for each alternative,
+the so called alternative specific intercepts.
+Notice how many of them do we have?
+Four. There are five heating system alternatives,
+but we only have j minus one,
+which is equal to four alternative specific intercepts.
+And one alternative is chosen as the baseline,
+and its intercept is normalize to zero.
+So which one is normalized to zero?
+Whichever is missing here.
+Actually, electric central or EC is
+chosen as the baseline and
+its intercept is normalized to zero here.
+And all these intercepts
+actually measure the average utility
+from each alternative in
+comparison with the baseline alternative.
+So be careful with the identification constraints
+and the interpretations.
+Now, what do these positive coefficients mean?
+They mean compare to the baseline alternative,
+which is electric central.
+These two heating options generate
+higher utilities on average given everything else equal.
+In contrast, these two negative coefficients indicate
+these two heating options generate
+lower utilities on average
+compared to the baseline alternative.
+Also, notice that for IC and OC,
+these two variables are both
+individual and alternative specific,
+and we only assign
+a common generic coefficient in front of each of them.
+So we only have
+one coefficient in front of each of these two variables.
+Notice that the coefficients are negative,
+meaning that as the installation
+or operating costs increase,
+the utility from any of
+the heating options will decrease, which makes sense.
+Having estimated that multinomial logit model,
+we can perform some post estimation analysis.
+We can first calculate that predict
+that choice probability of
+each alternative for each individual.
+Recall that the formula to
+calculate the choice probability is equal to
+this with Vij equal to this.
+We could manually calculate that choice probability,
+by substituting the coefficient estimates and
+the x variable values for
+each individual and the alternative.
+Since our basic model doesn't have many coefficients,
+and calculation isn't complex
+at all and it's totally doable.
+I encourage you to do so on your own,
+just to deepen your understanding
+of this very important concept.
+Once you have obtained
+the calculated choice probabilities
+by manual calculation,
+you can easily double check
+your results with the output from the R function.
+We can easily calculate
+the choice probabilities using the fitted function.
+Just as we calculated the fitted y in linear regression
+and the predicated probability of
+success in binary response models.
+We first pass in
+the estimation result of the multinomial logit model.
+Notice that if we want to obtain
+the choice probabilities of all alternatives,
+we will need to specify outcome as equal to force.
+By default, outcome is set to be true,
+which means the function will
+only return the choice probability
+of the alternative actually
+being chosen by each individual.
+So be sure to set the outcome argument properly
+to obtain the choice probabilities of all alternatives.
+If we just execute this fitted function like that,
+it will display the choice probabilities
+of all 900 individuals in our data.
+We don't want to print out so many roles.
+So as an illustration,
+let's only display the first several individuals,
+so we can use the head function as usual.
+As we can see, it displays
+the predicated choice probability
+of each heating option for
+the first six households in our data.
+Notice that these values are all probability measures,
+so they are between 0-1.
+And if we add up
+all the choice probabilities of each individual,
+that is along each row,
+they should add up to one as we can easily verify.
+As we can see, in general,
+the gas central heating option
+has the highest probability of being chosen,
+which is consistent with what we observe in the data.
+Next, we'd like to calculate the marginal effects of
+a particular independent variable to see
+how much it will affect the choice probability.
+Recall that, as we explained in the previous video.
+In discrete choice models,
+marginal effects are in fact j by j measures.
+We need to specify which alternatives
+x variable changes and which
+alternatives choice probability will be affected.
+Also, when measuring marginal effects,
+we need to specify the values of all x variables.
+There are usually several options.
+One is to use a particular individuals x variables.
+So we'll be calculating
+the marginal effects specific
+to this particular individual.
+Another common approach is to use
+the mean values of
+all x variables among all individuals in the data.
+Then we will be calculating on average or for
+an average individual as
+the representative of all individuals in the data.
+What are the marginal effects of interest.
+Here, let's use the second approach.
+Let's first calculate the average values
+of the two independent variables,
+IC and OC across all individuals in the data.
+Notice that IC and OC are alternative specific variables.
+So they take different values for different alternatives.
+So for each of the two variables,
+we actually have five different average values.
+Now, notice that given our data structure,
+how can we calculate the average values of IC and OC?
+Can we simply calculate that colon average as usual?
+The answer is clearly no.
+What we want is the average IC value
+for the EC alternative across all individuals,
+and the average IC value for
+the ER alternative across all individuals,
+and so on and so forth.
+So we want to calculate the average value of
+each x variable by a particular alternative.
+In order to do so,
+we need to use the T applied function.
+The T applied function allows us to apply
+a particular function to
+a particular variable by another variable.
+Here, we apply the mean function to the IC variable of
+the heating data by
+each different value of the alternative variable.
+Save the output to other variable.
+We can quickly call this variable to check its values.
+As we can see, it contains five different values,
+which are the average IC values for each of
+the five heating options
+across all individuals in our data.
+We can do the same for the OC variable.
+Use that T applied function to apply the mean function to
+the OC variable by
+each different value of the alt variable.
+As we can quickly check,
+it also contains five different values,
+which are the average OC values for each of
+the five heating options
+across all individuals in our data.
+So be careful with how we obtain
+alternative specific average in long formatted data.
+Notice that if the data
+were stored in the wide format instead,
+then calculating the alternative specific average
+would be very simple.
+We can simply calculate
+that colon average as usual in this case.
+So be sure to understand the difference.
+Having obtained the alternative specific average
+for the two independent variables,
+we need to create a data frame to store these values
+because that's what the next function will
+need to calculate the marginal effects.
+We can create the data frame by
+using the data dot frame function
+and specify the two variable names
+explicitly and then pass in the values.
+As we can check, the data frame created looks like this.
+Five rows for the five alternatives,
+and the two columns for the two x variables.
+Now, we are ready to calculate the marginal effects.
+The function we can use is the effects function.
+We will first pass in
+the estimation results of the multinomial
+logit model then we specify the variable of interest,
+whose marginal effects we would like to calculate.
+Recall that in discrete choice models,
+we will focus on a particular independent variable
+of interest when calculating the marginal effects,
+and the effects we'll get will
+be a j by j matrix, as we'll see.
+Here, let's focus on
+the operating costs of heating systems.
+So we'll specify the co variate of interest as OC.
+Finally, specify the values of
+the x variables at which
+we will evaluate the marginal effects.
+These values have already been
+saved in the data frame we just created.
+Once we have all this information needed,
+we can run the effects function,
+and what we'll get will be a j by j matrix.
+As we can see, each cell in this j by
+j matrix represents the marginal effect if
+a particular alternatives focal x variable
+change on the choice probability
+of the corresponding alternative.
+For example, the first row
+and the first column indicates,
+if the operating cost of
+the electric central heating system
+increases by one unit,
+the probability of the electrical central option
+being chosen will decrease
+by this much, about 0.044%.
+Notice that the sign is negative, which makes sense.
+As the cost of a particular heating option increases,
+it becomes less attractive,
+and hence, its probability of being chosen will decrease.
+As we said, the diagonal cells
+measure the self marginal effects,
+that is the effect on the choice probability of
+the same alternative if its own attribute change.
+In contrast, the off diagonal cells
+represent the cross marginal effect,
+that is the effect on
+the choice probability of another alternative,
+if one alternatives attribute change.
+For example, the third row and the fourth column
+indicates if the operating cost of
+the gas central heating system increases by one unit,
+the probability of the gas by room option being chosen
+will increase by this much, about 0.0647%.
+Again, notice the sign is
+positive, which also makes sense.
+As the cost of one alternative increases,
+the probability of competing alternatives
+being chosen should increase as a result.
+So be sure to understand how to
+interpret the marginal effect matrix.
+Finally, one last point.
+Notice that the matrix we get here is
+symmetric meaning that the value
+at row i column j is
+equal to the value at row j column i.
+Should this always be the case?
+Actually, not necessarily.
+If we look at the formula of cross marginal effects,
+as we can see, it depends on
+the Beta coefficient for each alternative.
+In our simple model specification,
+where we only consider
+a common Beta coefficient for all alternatives.
+A Beta value is the same for all alternatives.
+Therefore, the marginal effect of alternative j and
+alternative j prime will be
+the same as that of j prime on j,
+and as a result, the marginal effect matrix is symmetric.
+However, in the most general model specification,
+where Beta coefficients are
+allowed to be alternative specific,
+then it is not necessary for the marginal effect of j on
+j prime to be the same as that of j prime on j.
+So the marginal effect matrix is
+not necessarily always symmetric.
+Just something for you to know.
+These are all we want to
+demonstrate regarding discrete choice models.
+We have demonstrated all of
+the important concepts on
+this topic as introduced in the previous videos.
+Hope it can help deepen
+your understanding of this a bit complex,
+yet very important model framework.
+That's all for this video. Thanks for watching.

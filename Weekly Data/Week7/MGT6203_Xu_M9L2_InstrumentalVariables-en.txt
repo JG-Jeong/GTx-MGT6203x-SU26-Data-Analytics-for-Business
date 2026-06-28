@@ -1,0 +1,667 @@
+>> Hello, everyone. Welcome back.
+In the previous video, we provided an overview
+of causal analysis and the endogeneity problems.
+We discussed the causes, symptoms,
+and the possible treatments of endogeneity problems.
+In this video, we'll explain in detail
+one classical and
+a commonly applied treatment for endogeneity,
+the instrumental variable or IV approach.
+Let's get started. We'll start
+with what instrumental variables are and how they work
+and introduce two essential requirements for valid IV.
+That is exogeneity and relevance.
+We'll then introduce the IV estimator in a general form.
+We'll further introduce an alternative and
+a common approach to apply instrumental variables.
+That is the two-stage least square estimation.
+We'll discuss the equivalence between
+two-stage least square and IV estimation
+and the intuition behind.
+To introduce the concept of instrumental variables,
+let's start with the simplest case where there is
+only one x variable
+so it's the so called simple regression.
+Suppose this x variable is endogenous,
+so it is correlated with the error term u.
+The covariance between u and this x variable is not zero.
+As we explained previously,
+we cannot perform the usual OLS estimation
+in this case because
+the Beta coefficient estimator would be
+biased without properly addressing the endogeneity issue.
+Now, suppose we can find a new variable z,
+which is different from x,
+and this new variable is exogenous,
+which means it is uncorrelated with error term u.
+The covariance between z and the u is zero.
+If we can find such a variable,
+then we can use this variable to help us consistently
+estimate the Beta coefficient and
+the correct the bias caused by endogeneity.
+Here is how it works.
+We can first write the covariance
+between z and u as this by
+substituting the expression of u as equal
+to y minus Beta_0 minus Beta_1*x.
+We can then expand that covariance.
+It's equal to the covariance between z and
+y minus the covariance between z and Beta_1*x.
+Notice that the covariance between z and the Beta_0
+is simply zero because Beta_0 is a constant,
+so it doesn't vary.
+Because the covariance between z and u is zero,
+so this expression is equal to 0.
+Therefore, the coefficient Beta_1 can be derived as this.
+The covariance between z and y
+divided by the covariance between z and x.
+Notice that in order for this ratio to be valid,
+the denominator cannot be zero, therefore,
+we need to require the covariance
+between z and x not to be equal to 0.
+In other words, z needs to be correlated with x.
+Now, if this new variable z
+can satisfy these two conditions,
+that is, it is exogenous,
+so it's uncorrelated with the error term u,
+and it is relevant,
+that is it is correlated with the endogenous x variable.
+Then we say this new variable z
+is a valid instrumental variable.
+Utilizing this instrumental variable,
+we can estimate the coefficient Beta_1
+according to this expression.
+For estimation purposes, we'll use
+that sample covariance instead, like this.
+Here, x bar, y bar,
+and z bar are the average values of x,
+y, and z in the data sample.
+The covariance between z and y is
+simply the difference between each z_i and
+the z bar times the difference between each
+y_i and y bar summed over all observation.
+Similarly for the covariance between z and x.
+The ratio calculated this way
+gives us the IV estimator of Beta_1.
+As we can show, the IV estimator of Beta_1 is
+a consistent estimator of the true value of Beta_1,
+even in the presence of endogeneity.
+Notice that the IV estimator
+of Beta_1 will be different from
+the OLS estimator of Beta_1 when x is endogenous.
+As we discussed, with endogeneity,
+the OLS estimation of Beta_1 will be biased,
+either greater than or less
+than the true value of Beta_1,
+depending on the direction of
+the correlation between x and the error term.
+However, the IV estimator is
+able to correct such a bias caused by endogeneity,
+and can consistently estimate the true value of Beta_1.
+The only case when the IV estimator is equivalent to
+the OLS estimator is when there is no endogeneity at all,
+and the x serves as its own IV.
+As I already mentioned,
+there are two key requirements
+for an instrumental variable to be valid.
+First, the instrumental variable has to be exogenous.
+That is, it has to be uncorrelated with the error term,
+which includes all of the unobserved factors,
+including the omitted variables
+that cause the endogeneity.
+Such an exogeneity requirement ensures that
+the covariance between the IV and the error term is zero.
+The second requirement is that
+the instrumental variable needs to be
+relevant in that it has to
+be correlated with the endogenous x variable.
+As a result, the covariance between the IV and
+the endogenous x variable should not be equal to 0.
+Simple as they may sound,
+these two requirements oftentimes
+contradict each other in practice,
+making them very hard to be satisfied at the same time.
+Therefore, it's not easy to find a good valid IV.
+Intuitively, a good IV
+ought to be some external perturbation,
+ideally, some random perturbation out of the picture.
+Because the IV is supposed
+to be uncorrelated with the error term,
+which contains all unobserved factors
+that may affect an outcome,
+including the omitted variables
+that cause the endogeneity.
+The IV needs to be uncorrelated
+with all of these unobservable factors.
+Intuitively, the IV needs to have
+no direct effects on
+y after all x variables are controlled for,
+and it should especially be independent of
+the omitted variables that cause the endogeneity.
+Therefore, a good choice to
+satisfy the exogeneity requirement would
+be some out of the picture
+and close to random external perturbation.
+However, life is not easy.
+If we simply pick some purely random perturbation,
+that has nothing to do with
+the problem being studied at all,
+then very likely, it is
+also uncorrelated with the endogenous x variable,
+which would then violate the relevance requirement.
+A good IV has to satisfy
+these two seemingly contradictory
+requirements at the same time.
+On one hand, it needs to have no direct impact on y
+and has nothing to do with
+the omitted variables that cause the endogeneity.
+On the other hand, it needs to be somehow
+highly correlated with the focal x variable.
+This is what makes finding
+a good valid IV a challenging task.
+Take the study of return on education as an example.
+As we have analyzed in the previous video,
+the focal x variable is a person's years of schooling.
+The y variable is a person's wage.
+Because a person's innate ability is not observed,
+but it may affect the wage a person can earn and may
+be correlated with a
+person's education choice at the same time,
+so ability is an omitted variable
+in the error term that causes the endogeneity issue.
+To find a proper IV in this context,
+on one hand, this IV needs to be exogenous.
+It needs to be independent of
+a person's ability and it has
+no direct impact on
+a person's wage after
+years of schooling is controlled for.
+On the other hand, it needs to be relevant.
+It needs to be strongly correlated
+with the years of schooling a person receives.
+Now, think about what IV you would choose.
+There are several IVs
+proposed in past studies on this topic.
+One possibility is whether
+a person lives near a four-year college.
+The argument is, whether a person
+lives near a four-year college should not be
+correlated with a person's innate ability
+and should have no direct impact on the earning,
+so it ought to be exogenous.
+On the other hand, living close
+to a college could lower the cost
+of attending college and
+raise the perceived benefits of education,
+especially among children with
+relatively poor family backgrounds.
+Therefore, proximity to a college is
+likely to be positively
+correlated with years of schooling,
+making it hard to satisfy
+the relevance requirement as well,
+which therefore makes it a valid IV.
+Another choice of the IV is probably more interesting,
+which is a person's quarter of birth.
+It's easy to argue that in
+which quarter a person was born should have
+nothing to do with the person's ability
+and earning so it is exogenous.
+However, how does the timing of
+birth correlate with years of schooling?
+The argument is interesting.
+There is typically a cutoff date for school start,
+and students are required to
+enter school if they turn six
+before that date and they will
+wait for one more year after that date.
+Therefore, in the same school year,
+some students are older than others
+depending on how their birth
+dates compare to the cutoff date.
+In the meantime, compulsory
+schooling laws typically require
+students to remain in school until their 16th birthdays.
+Therefore, students may be in
+different school years when they
+reach this legal job out age,
+again, depending on their birth days.
+As a result, the quarter of birth is likely to be
+correlated with the years of
+schooling a person eventually chooses to receive,
+which interestingly was indeed
+the case as found in earlier Census data.
+In this sense, that quarter of birth
+appears to satisfy the relevance requirement as well,
+which therefore makes it a valid IV.
+As we can see from this interesting examples,
+to find a good valid IV
+sometimes does need some creativity.
+We have just introduced the IV estimation using
+the example of simple regression
+that involves only one x variable,
+which can help you understand
+the instrument requirements more easily.
+Now, let me quickly show you
+the general form of IV estimation,
+where there are multiple independent variables,
+among which more than one are endogenous.
+Let's say this is the multiple regression model we have.
+There are k+m independent variables.
+Among them, k independent variables are
+endogenous, denoted as x_1-x_k.
+And the rest m independent variables are
+exogenous denoted as z_k+1-z_k+m.
+Now, because we have k endogenous variables,
+we need to find k instrumental variables.
+Remember, for IV estimation,
+we need to have one instrumental variable
+for each endogenous independent variable.
+For those independent variables that are exogenous,
+like z_k+1-z_k+m in this model,
+they can simply serve as
+their own instruments because they are
+exogenous and also relevant
+as they are certainly correlated with themselves.
+So we do not need to find
+any new instruments for
+the exogenous independent variables.
+However, for each endogenous independent variable,
+like x_1-x_k in this model,
+we need to find a new
+instrumental variable for each of them.
+Therefore, since we have
+k endogenous independent variables,
+we need k additional variables to serve as the IVs.
+Let's denote them as z_1-z_k.
+Each instrument z needs to satisfy
+both the exogeneity and the relevance requirements.
+That is z has to be uncorrelated with the error term,
+but correlated with the corresponding x variable.
+Given these instruments,
+we can write down these equations.
+They are essentially sample averages to represent
+the expected values of
+the corresponding random variables.
+The first equation corresponds to the fact that
+the expected value of the error term u is equal to 0.
+Notice that y_i minus this is
+simply equal to u_i according to the original model.
+The second equation corresponds to the fact
+that z_1 should be uncorrelated with u.
+So the expected value of z_1*u = 0.
+The rest equations are
+similar and they correspond to the fact
+that each of the instruments is uncorrelated with u.
+So the expected value of each z*u = 0.
+Notice that here, we included
+not only the k new instruments we
+found but also
+the exogenous independent variables
+in the original model.
+Therefore, we have k+m+1 equations in total.
+Now, how many unknowns do we have?
+Here, the Beta coefficients are unknowns so
+we have k+m+1 unknowns in total,
+including the intercept Beta_0.
+We have the same number of equations as the unknowns,
+therefore, we can exactly solve for these unknowns.
+As a result, the solutions to this system of
+k+m+1 equations is the IV estimator
+for the k+m+1 Beta coefficients.
+Mathematically, we can express the solution
+easily in some matrix form, which I'll skip here.
+And this is the general form of IV estimation.
+As we can see, general IV estimation follows
+the same idea as
+the simple regression case we just explained.
+We need to find the same number of new instruments
+as the number of endogenous
+independent variables in the model,
+and each instrument needs to satisfy
+the same exogenity and the relevance requirements.
+Notice that the IV estimator can
+be derived in closed form just like
+the OLS estimators so it
+can be very quickly calculated in real applications.
+We have explained in detail what instrumental variables
+are and how to perform the standard IV estimation.
+In practice, however, there is
+an alternative approach to apply instrumental variables.
+And actually, this alternative approach is used
+even more commonly than
+the standard IV estimation just introduced.
+This is because unlike the standard IV estimation,
+where the number of instrumental variables has to
+equal the number of endogenous independent variables,
+this alternative approach can easily
+accommodate more instrumental variables
+than endogenous variables.
+And the whole estimation approach can be
+intuitively described and easily applied
+as well so it's oftentimes
+the default method to apply instrumental variables.
+This is the so called two-stage least square approach,
+as we're going to explain next.
+Let's start with the usual multiple regression model,
+where there are multiple independent variables
+to keep the discussion simpler and clearer.
+>> Let's focus on the case where there is
+only one endogenous variable denoted as x_1.
+So x_1 is correlated with the error term u.
+The other independent variables are exogenous,
+so they are uncorrelated with u.
+To differentiate, we will denote
+those exogenous independent variables as zs, z_1-zk.
+In addition, let's say we have found m
+additional instrumental variables denoted as z_k+1-z_k+m.
+These m variables are
+exogenous by the requirements of IVs.
+Notice that here, we have
+only one endogenous independent variable,
+so we require m to be at least one,
+that is greater than or equal to one.
+In other words, for
+the two-stage least square approach to work,
+we need to have at least as many instrumental variables
+as endogenous variables.
+However, unlike the standard IV estimation,
+where we need to have exactly the same number of
+instrumental variables as the number
+of endogenous variables,
+in two-stage least square,
+we can have more instrumental variables
+than endogenous variables.
+So the number of IVs needs to be greater than
+or equal to the number of endogenous variables.
+Given such a setting,
+here is how we can obtain
+that two-stage least square estimator.
+As the name suggests,
+the approach involves two stages in both of which,
+we perform a linear regression
+using the least square estimation.
+In the first stage, we regress
+the endogenous x variable on all exogenous variables,
+including the exogenous independent variables
+in the original model,
+z_1-z_k, and
+the additional instrumental variables, z_k+1-z_k+n.
+Notice that this is
+a different linear regression
+from the original regression.
+Here, the dependent variable becomes
+the endogenous x variable in the original model.
+And then the independent variables are
+all the exogenous variables available to us,
+including the new instrumental variables.
+We estimate this model using
+the standard ordinary least square
+or OLS just as in usual linear regressions,
+and obtain the coefficient estimates.
+We then calculate the fitted value of
+x_1 based on the estimated coefficients.
+And this fitted value of x_1 denoted as
+x_1 hat is the output of that first stage.
+Now, in the second stage,
+we come back to the original regression.
+However, we'll replace
+the original endogenous variable x_1
+with that fitted x_1 hat from that first stage result.
+We then regress y on
+x_1 hat and the original exogenous independent variables,
+z_1-z_k using the usual OLS estimation.
+And the resulting coefficient estimator Beta hat is
+the two-stage least square estimator of
+the Beta coefficient in the original model.
+Notice that in the second stage,
+we do not include the new instrumental variables.
+The new instrumental variables are used in
+the first stage regression and have been
+incorporated into the fitted value of x_1,
+which enters the second stage regression.
+As we can show, such a two-stage least square estimator
+is a consistent estimator of
+the true value of
+the original Betas even
+under the presence of endogeneity.
+So how does that two-stage least square estimation relate
+to the standard IV estimation we introduced previously?
+Recall that the IV estimation requires the number of
+new instrumental variables to be exactly the
+same as the number of endogenous independent variables.
+This is called the just-identified case.
+In contrast, two-stage least square estimation
+can allow the number of
+instrumental variables to be greater than
+or equal to the number of endogenous variables.
+So two-stage least square estimation can accommodate
+both just-identified and over-identified cases.
+As we can show when the number of new IVs
+is the same as the number of endogenous variables,
+two-stage least square estimator is
+equivalent to IV estimator.
+When the number of new IVs is
+greater than the number of endogenous variables,
+two-stage least square estimator is equivalent to
+IV estimator when we use the fitted x from
+the first stage result
+of two-stage least square estimation
+as the instrument for
+the endogenous x variable in the IV estimation.
+Notice that this equivalence result also applies to
+the case where there are
+more than one endogenous x variables.
+To deal with more than one endogenous x variables
+in two-stage least square estimation,
+we simply regress each endogenous x variable
+on all exogenous variables separately in
+the first stage and use the fitted values to
+replace each endogenous x variable
+respectively in the second stage.
+So it's just a natural extension of the case of
+a single endogenous x variable as we just illustrated.
+For two-stage least square estimation to work,
+the requirements on the instrumental variables are pretty
+much the same as those for the standard IV estimation.
+First, as we already said,
+we need at least as many new instruments
+as the number of endogenous variables.
+What's different from the IV estimation is
+two-stage least square estimation can
+accommodate more instruments than endogenous variables.
+And, in fact, having more valid instruments
+than endogenous variables is actually preferred.
+However, notice that there
+is an important qualifier here.
+These instruments have to be valid.
+Same as introduced previously.
+Valid instrumental variables need to satisfy
+two requirements, exogeneity and relevance.
+The instruments need to be exogenous,
+so each of them should
+be uncorrelated with the error term.
+The instruments also need to be relevant,
+so they should be correlated
+with the endogenous x variables.
+In two-stage least square,
+we may have more than one instrument
+for an endogenous variable.
+So technically, the relevance requirement
+requires at least one of
+the coefficients in front of
+the new instrumental variables included in
+the first stage regression is non-zero.
+The reason why we needed
+this requirement is actually not hard to understand.
+In two-stage least square estimation,
+if the endogenous x variable is
+uncorrelated with the instruments at all,
+so the coefficient Pi_k+1-Pi_k+m
+in the first stage regression are all zero.
+Then the fitted x hat simply reduces to
+a linear combination of
+all the exogenous independent variables
+in the original regression model.
+If so, when we substitute x hat
+into the original regression in the second stage,
+we will run into the multicollinearity problem
+because x_1 hat is
+just a linear combination of these same z variables.
+So Beta_1 will not be
+separately identifiable from the other Betas.
+This is why the relevance requirement
+requires at least one
+of these m coefficients here must be non-zero.
+In practice, we simply would like each instrument to
+be correlated with the endogenous variable
+as strongly as possible.
+Notice that if the correlation is not equal to zero,
+but very close to zero,
+then we have the so-called weak instruments.
+Keep in mind that weak instruments are not helpful.
+Weak instruments can cause the variance
+of the coefficient estimate to be very large.
+Note that although in theory,
+two-stage least square is able to correct
+the bias and recover the two coefficient value,
+but that is true only in expectation.
+With weak instruments,
+the actual estimated value of the coefficient may end up
+being very far away from
+its expected value as a result of the large variance.
+In this sense, the general notion is that
+we should avoid using weak instruments
+at all because weak instruments
+could be even more detrimental than no instrument.
+If we cannot find good,
+valid instruments with strong correlation
+with the endogenous variable,
+we'd better not use instrumental variables at
+all and try some other methods instead.
+Having explained the details of
+that two-stage least square approach,
+let's summarize by discussing
+the intuition behind the two-stage least square.
+Why can the two-stage approach designed
+this way properly account for endogeneity?
+Well, in the first stage,
+we regress the focal endogenous independent variable
+on all the exogenous variables,
+including the exogenous independent variables in
+the original model and the new instrumental variables.
+Essentially, what we are doing is to
+decompose the endogenous x variable into two parts.
+One part is that fitted x,
+which is a linear combination of all exogenous variables.
+The other part is that residual v,
+which is the difference between
+the endogenous variable x and that fitted value x hat.
+Notice that this residual v is not the
+same as the error term u in the original model.
+This residual is obtained from
+the first stage regression result
+by subtracting x hat from x.
+Therefore, by construction,
+this residual v is orthogonal to and hence
+uncorrelated with x hat
+and all the exogenous variables constituting it.
+Because all exogenous variables are uncorrelated with
+the error term u as
+a linear combination of all these exogenous variables,
+x hat is also
+exogenous and uncorrelated with the error term u.
+In this sense, what the first stage does is to
+decompose
+the originally endogenous x variable into two parts.
+The first part, x hat,
+is exogenous and uncorrelated with the error term.
+All the endogenous components inside
+the original x that caused the correlation
+with the error term u are now isolated into
+the residual v. So
+the residual v should be
+correlated with the error term u.
+In other words, the first stage
+of regression's purpose is to
+purge the endogenous x variable
+off its correlation with the error term.
+After the purge,
+the remaining x hat is exogenous and
+uncorrelated with the error term u
+free of endogeneity anymore.
+In the second stage, substitute the decomposition of
+the endogenous x variable from
+the first stage regression into the original model.
+So the original x_1 is replaced with
+x_1 hat + v
+and then multiplied by the coefficient Beta_1.
+We only keep x_1 hat and
+combine Beta_1*v with the error term u.
+We can view the new term u +
+Beta_1*v as the new error term,
+say e because x_1 hat
+is a linear combination of all exogenous variables,
+so it is exogenous and
+uncorrelated with the original error term u.
+It is also uncorrelated with
+the residual v by construction as we just analyzed.
+Therefore, x_1 hat is uncorrelated with
+the entire new error term e. By the same reasoning,
+all the other exogenous z variables
+in the original model are also
+uncorrelated with the new error term e. Therefore,
+by replacing x_1 with x_1 hat,
+the second stage regression model
+is free of the endogeneities.
+We can therefore simply regress y on x_1 hat and
+the z_1- zk using the usual OLS estimation.
+And the resulting Beta coefficient estimator is
+a consistent estimator of
+the true value of the original Beta coefficient.
+This is why the two-stage least square approach can
+work properly to correct for the endogeneity issue.
+Now, where do the two requirements
+for the instrumental variables come in?
+First, of course, the instruments need to be
+exogenous so that the fitted x hat can be exogenous.
+They need to be relevant in that,
+the first stage of regression needs to
+include at least one additional instrument,
+and it's coefficient cannot be zero.
+Because otherwise, x_1 hat would reduce to
+a linear combination of
+the original exogenous variables, z_1-z_k.
+Then placing x_1 hat together with
+z_1-z_k in the second stage regression
+would cause perfect collinearity,
+which would cause Beta_1's value to be unidentifiable.
+This is why both the exogeneity
+and the relevance requirements for
+the instruments need to be satisfied in
+order for the two-stage
+least square approach to work properly.
+This is all we want to
+introduce about instrumental variables.
+In this video, we discussed what
+instrumental variables are, how they work,
+and the two essential requirements for valid IVs,
+exogenity and the relevance.
+We then introduced the standard IV estimator,
+which only works in just identified cases,
+and a more commonly applied alternative approach
+two-stage least square,
+which can also accommodate overidentified cases,
+where there are more instruments
+than the endogenous variables.
+We discussed the equivalence between
+these two approaches and
+the intuition behind
+the two-stage least square estimation.
+Endogeneity and instrumental variables are
+advanced and relatively complex concepts.
+But they are critical for anyone
+who would like to perform causal analysis.
+Therefore, please be sure to well
+understand what we discussed on this topic.
+That's all for this video. Thanks for watching.
